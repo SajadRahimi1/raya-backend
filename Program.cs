@@ -10,6 +10,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<MongoDbSettings>(builder.Configuration.GetSection("MongoDBSettings"));
+
+builder.Services.AddSingleton<IUserRepository,UserRepository>();
 builder.Services.AddSingleton<IMongoDatabase>(option=>{
     var settings = builder.Configuration.GetSection("MongoDBSettings").Get<MongoDbSettings>();
     var client = new MongoClient(settings.ConnectionString);
