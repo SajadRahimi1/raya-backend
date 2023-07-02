@@ -15,4 +15,10 @@ public class UserController:ControllerBase{
         return Ok(user);
     }
 
+    [HttpPost]
+    public async Task<IActionResult> CreateNewUser(User newUser){
+        await _iuserRepository.CreateNewUser(newUser);
+        return  CreatedAtAction(nameof(Get),newUser);
+    }
+
 }

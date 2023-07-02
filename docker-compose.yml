@@ -1,14 +1,26 @@
+version: '3.3'
 services:
-  my-mongodb:
-    image: mongo:4.2.3-bionic
-    container_name: my-mongodb
-    ports:
-      - 27017:27017
-    environment:
-      - MONGO_INITDB_DATABASE=raya
-      - MONGO_INITDB_ROOT_USERNAME=admin
-      - MONGO_INITDB_ROOT_PASSWORD=admin
-    volumes:
-      # named volumes
-      - mongodb:/data/db
-      - mongoconfig:/data/configdb
+  # mongo:
+  #   image: mongo:focal
+  #   container_name: mongo
+  #   restart: always
+  #   volumes:
+  #     - ./data/db:/data/db
+  #   ports:
+  #     - 27017:27017
+
+  # mongo-express:
+  #   container_name: express
+  #   image: mongo-express:1.0.0-alpha.4
+  #   restart: always
+  #   ports:
+  #     - 8081:8081
+
+  db:
+      image: "mcr.microsoft.com/mssql/server:2022-latest"
+      ports:
+        - "1433:1433"
+
+      environment:
+          SA_PASSWORD: "sajad"
+          ACCEPT_EULA: "Y"
