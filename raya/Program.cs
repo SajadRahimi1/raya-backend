@@ -1,7 +1,4 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -13,8 +10,13 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(options=>
     options.UseSqlServer(builder.Configuration.GetConnectionString("mssqlConnection")));
+
+
 builder.Services.AddScoped<IUserRepository,UserRepository>();
 builder.Services.AddScoped<INurseRepository,NurseRepository>();
+builder.Services.AddScoped<IClassRepository,ClassRepository>();
+
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 
