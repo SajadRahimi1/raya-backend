@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -12,8 +13,9 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(options=>
     options.UseSqlServer(builder.Configuration.GetConnectionString("mssqlConnection")));
-
+builder.Services.AddScoped<IUserRepository,UserRepository>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
 
 var app = builder.Build();
 
