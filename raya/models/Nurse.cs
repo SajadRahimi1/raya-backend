@@ -11,4 +11,6 @@ public class Nurse:BaseEntity{
     public List<string> days { get; set; }=new List<string>();
     public string image { get; set; }
     public double rating { get; set; }=0;
+
+    public List<ReserveNurse> ReserveNurses { get; set; }
 }

@@ -18,7 +18,7 @@ public class UserController:ControllerBase{
     }
 
     [HttpGet]
-    [Route("/send-sms")]
+    [Route("/send-sms/{phoneNumber}")]
     public async Task<IActionResult> SendSms(String phoneNumber){
         Random random = new Random();
 int randomNumber = random.Next(1000, 10000); 
