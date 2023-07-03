@@ -14,6 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options=>
     options.UseSqlServer(builder.Configuration.GetConnectionString("mssqlConnection")));
 builder.Services.AddScoped<IUserRepository,UserRepository>();
+builder.Services.AddScoped<INurseRepository,NurseRepository>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 

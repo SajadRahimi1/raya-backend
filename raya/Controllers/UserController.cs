@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 [ApiController]
 [Route("[controller]")]
@@ -33,9 +32,20 @@ if(user==null){
         return Ok  ( "کد با موفقیت ارسال شد");
     }
 
-    // [HttpPost]
-    // [Route("/check-sms")]
-    // public async Task<IActionResult> checkSms(String ph){}
+    [HttpPost]
+    [Route("/check-sms")]
+    public async Task<IActionResult> checkSms(String phoneNumber, string code){
+        var user = await _userRepository.getSingleUser(phoneNumber);
+        if(user==null){
+            return BadRequest("شماره تلفن یافت نشد");
+        }
+        if(user.code==code){
+            user.code=null;
+            await _userRepository.UpdateUser(user);
+            return Ok(user);
+        }
+        return BadRequest("کد به درستی وارد نشده است");
+    }
     
 
 }

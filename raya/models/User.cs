@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore;
+
+[PrimaryKey(nameof(Id))]
 public class User:BaseEntity
 {
 
@@ -7,7 +10,7 @@ public class User:BaseEntity
 
     public string? FatherName { get; set; }
 
-    public string? birthday { get; set; }
+    public string? Birthday { get; set; }
 
     public string? BornCity { get; set; }
 
