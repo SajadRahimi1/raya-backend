@@ -13,4 +13,5 @@ public class Nurse:BaseEntity{
     public double rating { get; set; }=0;
 
     public List<ReserveNurse> ReserveNurses { get; set; }
+
 }

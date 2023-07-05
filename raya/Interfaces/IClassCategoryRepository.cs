@@ -1,5 +1,7 @@
 public interface IClassCategoryRepository
 {
-    Task<ClassCategory> CreateClassCategory(ClassCategory classCategory);
-    Task<ClassCategory> UpdateClassCategory(ClassCategory classCategory);
+    Task CreateClassCategory(ClassCategory classCategory);
+    Task UpdateClassCategory(ClassCategory classCategory);
+    Task<List<ClassCategory>> GetClassCategory(string classId);
+    
 }

@@ -8,16 +8,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<AppDbContext>(options=>
+builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("mssqlConnection")));
 
 
-builder.Services.AddScoped<IUserRepository,UserRepository>();
-builder.Services.AddScoped<INurseRepository,NurseRepository>();
-builder.Services.AddScoped<IClassRepository,ClassRepository>();
-
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<INurseRepository, NurseRepository>();
+builder.Services.AddScoped<IClassRepository, ClassRepository>();
+builder.Services.AddScoped<IClassCategoryRepository, ClassCategoryRepository>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddControllers().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
 
 
 var app = builder.Build();

@@ -5,6 +5,9 @@ using Microsoft.EntityFrameworkCore;
 public class ClassCategory : BaseEntity
 {
     public Class Class { get; set; }
+
+    public Guid ClassId { get; set; }
+    
     public string? Title { get; set; }
 
     [NotMapped]
