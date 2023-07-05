@@ -34,4 +34,18 @@ public class ClassCategoryController : ControllerBase
         return await _classCategoryRepository.GetClassCategory(classId);
     }
 
+    [HttpPost]
+    [Route("Reserve")]
+    public async Task<IActionResult> ReserveClassCategory(string userId, string classCategoryId)
+    {
+        return await _classCategoryRepository.ReserveClass(userId, classCategoryId);
+    }
+
+    [HttpGet]
+    [Route("Detail")]
+    public async Task<CustomActionResult> GetClassCategoryDetail([Required(ErrorMessage = "کلاس را باید وارد کنید")] string classCategoryId)
+    {
+        return await _classCategoryRepository.  GetClassCategoryDetail(classCategoryId);
+    }
+
 }

@@ -46,5 +46,11 @@ public class UserController : ControllerBase
         return await _userRepository.CheckSms(phoneNumber, code);
     }
 
+    [HttpGet]
+    [Route("get-class")]
+    public async Task<IActionResult> GetUserClasses(string id)
+    {
+        return await _userRepository.GetUserClasses(id);
+    }
 
 }

@@ -32,6 +32,15 @@ public class ClassCategoryRepository : IClassCategoryRepository
         });
     }
 
+    public async Task<CustomActionResult> GetClassCategoryDetail(string classCategoryId)
+    {
+        var classCategory = await _appDbContext.ClassCategories.Include(_ => _.UsersReserved).SingleOrDefaultAsync(_ => _.Id.ToString() == classCategoryId);
+        return new CustomActionResult(new Result
+        {
+            Data = classCategory
+        });
+    }
+
     public async Task<CustomActionResult> ReserveClass(string userId, string classCategoryId)
     {
         var user = await _appDbContext.Users.SingleOrDefaultAsync(_ => _.Id.ToString() == userId);

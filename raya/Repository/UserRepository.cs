@@ -72,6 +72,12 @@ public class UserRepository : IUserRepository
         });
     }
 
+    public async Task<CustomActionResult> GetUserClasses(string id)
+    {
+        var classes = await _appDbContext.Users.Select(_ => _.ReservedClasses).ToListAsync();
+        return new CustomActionResult(new Result { Data = classes });
+    }
+
     // private string generateToken()
     // {
     //     var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(  _config["jwt:Key"] ?? "jwtsecretkey"));

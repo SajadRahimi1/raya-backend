@@ -5,5 +5,6 @@ public interface IUserRepository{
     Task CreateNewUser(User phoneNumber);
     Task UpdateUser(User updatedUser);
     Task<CustomActionResult> CheckSms(string phoneNumber, string code);
+    Task<CustomActionResult> GetUserClasses(string id);
 
 }

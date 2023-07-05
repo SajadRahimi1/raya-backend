@@ -4,5 +4,6 @@ public interface IClassCategoryRepository
     Task UpdateClassCategory(ClassCategory classCategory);
     Task<CustomActionResult> GetClassCategory(string classId);
     Task<CustomActionResult> ReserveClass(string userId,string classCategoryId);
+    Task<CustomActionResult> GetClassCategoryDetail(string classCategoryId);
     
 }
