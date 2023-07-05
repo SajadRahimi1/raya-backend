@@ -17,6 +17,8 @@ builder.Services.AddScoped<INurseRepository, NurseRepository>();
 builder.Services.AddScoped<IClassRepository, ClassRepository>();
 builder.Services.AddScoped<IClassCategoryRepository, ClassCategoryRepository>();
 
+builder.Services.AddAutoMapper(typeof(Program));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
     options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore

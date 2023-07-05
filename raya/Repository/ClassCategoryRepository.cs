@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 public class ClassCategoryRepository : IClassCategoryRepository
 {
@@ -14,10 +15,21 @@ public class ClassCategoryRepository : IClassCategoryRepository
 
     }
 
-    public async Task<List<ClassCategory>> GetClassCategory(string classId)
+    public async Task<CustomActionResult> GetClassCategory(string classId)
     {
-        return await _appDbContext.ClassCategories.ToListAsync();
-        // return await _appDbContext.ClassCategories.Where(_=>_.ClassId.ToString()==classId).ToListAsync();
+        var classObject = await _appDbContext.Classes.Include(_ => _.ClassCategories).SingleOrDefaultAsync(_ => _.Id.ToString() == classId);
+        if (classObject == null)
+        {
+            return new CustomActionResult(result: new Result()
+            {
+                ErrorMessage = new ErrorModel() { ErrorMessage = "کلاسی یا این آی دی یافت نشد" },
+                statusCodes = StatusCodes.Status404NotFound
+            });
+        }
+        return new CustomActionResult(result: new Result()
+        {
+            Data = classObject,
+        });
     }
 
     public async Task UpdateClassCategory(ClassCategory classCategory)

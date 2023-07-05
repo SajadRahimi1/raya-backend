@@ -15,7 +15,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Nurse>().HasKey(nurse => nurse.Id);
         modelBuilder.Entity<ReserveNurse>().HasKey(reserveNurse => reserveNurse.Id);
         modelBuilder.Entity<ReserveNurse>().HasOne(_ => _.Nurse).WithMany(_ => _.ReserveNurses).HasForeignKey(_ => _.NurseId);
-        modelBuilder.Entity<ClassCategory>().HasOne(_ => _.Class).WithMany(_ => _.ClassCategories).HasForeignKey(_ => _.ClassId);
+        modelBuilder.Entity<ClassCategory>().HasOne(_ => _.Class).WithMany(_ => _.ClassCategories).HasForeignKey(_ => _.ClassId);        
 
         
     }
