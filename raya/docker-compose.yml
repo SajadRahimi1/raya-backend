@@ -1,21 +1,5 @@
 version: '3.3'
 services:
-  # mongo:
-  #   image: mongo:focal
-  #   container_name: mongo
-  #   restart: always
-  #   volumes:
-  #     - ./data/db:/data/db
-  #   ports:
-  #     - 27017:27017
-
-  # mongo-express:
-  #   container_name: express
-  #   image: mongo-express:1.0.0-alpha.4
-  #   restart: always
-  #   ports:
-  #     - 8081:8081
-
   db:
       image: "mcr.microsoft.com/mssql/server"
       ports:
@@ -27,3 +11,23 @@ services:
       environment:
           SA_PASSWORD: "sajadsajad1"
           ACCEPT_EULA: "Y"
+
+  redis:
+      image: "redis:alpine"
+      restart: always
+      hostname: redis
+      ports:
+        - '6379:6379'
+      volumes: 
+        - ./data/redis:/var/lib/redis
+        - ./data/redis/config:/usr/local/etc/redis/redis.conf
+      links:
+        - redis-commander
+
+  redis-commander:
+      image: rediscommander/redis-commander:latest
+      restart: always
+      environment:
+        - REDIS_HOSTS=local:redis:6379
+      ports:
+        - 8081:8081

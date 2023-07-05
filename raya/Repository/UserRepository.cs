@@ -1,6 +1,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
 
@@ -9,11 +10,13 @@ public class UserRepository : IUserRepository
     private readonly AppDbContext _appDbContext;
     private readonly IConfiguration _config;
 
+    private readonly IDistributedCache _cache;
 
-    public UserRepository(AppDbContext appDbContext, IConfiguration config)
+    public UserRepository(AppDbContext appDbContext, IConfiguration config, IDistributedCache cache)
     {
         _appDbContext = appDbContext;
         _config = config;
+        _cache = cache;
     }
 
     public async Task CreateNewUser(User user)
@@ -24,7 +27,14 @@ public class UserRepository : IUserRepository
 
     public async Task<List<User>> GetAllAsync()
     {
-        return await _appDbContext.Users.ToListAsync();
+        List<User>? users;
+        users = await _cache.GetRecordAsync<List<User>?>("Users");
+        if (users == null)
+        {
+            users = await _appDbContext.Users.ToListAsync();
+            await _cache.SetRecordAsync("Users", users);
+        }
+        return users;
 
     }
 
