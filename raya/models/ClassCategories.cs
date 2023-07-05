@@ -27,4 +27,6 @@ public class ClassCategory : BaseEntity
     public int InstallmentNumber { get; set; }
 
     public string? InstallmentPrice { get; set; }
+
+    public List<User> UsersReserved { get; set; }= new List<User>();
 }

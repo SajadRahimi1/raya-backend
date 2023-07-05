@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 
 [PrimaryKey(nameof(Id))]
-public class User:BaseEntity
+public class User : BaseEntity
 {
 
     public string? Name { get; set; }
-    
+
     public string? PhoneNumber { get; set; }
 
     public string? FatherName { get; set; }
@@ -24,7 +24,8 @@ public class User:BaseEntity
 
     public string? EmergancyNumber { get; set; }
 
-    public string? code { get; set; }=null;
+    public string? code { get; set; } = null;
 
 
+    public List<ClassCategory> ReservedClasses { get; set; } = new List<ClassCategory>();
 }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 
-public class ErrorModel{
+public class ErrorModel
+{
     public string? ErrorMessage { get; set; }
 }
 
@@ -9,6 +10,8 @@ public class Result
     public int statusCodes { get; set; } = StatusCodes.Status200OK;
 
     public object? Data { get; set; }
+
+    public string? Token { get; set; }
 
     public ErrorModel? ErrorMessage { get; set; }
 }
@@ -23,8 +26,8 @@ public class CustomActionResult : IActionResult
     public async Task ExecuteResultAsync(ActionContext context)
     {
         var objectResult = new ObjectResult(_result.ErrorMessage ?? _result.Data)
-        {
-            StatusCode = _result.statusCodes
+        {            
+            StatusCode = _result.statusCodes,            
         };
 
         await objectResult.ExecuteResultAsync(context);

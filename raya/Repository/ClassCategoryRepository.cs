@@ -32,6 +32,37 @@ public class ClassCategoryRepository : IClassCategoryRepository
         });
     }
 
+    public async Task<CustomActionResult> ReserveClass(string userId, string classCategoryId)
+    {
+        var user = await _appDbContext.Users.SingleOrDefaultAsync(_ => _.Id.ToString() == userId);
+        if (user == null)
+        {
+            return new CustomActionResult(new Result
+            {
+                ErrorMessage = new ErrorModel { ErrorMessage = "کاربر یافت نشد" },
+                statusCodes = StatusCodes.Status400BadRequest
+            });
+        }
+        var classCategory = await _appDbContext.ClassCategories.SingleOrDefaultAsync(_ => _.Id.ToString() == classCategoryId);
+        if (classCategory == null)
+        {
+            return new CustomActionResult(new Result
+            {
+                ErrorMessage = new ErrorModel { ErrorMessage = "کلاسی یافت نشد" },
+                statusCodes = StatusCodes.Status400BadRequest
+            });
+        }
+        classCategory.UsersReserved.Add(user);
+        user.ReservedClasses.Add(classCategory);
+        _appDbContext.ClassCategories.Update(classCategory);
+        _appDbContext.Users.Update(user);
+        await _appDbContext.SaveChangesAsync();
+        return new CustomActionResult(new Result
+        {
+            Data = "با موفقیت ثبت نام شدید",
+        });
+    }
+
     public async Task UpdateClassCategory(ClassCategory classCategory)
     {
         _appDbContext.ClassCategories.Update(classCategory);
