@@ -90,7 +90,7 @@ public class UserRepository : IUserRepository
 
     public async Task<CustomActionResult> GetUserNurseReserved(string id)
     {
-        var reserved = await _appDbContext.ReserveNurses.Include(_ => _.Nurse).SingleOrDefaultAsync(_ => _.UserId.ToString() == id);
+        var reserved = await _appDbContext.ReserveNurses.Include(_ => _.Nurse).Where(_ => _.UserId.ToString() == id).ToListAsync();
         return new CustomActionResult(new Result { Data = reserved });
     }
 
