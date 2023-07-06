@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("[controller]")]
+[Consumes("application/x-www-form-urlencoded", "applicaton/json")]
 public class UserController : ControllerBase
 {
     private readonly IUserRepository _userRepository;
@@ -51,6 +52,13 @@ public class UserController : ControllerBase
     public async Task<IActionResult> GetUserClasses(string id)
     {
         return await _userRepository.GetUserClasses(id);
+    }
+
+    [HttpGet]
+    [Route("get-reserved")]
+    public async Task<IActionResult> GetUserReserved(string id)
+    {
+        return await _userRepository.GetUserNurseReserved(id);
     }
 
 }

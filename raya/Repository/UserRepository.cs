@@ -88,6 +88,12 @@ public class UserRepository : IUserRepository
         return new CustomActionResult(new Result { Data = classes });
     }
 
+    public async Task<CustomActionResult> GetUserNurseReserved(string id)
+    {
+        var reserved = await _appDbContext.ReserveNurses.Include(_ => _.Nurse).SingleOrDefaultAsync(_ => _.UserId.ToString() == id);
+        return new CustomActionResult(new Result { Data = reserved });
+    }
+
     // private string generateToken()
     // {
     //     var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(  _config["jwt:Key"] ?? "jwtsecretkey"));

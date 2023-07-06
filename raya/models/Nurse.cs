@@ -8,9 +8,9 @@ public class Nurse : BaseEntity
     public string? Locations { get; set; }
     public string About { get; set; } = "";
 
-    public List<Days> days { get; set; } = new List<Days>();
-    public string? image { get; set; }
-    public double rating { get; set; } = 0;
+    public string? Days { get; set; }
+    public string? Image { get; set; }
+    public double Rating { get; set; } = 0;
 
     public List<ReserveNurse> ReserveNurses { get; set; } = new List<ReserveNurse>();
 

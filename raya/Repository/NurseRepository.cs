@@ -35,7 +35,7 @@ public class NurseRepository : INurseRepository
 
     public async Task<CustomActionResult> GetNurseReserved(string nurseId)
     {
-        var reserved = await _appDbContext.ReserveNurses.Include(_ => _.Days).Where(_ => _.NurseId.ToString() == nurseId).ToListAsync();
+        var reserved = await _appDbContext.ReserveNurses.Include(_ => _.Nurse).Include(_ => _.UserReserved).Where(_ => _.NurseId.ToString() == nurseId).ToListAsync();
         return new CustomActionResult(new Result { Data = reserved });
     }
 

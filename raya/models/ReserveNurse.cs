@@ -1,11 +1,12 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
 
 [PrimaryKey(nameof(Id))]
 public class ReserveNurse : BaseEntity
 {
-
+    
     public Nurse Nurse { get; set; }
 
     public Guid NurseId { get; set; }
@@ -14,7 +15,7 @@ public class ReserveNurse : BaseEntity
 
     public Guid UserId { get; set; }
 
-    public List<string> Days { get; set; } = new List<string>();
+    public string? Days { get; set; }
 
 }
 

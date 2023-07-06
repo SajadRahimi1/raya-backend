@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace raya_back.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230706094559_ReserveNurseString")]
+    partial class ReserveNurseString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,6 +90,28 @@ namespace raya_back.Migrations
                     b.ToTable("ClassCategoryUser");
                 });
 
+            modelBuilder.Entity("Days", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<Guid?>("NurseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("day")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NurseId");
+
+                    b.ToTable("Days");
+                });
+
             modelBuilder.Entity("Nurse", b =>
                 {
                     b.Property<Guid>("Id")
@@ -97,12 +122,6 @@ namespace raya_back.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Days")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Image")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Locations")
                         .HasColumnType("nvarchar(max)");
 
@@ -110,7 +129,10 @@ namespace raya_back.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Rating")
+                    b.Property<string>("image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("rating")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
@@ -212,6 +234,13 @@ namespace raya_back.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Days", b =>
+                {
+                    b.HasOne("Nurse", null)
+                        .WithMany("days")
+                        .HasForeignKey("NurseId");
+                });
+
             modelBuilder.Entity("ReserveNurse", b =>
                 {
                     b.HasOne("Nurse", "Nurse")
@@ -239,6 +268,8 @@ namespace raya_back.Migrations
             modelBuilder.Entity("Nurse", b =>
                 {
                     b.Navigation("ReserveNurses");
+
+                    b.Navigation("days");
                 });
 
             modelBuilder.Entity("User", b =>

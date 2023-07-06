@@ -8,8 +8,6 @@ public class ReserveNurseDto
     [Required]
     public Guid NurseId { get; set; }
 
-    [Required]
-    public List<Days> days { get; set; }
-
-
+    [Required] 
+    public string Days { get; set; }
 }

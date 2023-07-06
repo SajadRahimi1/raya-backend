@@ -13,6 +13,6 @@ public class CreateNurseDto
     public string About { get; set; }
 
     [Required]
-    public List<string> days { get; set; } = new List<string>();
+    public string days { get; set; }
 
 }

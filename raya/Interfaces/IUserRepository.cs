@@ -6,5 +6,6 @@ public interface IUserRepository{
     Task UpdateUser(User updatedUser);
     Task<CustomActionResult> CheckSms(string phoneNumber, string code);
     Task<CustomActionResult> GetUserClasses(string id);
+    Task<CustomActionResult> GetUserNurseReserved(string id);
 
 }
