@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace raya_back.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230706081654_ReserveNurseUser")]
+    partial class ReserveNurseUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,33 +88,6 @@ namespace raya_back.Migrations
                     b.HasIndex("UsersReservedId");
 
                     b.ToTable("ClassCategoryUser");
-                });
-
-            modelBuilder.Entity("Days", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<Guid?>("NurseId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("ReserveNurseId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("day")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NurseId");
-
-                    b.HasIndex("ReserveNurseId");
-
-                    b.ToTable("Days");
                 });
 
             modelBuilder.Entity("Nurse", b =>
@@ -233,17 +209,6 @@ namespace raya_back.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Days", b =>
-                {
-                    b.HasOne("Nurse", null)
-                        .WithMany("days")
-                        .HasForeignKey("NurseId");
-
-                    b.HasOne("ReserveNurse", null)
-                        .WithMany("Days")
-                        .HasForeignKey("ReserveNurseId");
-                });
-
             modelBuilder.Entity("ReserveNurse", b =>
                 {
                     b.HasOne("Nurse", "Nurse")
@@ -271,13 +236,6 @@ namespace raya_back.Migrations
             modelBuilder.Entity("Nurse", b =>
                 {
                     b.Navigation("ReserveNurses");
-
-                    b.Navigation("days");
-                });
-
-            modelBuilder.Entity("ReserveNurse", b =>
-                {
-                    b.Navigation("Days");
                 });
 
             modelBuilder.Entity("User", b =>

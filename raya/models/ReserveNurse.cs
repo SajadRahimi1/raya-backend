@@ -1,15 +1,20 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 
+
 [PrimaryKey(nameof(Id))]
-public class ReserveNurse:BaseEntity{
-    
+public class ReserveNurse : BaseEntity
+{
+
     public Nurse Nurse { get; set; }
 
     public Guid NurseId { get; set; }
 
-    [NotMapped]
-    public List<string> days { get; set; }=new List<string>();
+    public User UserReserved { get; set; }
 
-    
+    public Guid UserId { get; set; }
+
+    public List<string> Days { get; set; } = new List<string>();
+
 }
+

@@ -21,13 +21,13 @@ services:
       volumes: 
         - ./data/redis:/var/lib/redis
         - ./data/redis/config:/usr/local/etc/redis/redis.conf
-      links:
-        - redis-commander
+      # links:
+      #   - redis-commander
 
-  redis-commander:
-      image: rediscommander/redis-commander:latest
-      restart: always
-      environment:
-        - REDIS_HOSTS=local:redis:6379
-      ports:
-        - 8081:8081
+  # redis-commander:
+  #     image: rediscommander/redis-commander:latest
+  #     restart: always
+  #     environment:
+  #       - REDIS_HOSTS=local:redis:6379
+  #     ports:
+  #       - 8081:8081

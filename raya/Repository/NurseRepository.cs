@@ -11,9 +11,14 @@ public class NurseRepository : INurseRepository
         _cache = cache;
     }
 
-    public Task CreateNurse(Nurse nurse)
+    public async Task<CustomActionResult> CreateNurse(Nurse nurse)
     {
-        throw new NotImplementedException();
+        await _appDbContext.Nurses.AddAsync(nurse);
+        await _appDbContext.SaveChangesAsync();
+        return new CustomActionResult(new Result
+        {
+            Data = nurse
+        });
     }
 
     public async Task<List<Nurse>> GetAllNurse()
@@ -28,8 +33,28 @@ public class NurseRepository : INurseRepository
         return nurses;
     }
 
-    public Task ReserveNurse(string NurseId, List<string> days)
+    public async Task<CustomActionResult> GetNurseReserved(string nurseId)
     {
-        throw new NotImplementedException();
+        var reserved = await _appDbContext.ReserveNurses.Include(_ => _.Days).Where(_ => _.NurseId.ToString() == nurseId).ToListAsync();
+        return new CustomActionResult(new Result { Data = reserved });
+    }
+
+    public async Task<CustomActionResult> ReserveNurse(ReserveNurse reserveNurse)
+    {
+        var nurse = await _appDbContext.Nurses.SingleOrDefaultAsync(_ => _.Id == reserveNurse.NurseId);
+        if (nurse == null)
+        {
+            return new CustomActionResult(new Result
+            {
+                ErrorMessage = new ErrorModel { ErrorMessage = "پرستاری با این آی دی یافت نشد" },
+                statusCodes = StatusCodes.Status400BadRequest
+            });
+        }
+        await _appDbContext.ReserveNurses.AddAsync(reserveNurse);
+        await _appDbContext.SaveChangesAsync();
+        return new CustomActionResult(new Result
+        {
+            Data = "رزرو با موفقیت ثبت شد"
+        });
     }
 }
