@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 [PrimaryKey(nameof(Id))]
 public class User : BaseEntity
 {
+    public Guid Token { get; set; }
 
     public string? Name { get; set; }
 

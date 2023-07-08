@@ -67,6 +67,7 @@ public class UserRepository : IUserRepository
         }
         if (user.code == code)
         {
+            user.Token = Guid.NewGuid();
             user.code = null;
             await UpdateUser(user);
             return new CustomActionResult(new Result
@@ -92,6 +93,11 @@ public class UserRepository : IUserRepository
     {
         var reserved = await _appDbContext.ReserveNurses.Include(_ => _.Nurse).Where(_ => _.UserId.ToString() == id).ToListAsync();
         return new CustomActionResult(new Result { Data = reserved });
+    }
+
+    public async Task<User?> FindUserByToken(string token)
+    {
+        return await _appDbContext.Users.SingleOrDefaultAsync(_ => _.Token.ToString() == token);
     }
 
     // private string generateToken()

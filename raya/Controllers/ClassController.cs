@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -14,6 +15,7 @@ public class ClassController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> GetAllClasses()
     {
         return Ok(await _classRepository.GetAllClasses());
@@ -22,6 +24,7 @@ public class ClassController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> InsertClass(string title)
     {
+
         return Ok(await _classRepository.CreateClass(new Class { Title = title }));
     }
 }

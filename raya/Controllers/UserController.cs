@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 [ApiController]
 [Route("[controller]")]
@@ -11,6 +13,15 @@ public class UserController : ControllerBase
 
         _userRepository = userRepository;
 
+    }
+
+    [HttpGet, Route("/id")]
+    [Authorize]
+    public async Task<IActionResult> GetById()
+    {
+        var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
+        var users = await _userRepository.getSingleUserById(user?.Id.ToString() ?? "11111111");
+        return Ok(users);
     }
 
     [HttpGet]
@@ -58,7 +69,8 @@ public class UserController : ControllerBase
     [Route("get-reserved")]
     public async Task<IActionResult> GetUserReserved(string id)
     {
-        return await _userRepository.GetUserNurseReserved(id);
+        var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
+        return await _userRepository.GetUserNurseReserved(user?.Id.ToString() ?? id);
     }
 
 }

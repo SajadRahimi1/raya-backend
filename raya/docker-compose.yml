@@ -13,8 +13,7 @@ services:
           ACCEPT_EULA: "Y"
 
   redis:
-      image: "redis:alpine"
-      restart: always
+      image: "redis:alpine" 
       hostname: redis
       ports:
         - '6379:6379'
