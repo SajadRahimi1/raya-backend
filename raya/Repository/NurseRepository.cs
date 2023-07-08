@@ -33,9 +33,16 @@ public class NurseRepository : INurseRepository
         return nurses;
     }
 
-    public async Task<CustomActionResult> GetNurseReserved(string nurseId)
+    public async Task<CustomActionResult> GetNursesReserved(string userId)
     {
-        var reserved = await _appDbContext.ReserveNurses.Include(_ => _.Nurse).Include(_ => _.UserReserved).Where(_ => _.NurseId.ToString() == nurseId).ToListAsync();
+        var reserved = await _appDbContext.ReserveNurses.Include(_ => _.Nurse).Where(_ => _.UserId.ToString() == userId).ToListAsync();
+        return new CustomActionResult(new Result { Data = reserved });
+    }
+
+
+    public async Task<CustomActionResult> GetUsersReserved(string nurseId)
+    {
+        var reserved = await _appDbContext.ReserveNurses.Include(_ => _.UserReserved).Where(_ => _.NurseId.ToString() == nurseId).ToListAsync();
         return new CustomActionResult(new Result { Data = reserved });
     }
 

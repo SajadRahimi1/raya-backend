@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,8 @@ builder.Services.AddStackExchangeRedisCache(options =>
     options.Configuration = builder.Configuration.GetConnectionString("Redis");
 
 });
+
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -69,6 +72,16 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 
 
+// builder.Services.AddCors(options =>
+//         {
+//             options.AddDefaultPolicy(builder =>
+//             {
+//                 builder.AllowAnyOrigin()
+//                     .AllowAnyHeader()
+//                     .AllowAnyMethod();
+//             });
+//         });
+
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<INurseRepository, NurseRepository>();
@@ -78,8 +91,14 @@ builder.Services.AddScoped<IClassCategoryRepository, ClassCategoryRepository>();
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-builder.Services.AddControllers().AddNewtonsoftJson(options =>
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add(new JsonContentTypeFilter());
+}).AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+}
 );
 
 
@@ -93,7 +112,8 @@ if (app.Environment.IsDevelopment())
 
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
+var host = new WebHostBuilder().UseUrls("http://192.168.1.7:5063");
 
 app.UseAuthentication();
 app.UseAuthorization();

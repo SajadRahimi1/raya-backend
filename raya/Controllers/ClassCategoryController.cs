@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 [ApiController]
 [Route("[controller]")]
@@ -36,9 +38,11 @@ public class ClassCategoryController : ControllerBase
 
     [HttpPost]
     [Route("Reserve")]
-    public async Task<IActionResult> ReserveClassCategory(string userId, string classCategoryId)
+    [Authorize]
+    public async Task<IActionResult> ReserveClassCategory( string classCategoryId)
     {
-        return await _classCategoryRepository.ReserveClass(userId, classCategoryId);
+        var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
+        return await _classCategoryRepository.ReserveClass(user?.Id.ToString()??"", classCategoryId);
     }
 
     [HttpGet]

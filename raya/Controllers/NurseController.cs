@@ -1,5 +1,7 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 [ApiController]
 [Route("[controller]")]
@@ -22,6 +24,7 @@ public class NurseController : ControllerBase
 
     [HttpPost]
     [Route("reserve")]
+    [Authorize]
     public async Task<IActionResult> ReserveNurse(ReserveNurseDto reserveNurseDto)
     {
         var reserveNurse = _mapper.Map<ReserveNurse>(reserveNurseDto);
@@ -36,9 +39,18 @@ public class NurseController : ControllerBase
     }
 
     [HttpGet]
-    [Route("reserved")]
+    [Route("nurses-reserved")]
+    [Authorize]
+    public async Task<IActionResult> GetNurseReserved()
+    {
+        var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
+        return await _nurseRepository.GetNursesReserved(user?.Id.ToString() ?? "");
+    }
+
+    [HttpGet]
+    [Route("users-reserved")]
     public async Task<IActionResult> GetNurseReserved(string nurseId)
     {
-        return await _nurseRepository.GetNurseReserved(nurseId);
+        return await _nurseRepository.GetUsersReserved(nurseId);
     }
 }

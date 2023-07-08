@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 
 [ApiController]
 [Route("[controller]")]
-[Consumes("application/x-www-form-urlencoded", "applicaton/json")]
 public class UserController : ControllerBase
 {
     private readonly IUserRepository _userRepository;
@@ -20,7 +19,7 @@ public class UserController : ControllerBase
     public async Task<IActionResult> GetById()
     {
         var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
-        var users = await _userRepository.getSingleUserById(user?.Id.ToString() ?? "11111111");
+        var users = await _userRepository.getSingleUserById(user?.Id.ToString() ?? "");
         return Ok(users);
     }
 
@@ -32,8 +31,9 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    [Route("/send-sms/{phoneNumber}")]
-    public async Task<IActionResult> SendSms(String phoneNumber)
+    [Route("/send-sms")]
+    [Consumes("application/json")]
+    public async Task<IActionResult> SendSms([FromQuery] String phoneNumber)
     {
         Random random = new Random();
         int randomNumber = random.Next(1000, 10000);
@@ -52,10 +52,10 @@ public class UserController : ControllerBase
 
     [HttpPost]
     [Route("/check-sms")]
-    public async Task<IActionResult> checkSms(String phoneNumber, string code)
+    public async Task<IActionResult> checkSms([FromBody] CheckSmsDto dto)
     {
 
-        return await _userRepository.CheckSms(phoneNumber, code);
+        return await _userRepository.CheckSms(dto.phoneNumber, dto.code);
     }
 
     [HttpGet]
