@@ -25,7 +25,11 @@ public class ClassCategoryController : ControllerBase
     {
         string days = "";
         if (classCategoryDto.EvenDay) days += "روزهای زوج";
-        if (classCategoryDto.OddDay) days += "روزهای فرد";
+        if (classCategoryDto.OddDay)
+        {
+            if (classCategoryDto.EvenDay) days += ",";
+            days += "روزهای فرد";
+        }
         var newClassCategory = _mapper.Map<ClassCategory>(classCategoryDto);
         newClassCategory.Days = days;
 
