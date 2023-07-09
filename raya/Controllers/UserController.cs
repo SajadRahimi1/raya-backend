@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -7,7 +8,8 @@ using Newtonsoft.Json;
 public class UserController : ControllerBase
 {
     private readonly IUserRepository _userRepository;
-    public UserController(IUserRepository userRepository)
+    private readonly IMapper _mapper;
+    public UserController(IUserRepository userRepository, IMapper mapper)
     {
 
         _userRepository = userRepository;
@@ -81,6 +83,14 @@ public class UserController : ControllerBase
     {
         var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
         return await _userRepository.GetUserNurseReserved(user?.Id.ToString() ?? id);
+    }
+
+    [HttpPut]
+    [Route("update")]
+    [Authorize]
+    public async Task<IActionResult> UpdateUser(UpdateUserDto updateUserDto)
+    {
+        return await _userRepository.CheckAndUpdateUser(_mapper.Map<User>(updateUserDto));
     }
 
 }

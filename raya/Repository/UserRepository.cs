@@ -100,6 +100,18 @@ public class UserRepository : IUserRepository
         return await _appDbContext.Users.SingleOrDefaultAsync(_ => _.Token.ToString() == token);
     }
 
+    public async Task<CustomActionResult> CheckAndUpdateUser(User user)
+    {
+        var findedUser = _appDbContext.Users.SingleOrDefaultAsync(_=>_.Id==user.Id);
+        if(user==null){
+            return new CustomActionResult(new Result{ErrorMessage=new ErrorModel{ErrorMessage="کاربر یافت نشد"},statusCodes=StatusCodes.Status404NotFound});
+        }
+        _appDbContext.Users.Update(user);
+        await _appDbContext.SaveChangesAsync();
+        return new CustomActionResult(new Result{Data=user});
+
+    }
+
     // private string generateToken()
     // {
     //     var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(  _config["jwt:Key"] ?? "jwtsecretkey"));

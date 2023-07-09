@@ -7,5 +7,6 @@ public class AppMapperProfile : Profile
         CreateMap<ClassCategoryDto,ClassCategory>();
         CreateMap<ReserveNurseDto,ReserveNurse>();
         CreateMap<CreateNurseDto,Nurse>();
+        CreateMap<UpdateUserDto,User>();
     }
 }
