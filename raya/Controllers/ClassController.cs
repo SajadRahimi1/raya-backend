@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
 [Route("[controller]")]
-[Consumes("application/x-www-form-urlencoded", "applicaton/json")]
 public class ClassController : ControllerBase
 {
 
@@ -15,6 +14,7 @@ public class ClassController : ControllerBase
     }
 
     [HttpGet]
+    // [Consumes("application/json")]
     public async Task<IActionResult> GetAllClasses()
     {
         return Ok(await _classRepository.GetAllClasses());

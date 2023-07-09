@@ -3,10 +3,10 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using raya_back.Migrations;
 
 [ApiController]
 [Route("[controller]")]
-[Consumes("application/x-www-form-urlencoded", "applicaton/json")]
 public class ClassCategoryController : ControllerBase
 {
     private readonly IClassCategoryRepository _classCategoryRepository;
@@ -23,7 +23,11 @@ public class ClassCategoryController : ControllerBase
 
     public async Task<IActionResult> CreateClassCategory(ClassCategoryDto classCategoryDto)
     {
+        string days = "";
+        if (classCategoryDto.EvenDay) days += "روزهای زوج";
+        if (classCategoryDto.OddDay) days += "روزهای فرد";
         var newClassCategory = _mapper.Map<ClassCategory>(classCategoryDto);
+        newClassCategory.Days = days;
 
         await _classCategoryRepository.CreateClassCategory(newClassCategory);
 
@@ -39,17 +43,17 @@ public class ClassCategoryController : ControllerBase
     [HttpPost]
     [Route("Reserve")]
     [Authorize]
-    public async Task<IActionResult> ReserveClassCategory( string classCategoryId)
+    public async Task<IActionResult> ReserveClassCategory(string classCategoryId)
     {
         var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
-        return await _classCategoryRepository.ReserveClass(user?.Id.ToString()??"", classCategoryId);
+        return await _classCategoryRepository.ReserveClass(user?.Id.ToString() ?? "", classCategoryId);
     }
 
     [HttpGet]
     [Route("Detail")]
     public async Task<CustomActionResult> GetClassCategoryDetail([Required(ErrorMessage = "کلاس را باید وارد کنید")] string classCategoryId)
     {
-        return await _classCategoryRepository.  GetClassCategoryDetail(classCategoryId);
+        return await _classCategoryRepository.GetClassCategoryDetail(classCategoryId);
     }
 
 }

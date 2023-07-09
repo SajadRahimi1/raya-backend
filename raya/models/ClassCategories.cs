@@ -10,11 +10,9 @@ public class ClassCategory : BaseEntity
     
     public string? Title { get; set; }
 
-    [NotMapped]
-    public List<string> Hours { get; set; } = new List<string>();
+    public string? Hours { get; set; }
 
-    [NotMapped]
-    public List<string> Days { get; set; } = new List<string>();
+    public string Days { get; set; } = "روزهای زوج,روزهای فرد";
 
     public string? TotallHours { get; set; }
 
