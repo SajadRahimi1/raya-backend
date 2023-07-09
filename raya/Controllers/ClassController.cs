@@ -15,16 +15,16 @@ public class ClassController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize]
     public async Task<IActionResult> GetAllClasses()
     {
         return Ok(await _classRepository.GetAllClasses());
     }
 
     [HttpPost]
-    public async Task<IActionResult> InsertClass(string title)
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> InsertClass([FromForm] CreateClassDto createClassDto)
     {
 
-        return Ok(await _classRepository.CreateClass(new Class { Title = title }));
+        return Ok(await _classRepository.CreateClass(createClassDto));
     }
 }

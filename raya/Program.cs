@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
+using Microsoft.Extensions.FileProviders;
+using Courseproject.Common.Interfaces;
+using Courseproject.Infrastructure;
+using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -70,7 +74,10 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("mssqlConnection")));
 
-
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.ValueCountLimit = 5242880;
+});
 
 // builder.Services.AddCors(options =>
 //         {
@@ -87,6 +94,8 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<INurseRepository, NurseRepository>();
 builder.Services.AddScoped<IClassRepository, ClassRepository>();
 builder.Services.AddScoped<IClassCategoryRepository, ClassCategoryRepository>();
+builder.Services.AddScoped<IFileRepository, FileRepository>();
+builder.Services.AddScoped<ImageFileValidator>();
 
 builder.Services.AddAutoMapper(typeof(Program));
 
@@ -111,6 +120,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 
 }
+
+app.UseStaticFiles();
+
+app.UseStaticFiles(new StaticFileOptions()
+{
+    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"uploads")),
+    RequestPath = new PathString("/uploads")
+});
 
 //app.UseHttpsRedirection();
 var host = new WebHostBuilder().UseUrls("http://192.168.1.7:5063");

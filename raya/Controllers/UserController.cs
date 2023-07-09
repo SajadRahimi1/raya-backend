@@ -14,16 +14,26 @@ public class UserController : ControllerBase
 
     }
 
-    [HttpGet, Route("/id")]
+    // [HttpGet, Route("/id")]
+    // [Authorize]
+    // public async Task<IActionResult> GetById()
+    // {
+    //     var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
+    //     var users = await _userRepository.getSingleUserById(user?.Id.ToString() ?? "");
+    //     return Ok(users);
+    // }
+
+    [HttpGet]
     [Authorize]
-    public async Task<IActionResult> GetById()
+    public async Task<IActionResult> GetByToken()
     {
         var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
         var users = await _userRepository.getSingleUserById(user?.Id.ToString() ?? "");
         return Ok(users);
     }
 
-    [HttpGet]
+    [HttpGet, Route("all")]
+
     public async Task<IActionResult> GetAsync()
     {
         var users = await _userRepository.GetAllAsync();

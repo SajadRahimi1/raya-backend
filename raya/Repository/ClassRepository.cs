@@ -1,3 +1,5 @@
+using Courseproject.Common.Interfaces;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
@@ -5,16 +7,25 @@ using Newtonsoft.Json;
 public class ClassRepository : IClassRepository
 {
     private readonly AppDbContext _appDbContext;
-    public ClassRepository(AppDbContext appDbContext)
+    private readonly ImageFileValidator _imageFileValidator;
+    private readonly IFileRepository _fileRepository;
+
+
+    public ClassRepository(AppDbContext appDbContext, ImageFileValidator imageFileValidator, IFileRepository fileRepository)
     {
         _appDbContext = appDbContext;
+        _imageFileValidator = imageFileValidator;
+        _fileRepository = fileRepository;
     }
 
-    public async Task<Class> CreateClass(Class NewClass)
+    public async Task<Class> CreateClass(CreateClassDto createClassDto)
     {
-        await _appDbContext.Classes.AddAsync(NewClass);
+        await _imageFileValidator.ValidateAndThrowAsync(createClassDto.image);
+        var fileName = await _fileRepository.SaveFileAsync(createClassDto.image);
+        Class newClass = new Class { Title = createClassDto.title, ImageName = fileName };
+        await _appDbContext.Classes.AddAsync(newClass);
         await _appDbContext.SaveChangesAsync();
-        return NewClass;
+        return newClass;
     }
 
     public async Task<List<Class>> GetAllClasses()
