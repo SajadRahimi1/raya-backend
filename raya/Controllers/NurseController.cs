@@ -27,6 +27,8 @@ public class NurseController : ControllerBase
     [Authorize]
     public async Task<IActionResult> ReserveNurse(ReserveNurseDto reserveNurseDto)
     {
+        var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
+        reserveNurseDto.UserId = user?.Id;
         var reserveNurse = _mapper.Map<ReserveNurse>(reserveNurseDto);
         return await _nurseRepository.ReserveNurse(reserveNurse);
     }

@@ -90,7 +90,26 @@ public class UserController : ControllerBase
     [Authorize]
     public async Task<IActionResult> UpdateUser(UpdateUserDto updateUserDto)
     {
-        return await _userRepository.CheckAndUpdateUser(_mapper.Map<User>(updateUserDto));
+        var userToken = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
+        var user = new User
+        {
+            Address = updateUserDto.Address,
+            Birthday = updateUserDto.Birthday,
+            BornCity = updateUserDto.BornCity,
+            code = null,
+            Education = updateUserDto.Education,
+            EmergancyNumber = updateUserDto.EmergancyNumber,
+            FatherName = updateUserDto.FatherName,
+            Id = userToken?.Id ?? Guid.NewGuid(),
+            Name = updateUserDto.Name,
+            NationalCode = updateUserDto.NationalCode,
+            NationalNumber = updateUserDto.NationalNumber,
+            PhoneNumber = updateUserDto.PhoneNumber,
+            Token = userToken?.Token ?? Guid.NewGuid(),
+            ReserveNurses = userToken?.ReserveNurses ?? new List<ReserveNurse>(),
+            ReservedClasses = userToken?.ReservedClasses ?? new List<ClassCategory>(),
+        };
+        return await _userRepository.CheckAndUpdateUser(user);
     }
 
 }
