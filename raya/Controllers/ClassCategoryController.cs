@@ -50,7 +50,7 @@ public class ClassCategoryController : ControllerBase
     public async Task<IActionResult> ReserveClassCategory(string classCategoryId)
     {
         var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
-        return await _classCategoryRepository.ReserveClass(user?.Id.ToString() ?? "", classCategoryId);
+        return await _classCategoryRepository.ReserveClass(user, classCategoryId);
     }
 
     [HttpGet]

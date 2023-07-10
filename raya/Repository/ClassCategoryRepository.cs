@@ -41,9 +41,9 @@ public class ClassCategoryRepository : IClassCategoryRepository
         });
     }
 
-    public async Task<CustomActionResult> ReserveClass(string userId, string classCategoryId)
+    public async Task<CustomActionResult> ReserveClass(User? user, string classCategoryId)
     {
-        var user = await _appDbContext.Users.SingleOrDefaultAsync(_ => _.Id.ToString() == userId);
+        // var user = await _appDbContext.Users.SingleOrDefaultAsync(_ => _.Id.ToString() == userId);
         if (user == null)
         {
             return new CustomActionResult(new Result
