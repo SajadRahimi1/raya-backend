@@ -22,6 +22,23 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<User>().HasMany(_ => _.ReservedClasses).WithMany(_ => _.UsersReserved);
     }
 
+    public override int SaveChanges()
+    {
+        var now = DateTime.UtcNow;
+
+        foreach (var entry in ChangeTracker.Entries()
+            .Where(e => e.State == EntityState.Added || e.State == EntityState.Modified))
+        {
+            entry.Property("UpdatedAt").CurrentValue = now;
+
+            if (entry.State == EntityState.Added)
+            {
+                entry.Property("CreatedAt").CurrentValue = now;
+            }
+        }
+        return base.SaveChanges();
+    }
+
     public DbSet<User> Users { get; set; }
     public DbSet<Nurse> Nurses { get; set; }
     public DbSet<Class> Classes { get; set; }
