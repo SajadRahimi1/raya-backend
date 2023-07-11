@@ -8,5 +8,6 @@ public class AppMapperProfile : Profile
         CreateMap<ReserveNurseDto,ReserveNurse>();
         CreateMap<CreateNurseDto,Nurse>();
         CreateMap<UpdateUserDto,User>();
+        CreateMap<SendMessageDto,Message>();
     }
 }

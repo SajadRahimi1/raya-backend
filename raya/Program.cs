@@ -95,6 +95,7 @@ builder.Services.AddScoped<INurseRepository, NurseRepository>();
 builder.Services.AddScoped<IClassRepository, ClassRepository>();
 builder.Services.AddScoped<IClassCategoryRepository, ClassCategoryRepository>();
 builder.Services.AddScoped<IFileRepository, FileRepository>();
+builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<ImageFileValidator>();
 
 builder.Services.AddAutoMapper(typeof(Program));

@@ -20,6 +20,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<ClassCategory>().HasOne(_ => _.Class).WithMany(_ => _.ClassCategories).HasForeignKey(_ => _.ClassId);
         modelBuilder.Entity<ClassCategory>().HasMany(_ => _.UsersReserved).WithMany(_ => _.ReservedClasses);
         modelBuilder.Entity<User>().HasMany(_ => _.ReservedClasses).WithMany(_ => _.UsersReserved);
+        modelBuilder.Entity<Message>().HasOne(_ => _.User).WithMany(_ => _.Messages).HasForeignKey(_ => _.UserId);
     }
 
     public override int SaveChanges()
@@ -44,4 +45,5 @@ public class AppDbContext : DbContext
     public DbSet<Class> Classes { get; set; }
     public DbSet<ClassCategory> ClassCategories { get; set; }
     public DbSet<ReserveNurse> ReserveNurses { get; set; }
+    public DbSet<Message> Messages { get; set; }
 }
