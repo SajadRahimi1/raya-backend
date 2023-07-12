@@ -37,4 +37,11 @@ public class ClassRepository : IClassRepository
     {
         return await _appDbContext.Classes.SingleOrDefaultAsync(_ => _.Id.ToString() == id);
     }
+
+    public async Task<CustomActionResult> GetSingleClassByTitle(string title)
+    {
+        var outputClass = await _appDbContext.Classes.Include(_ => _.ClassCategories).SingleOrDefaultAsync(_ => _.Title.Contains(title));
+
+        return new CustomActionResult(new Result { Data = outputClass?.ClassCategories });
+    }
 }

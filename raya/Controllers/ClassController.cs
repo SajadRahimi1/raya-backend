@@ -27,4 +27,10 @@ public class ClassController : ControllerBase
 
         return Ok(await _classRepository.CreateClass(createClassDto));
     }
+
+    [HttpGet, Route("get-single")]
+    public async Task<IActionResult> InsertClass(string title)
+    {
+        return await _classRepository.GetSingleClassByTitle(title);
+    }
 }
