@@ -10,4 +10,6 @@ public interface IUserRepository{
     Task<CustomActionResult> CheckAndUpdateUser(User user);
     Task UpdateUser(User user);
 
+    Task<CustomActionResult> UpdateUserImage(User user,IFormFile image);
+
 }

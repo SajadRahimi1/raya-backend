@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using Courseproject.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.IdentityModel.Tokens;
@@ -11,12 +12,14 @@ public class UserRepository : IUserRepository
     private readonly IConfiguration _config;
 
     private readonly IDistributedCache _cache;
+    private readonly IFileRepository _fileRepository;
 
-    public UserRepository(AppDbContext appDbContext, IConfiguration config, IDistributedCache cache)
+    public UserRepository(AppDbContext appDbContext, IConfiguration config, IDistributedCache cache, IFileRepository fileRepository)
     {
         _appDbContext = appDbContext;
         _config = config;
         _cache = cache;
+        _fileRepository = fileRepository;
     }
 
     public async Task CreateNewUser(User user)
@@ -50,6 +53,7 @@ public class UserRepository : IUserRepository
 
     public async Task UpdateUser(User updatedUser)
     {
+        _appDbContext.ChangeTracker.Clear();
         _appDbContext.Users.Update(updatedUser);
         await _appDbContext.SaveChangesAsync();
     }
@@ -113,6 +117,17 @@ public class UserRepository : IUserRepository
         await _appDbContext.SaveChangesAsync();
         return new CustomActionResult(new Result { Data = user });
 
+    }
+
+    public async Task<CustomActionResult> UpdateUserImage(User user, IFormFile image)
+    {
+        var imageUrl = await _fileRepository.SaveFileAsync(image);
+        user.ImageUrl = imageUrl;
+        await UpdateUser(user);
+        return new CustomActionResult(new Result
+        {
+            Data = user
+        });
     }
 
     // private string generateToken()

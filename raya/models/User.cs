@@ -27,7 +27,11 @@ public class User : BaseEntity
 
     public string? code { get; set; } = null;
 
+    public string? ImageUrl { get; set; }=null;
+
     public List<ClassCategory> ReservedClasses { get; set; } = new List<ClassCategory>();
+
     public List<ReserveNurse> ReserveNurses { get; set; } = new List<ReserveNurse>();
+    
     public List<Message> Messages { get; set; }=new List<Message>();
 }

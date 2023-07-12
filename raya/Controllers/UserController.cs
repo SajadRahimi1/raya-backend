@@ -25,6 +25,14 @@ public class UserController : ControllerBase
     //     return Ok(users);
     // }
 
+    [HttpPost, Route("update-image")]
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> UpdateUserImage([FromForm] UpdateUserImageDto userImageDto)
+    {
+        var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
+        return await _userRepository.UpdateUserImage(user, userImageDto.image);
+    }
+
     [HttpGet]
     [Authorize]
     public async Task<IActionResult> GetByToken()
