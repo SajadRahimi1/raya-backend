@@ -85,9 +85,19 @@ public class UserController : ControllerBase
         return await _userRepository.GetUserClasses(id);
     }
 
-    [HttpGet]
+    [HttpGet, Authorize]
     [Route("get-reserved")]
-    public async Task<IActionResult> GetUserReserved(string id)
+    public async Task<IActionResult> GetUserReserved()
+    {
+
+        var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
+        return await _userRepository.GetUserReserved(user?.Id.ToString());
+    }
+
+    [HttpGet]
+    [Route("get-nurse")]
+    [Authorize]
+    public async Task<IActionResult> GetUserNurse(string id)
     {
         var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
         return await _userRepository.GetUserNurseReserved(user?.Id.ToString() ?? id);

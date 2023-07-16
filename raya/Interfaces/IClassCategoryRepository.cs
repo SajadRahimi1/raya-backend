@@ -5,5 +5,6 @@ public interface IClassCategoryRepository
     Task<CustomActionResult> GetClassCategory(string classId);
     Task<CustomActionResult> ReserveClass(ReserveClass reserveClass);
     Task<CustomActionResult> GetClassCategoryDetail(string classCategoryId);
+    Task<CustomActionResult> GetReservedClasses(Guid userId);
 
 }

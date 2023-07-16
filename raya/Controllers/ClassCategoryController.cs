@@ -62,4 +62,11 @@ public class ClassCategoryController : ControllerBase
         return await _classCategoryRepository.GetClassCategoryDetail(classCategoryId);
     }
 
+    // [HttpGet,Route("Reserve")]
+    // [Authorize]
+    //  public async Task<CustomActionResult> GetReservedClass(){
+
+    //  }
+    
+
 }
