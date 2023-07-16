@@ -137,14 +137,4 @@ public class UserRepository : IUserRepository
         await _appDbContext.ReserveClasses.Include(_ => _.ClassCategory).Where(_ => _.UserId.ToString() == id).ToListAsync();
         return new CustomActionResult(new Result { Data = classes });
     }
-
-    // private string generateToken()
-    // {
-    //     var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(  _config["jwt:Key"] ?? "jwtsecretkey"));
-    //     var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
-
-    //     var token = new JwtSecurityToken(_config["jwt:Issuer"], _config["jwt:Audience"], null, expires: DateTime.Now.AddYears(1), signingCredentials: credentials);
-
-    //     return new JwtSecurityTokenHandler().WriteToken(token);
-    // }
 }
