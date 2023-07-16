@@ -1,9 +1,6 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
 using Courseproject.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
 
 public class UserRepository : IUserRepository
