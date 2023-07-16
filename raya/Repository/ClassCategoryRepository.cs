@@ -34,25 +34,25 @@ public class ClassCategoryRepository : IClassCategoryRepository
 
     public async Task<CustomActionResult> GetClassCategoryDetail(string classCategoryId)
     {
-        var classCategory = await _appDbContext.ClassCategories.Include(_ => _.UsersReserved).SingleOrDefaultAsync(_ => _.Id.ToString() == classCategoryId);
+        var classCategory = await _appDbContext.ClassCategories.Include(_ => _.ReserveClasses).SingleOrDefaultAsync(_ => _.Id.ToString() == classCategoryId);
         return new CustomActionResult(new Result
         {
             Data = classCategory
         });
     }
 
-    public async Task<CustomActionResult> ReserveClass(User? user, string classCategoryId)
+    public async Task<CustomActionResult> ReserveClass(ReserveClass reserveClass)
     {
         // var user = await _appDbContext.Users.SingleOrDefaultAsync(_ => _.Id.ToString() == userId);
-        if (user == null)
-        {
-            return new CustomActionResult(new Result
-            {
-                ErrorMessage = new ErrorModel { ErrorMessage = "کاربر یافت نشد" },
-                statusCodes = StatusCodes.Status400BadRequest
-            });
-        }
-        var classCategory = await _appDbContext.ClassCategories.SingleOrDefaultAsync(_ => _.Id.ToString() == classCategoryId);
+        // if (user == null)
+        // {
+        //     return new CustomActionResult(new Result
+        //     {
+        //         ErrorMessage = new ErrorModel { ErrorMessage = "کاربر یافت نشد" },
+        //         statusCodes = StatusCodes.Status400BadRequest
+        //     });
+        // }
+        var classCategory = await _appDbContext.ClassCategories.SingleOrDefaultAsync(_ => _.Id == reserveClass.ClassCategoryId);
         if (classCategory == null)
         {
             return new CustomActionResult(new Result
@@ -61,14 +61,11 @@ public class ClassCategoryRepository : IClassCategoryRepository
                 statusCodes = StatusCodes.Status400BadRequest
             });
         }
-        classCategory.UsersReserved.Add(user);
-        user.ReservedClasses.Add(classCategory);
-        _appDbContext.ClassCategories.Update(classCategory);
-        _appDbContext.Users.Update(user);
+        var savedReserveClass = await _appDbContext.ReserveClasses.AddAsync(reserveClass);
         await _appDbContext.SaveChangesAsync();
         return new CustomActionResult(new Result
         {
-            Data = "با موفقیت ثبت نام شدید",
+            Data = savedReserveClass,
         });
     }
 

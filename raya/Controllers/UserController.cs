@@ -115,7 +115,7 @@ public class UserController : ControllerBase
             PhoneNumber = updateUserDto.PhoneNumber,
             Token = userToken?.Token ?? Guid.NewGuid(),
             ReserveNurses = userToken?.ReserveNurses ?? new List<ReserveNurse>(),
-            ReservedClasses = userToken?.ReservedClasses ?? new List<ClassCategory>(),
+            ReservedClasses = userToken?.ReservedClasses ?? new List<ReserveClass>(),
         };
         return await _userRepository.CheckAndUpdateUser(user);
     }

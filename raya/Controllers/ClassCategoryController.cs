@@ -47,10 +47,12 @@ public class ClassCategoryController : ControllerBase
     [HttpPost]
     [Route("Reserve")]
     [Authorize]
-    public async Task<IActionResult> ReserveClassCategory(string classCategoryId)
+    public async Task<IActionResult> ReserveClassCategory(ReserveClassDto reserveClassDto)
     {
         var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
-        return await _classCategoryRepository.ReserveClass(user, classCategoryId);
+        reserveClassDto.UserId = user.Id;
+        var reserveClass = _mapper.Map<ReserveClass>(reserveClassDto);
+        return await _classCategoryRepository.ReserveClass(reserveClass);
     }
 
     [HttpGet]

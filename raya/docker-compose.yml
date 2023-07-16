@@ -20,6 +20,7 @@ services:
       volumes: 
         - ./data/redis:/var/lib/redis
         - ./data/redis/config:/usr/local/etc/redis/redis.conf
+        - ./data/redis:/usr/local/etc/redis/
       # links:
       #   - redis-commander
 
