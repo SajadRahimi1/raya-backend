@@ -25,7 +25,7 @@ public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSc
             }
             Request.Headers["user"] = JsonConvert.SerializeObject(user);
             var claims = new[] { new Claim("token", token) };
-            var identity = new ClaimsIdentity(claims, "Token");
+            var identity = new ClaimsIdentity(claims, "token");
             var claimsPrincipal = new ClaimsPrincipal(identity);
             return AuthenticateResult.Success(new AuthenticationTicket(claimsPrincipal, Scheme.Name));
         }
