@@ -5,15 +5,13 @@ using Microsoft.Extensions.Caching.Distributed;
 public class UserRepository : IUserRepository
 {
     private readonly AppDbContext _appDbContext;
-    private readonly IConfiguration _config;
 
     private readonly IDistributedCache _cache;
     private readonly IFileRepository _fileRepository;
 
-    public UserRepository(AppDbContext appDbContext, IConfiguration config, IDistributedCache cache, IFileRepository fileRepository)
+    public UserRepository(AppDbContext appDbContext, IDistributedCache cache, IFileRepository fileRepository)
     {
         _appDbContext = appDbContext;
-        _config = config;
         _cache = cache;
         _fileRepository = fileRepository;
     }
@@ -65,21 +63,21 @@ public class UserRepository : IUserRepository
                 statusCodes = StatusCodes.Status400BadRequest
             });
         }
-        if (user.code == code)
+        if (user.code != code)
         {
-            user.Token = Guid.NewGuid();
-            user.code = null;
-            await UpdateUser(user);
             return new CustomActionResult(new Result
             {
-                Data = user,
-                // Token = generateToken()
+                ErrorMessage = new ErrorModel { ErrorMessage = "کد وارد شده اشتباه است" },
+                statusCodes = StatusCodes.Status400BadRequest
             });
         }
+
+        user.Token = Guid.NewGuid();
+        user.code = null;
+        await UpdateUser(user);
         return new CustomActionResult(new Result
         {
-            ErrorMessage = new ErrorModel { ErrorMessage = "کد وارد شده اشتباه است" },
-            statusCodes = StatusCodes.Status400BadRequest
+            Data = user,
         });
     }
 
@@ -102,12 +100,6 @@ public class UserRepository : IUserRepository
 
     public async Task<CustomActionResult> CheckAndUpdateUser(User user)
     {
-        // var findedUser = await _appDbContext.Users.AsNoTracking().SingleOrDefaultAsync(_ => _.Id == user.Id);
-        // if (findedUser == null)
-        // {
-        //     return new CustomActionResult(new Result { ErrorMessage = new ErrorModel { ErrorMessage = "کاربر یافت نشد" }, statusCodes = StatusCodes.Status404NotFound });
-        // }
-
         _appDbContext.ChangeTracker.Clear();
         _appDbContext.Users.Update(user);
         await _appDbContext.SaveChangesAsync();

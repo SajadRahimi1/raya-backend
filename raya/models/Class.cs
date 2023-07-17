@@ -6,7 +6,7 @@ public class Class : BaseEntity
 {
     public string? Title { get; set; }
 
-    public List<ClassCategory> ClassCategories { get; set; }
+    public List<ClassCategory> ClassCategories { get; set; }=new List<ClassCategory>();
 
     public string? ImageName { get; set; }
 

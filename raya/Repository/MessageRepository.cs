@@ -15,7 +15,7 @@ public class MessageRepository : IMessageRepository
     public async Task<CustomActionResult> GetAllMessages(Guid userId)
     {
         var user = await _appContext.Users.Include(_ => _.Messages).SingleOrDefaultAsync(_ => _.Id == userId);
-        return new CustomActionResult(new Result { Data = user.Messages });
+        return new CustomActionResult(new Result { Data = user?.Messages });
     }
 
     public async Task<CustomActionResult> SendMessage(Message message, IFormFile? file)

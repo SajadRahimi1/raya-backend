@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 
 public class ClassCategoryRepository : IClassCategoryRepository
 {
@@ -41,23 +40,8 @@ public class ClassCategoryRepository : IClassCategoryRepository
         });
     }
 
-    public async Task<CustomActionResult> GetReservedClasses(Guid userId)
-    {
-        // var reservedClasses = 
-        return new CustomActionResult(new Result{Data=""});
-    }
-
     public async Task<CustomActionResult> ReserveClass(ReserveClass reserveClass)
     {
-        // var user = await _appDbContext.Users.SingleOrDefaultAsync(_ => _.Id.ToString() == userId);
-        // if (user == null)
-        // {
-        //     return new CustomActionResult(new Result
-        //     {
-        //         ErrorMessage = new ErrorModel { ErrorMessage = "کاربر یافت نشد" },
-        //         statusCodes = StatusCodes.Status400BadRequest
-        //     });
-        // }
         var classCategory = await _appDbContext.ClassCategories.SingleOrDefaultAsync(_ => _.Id.ToString() == reserveClass.ClassCategoryId.ToString());
         if (classCategory == null)
         {
