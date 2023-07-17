@@ -1,7 +1,6 @@
 using Courseproject.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
-using MongoDB.Driver;
 
 public class UserRepository : IUserRepository
 {
