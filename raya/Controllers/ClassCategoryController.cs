@@ -60,13 +60,6 @@ public class ClassCategoryController : ControllerBase
     public async Task<CustomActionResult> GetClassCategoryDetail([Required(ErrorMessage = "کلاس را باید وارد کنید")] string classCategoryId)
     {
         return await _classCategoryRepository.GetClassCategoryDetail(classCategoryId);
-    }
-
-    // [HttpGet,Route("Reserve")]
-    // [Authorize]
-    //  public async Task<CustomActionResult> GetReservedClass(){
-
-    //  }
-    
+    } 
 
 }
