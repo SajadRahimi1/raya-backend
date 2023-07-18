@@ -23,11 +23,14 @@ public class CustomActionResult : IActionResult
     {
         _result = result;
     }
+
+    Result GetResult => _result;
+
     public async Task ExecuteResultAsync(ActionContext context)
     {
         var objectResult = new ObjectResult(_result.ErrorMessage ?? _result.Data)
-        {            
-            StatusCode = _result.statusCodes,            
+        {
+            StatusCode = _result.statusCodes,
         };
 
         await objectResult.ExecuteResultAsync(context);

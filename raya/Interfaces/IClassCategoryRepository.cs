@@ -1,3 +1,4 @@
+
 public interface IClassCategoryRepository
 {
     Task CreateClassCategory(ClassCategory classCategory);
@@ -7,3 +8,4 @@ public interface IClassCategoryRepository
     Task<CustomActionResult> GetClassCategoryDetail(string classCategoryId);
 
 }
+
