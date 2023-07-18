@@ -1,4 +1,3 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -8,8 +7,7 @@ using Newtonsoft.Json;
 public class UserController : ControllerBase
 {
     private readonly IUserRepository _userRepository;
-    private readonly IMapper _mapper;
-    public UserController(IUserRepository userRepository, IMapper mapper)
+    public UserController(IUserRepository userRepository)
     {
 
         _userRepository = userRepository;
