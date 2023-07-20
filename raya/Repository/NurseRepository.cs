@@ -35,28 +35,28 @@ public class NurseRepository : INurseRepository
 
     public async Task<CustomActionResult> GetNursesReserved(string userId)
     {
-        var reserved = await _appDbContext.ReserveNurses.Include(_ => _.Nurse).Where(_ => _.UserId.ToString() == userId).ToListAsync();
+        var reserved = await _appDbContext.ReserveNurses.Where(_ => _.UserId.ToString() == userId).ToListAsync();
         return new CustomActionResult(new Result { Data = reserved });
     }
 
 
     public async Task<CustomActionResult> GetUsersReserved(string nurseId)
     {
-        var reserved = await _appDbContext.ReserveNurses.Include(_ => _.UserReserved).Where(_ => _.NurseId.ToString() == nurseId).ToListAsync();
-        return new CustomActionResult(new Result { Data = reserved });
+        // var reserved = await _appDbContext.ReserveNurses.Include(_ => _.UserReserved).Where(_ => _.NurseId.ToString() == nurseId).ToListAsync();
+        return new CustomActionResult(new Result { Data = "reserved" });
     }
 
     public async Task<CustomActionResult> ReserveNurse(ReserveNurse reserveNurse)
     {
-        var nurse = await _appDbContext.Nurses.SingleOrDefaultAsync(_ => _.Id == reserveNurse.NurseId);
-        if (nurse == null)
-        {
-            return new CustomActionResult(new Result
-            {
-                ErrorMessage = new ErrorModel { ErrorMessage = "پرستاری با این آی دی یافت نشد" },
-                statusCodes = StatusCodes.Status400BadRequest
-            });
-        }
+        // var nurse = await _appDbContext.Nurses.SingleOrDefaultAsync(_ => _.Id == reserveNurse.NurseId);
+        // if (nurse == null)
+        // {
+        //     return new CustomActionResult(new Result
+        //     {
+        //         ErrorMessage = new ErrorModel { ErrorMessage = "پرستاری با این آی دی یافت نشد" },
+        //         statusCodes = StatusCodes.Status400BadRequest
+        //     });
+        // }
         await _appDbContext.ReserveNurses.AddAsync(reserveNurse);
         await _appDbContext.SaveChangesAsync();
         return new CustomActionResult(new Result

@@ -1,21 +1,44 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 
 
 [PrimaryKey(nameof(Id))]
 public class ReserveNurse : BaseEntity
 {
-    
-    public Nurse Nurse { get; set; }
-
-    public Guid NurseId { get; set; }
 
     public User UserReserved { get; set; }
 
     public Guid UserId { get; set; }
 
-    public string? Days { get; set; }
+    public NurseCategory NurseCategory { get; set; }
 
+    public Gender Gender { get; set; }
+
+    public string Age { get; set; }
+
+    public Shift Shift { get; set; }
+
+    public string Hours { get; set; }
+
+    public string PeopleInHouse { get; set; }
+
+    public bool CCTV { get; set; }
+
+    public string Address { get; set; }
+
+}
+
+
+public enum Gender
+{
+    Male,
+    Female,
+    Both
+}
+
+public enum Shift
+{
+    Boarding,
+    Night,
+    Hour
 }
 

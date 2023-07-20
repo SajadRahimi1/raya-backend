@@ -20,5 +20,6 @@ public class Nurse : BaseEntity
 public enum NurseCategory{
     Kid,
     Oldage,
-    Patient
+    Patient,
+    All
 }

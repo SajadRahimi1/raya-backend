@@ -89,7 +89,7 @@ public class UserRepository : IUserRepository
 
     public async Task<CustomActionResult> GetUserNurseReserved(string id)
     {
-        var reserved = await _appDbContext.ReserveNurses.Include(_ => _.Nurse).Where(_ => _.UserId.ToString() == id).ToListAsync();
+        var reserved = await _appDbContext.ReserveNurses.Where(_ => _.UserId.ToString() == id).ToListAsync();
         return new CustomActionResult(new Result { Data = reserved });
     }
 
@@ -121,7 +121,7 @@ public class UserRepository : IUserRepository
     public async Task<CustomActionResult> GetUserReserved(string id)
     {
         var classes = await _appDbContext.Users.Include(_ => _.ReservedClasses).Include(_ => _.ReserveNurses).SingleOrDefaultAsync(_ => _.Id.ToString() == id);
-        await _appDbContext.ReserveNurses.Include(_ => _.Nurse).Where(_ => _.UserId.ToString() == id).ToListAsync();
+        await _appDbContext.ReserveNurses.Where(_ => _.UserId.ToString() == id).ToListAsync();
         await _appDbContext.ReserveClasses.Include(_ => _.ClassCategory).Where(_ => _.UserId.ToString() == id).ToListAsync();
         return new CustomActionResult(new Result { Data = classes });
     }
