@@ -6,7 +6,7 @@ using Microsoft.Extensions.FileProviders;
 using Courseproject.Common.Interfaces;
 using Courseproject.Infrastructure;
 using Microsoft.AspNetCore.Http.Features;
-
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,7 +37,7 @@ builder.Services.AddStackExchangeRedisCache(options =>
 
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -51,6 +51,7 @@ builder.Services.AddSwaggerGen(options =>
         In = ParameterLocation.Header,
         Description = "Custome Authentication Schema that use Guid"
     });
+    // options.UseInlineDefinitionsForEnums();
 
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {

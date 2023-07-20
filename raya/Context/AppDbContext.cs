@@ -14,6 +14,7 @@ public class AppDbContext : DbContext
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<User>().HasKey(user => user.Id);
         modelBuilder.Entity<Nurse>().HasKey(nurse => nurse.Id);
+        modelBuilder.Entity<Nurse>().Property(nurse=>nurse.NurseCategory).HasConversion<string>();
         modelBuilder.Entity<ReserveNurse>().HasKey(reserveNurse => reserveNurse.Id);
         modelBuilder.Entity<ReserveNurse>().HasOne(_ => _.Nurse).WithMany(_ => _.ReserveNurses).HasForeignKey(_ => _.NurseId);
         modelBuilder.Entity<ReserveNurse>().HasOne(_ => _.UserReserved).WithMany(_ => _.ReserveNurses).HasForeignKey(_ => _.UserId);

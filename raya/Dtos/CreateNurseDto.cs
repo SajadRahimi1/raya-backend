@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 public class CreateNurseDto
 {
@@ -14,5 +15,9 @@ public class CreateNurseDto
 
     [Required]
     public string days { get; set; }
+
+    [Required]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public NurseCategory NurseCategory { get; set; }
 
 }
