@@ -11,6 +11,8 @@ public class ReserveNurse : BaseEntity
 
     public NurseCategory NurseCategory { get; set; }
 
+    public string description { get; set; }
+
     public Gender Gender { get; set; }
 
     public string Age { get; set; }

@@ -28,4 +28,7 @@ public class ReserveNurseDto
     [Required]
     public string Address { get; set; }
 
+    [Required]
+    public string description { get; set; }
+
 }
