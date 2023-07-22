@@ -21,7 +21,7 @@ public class ReserveNurse : BaseEntity
 
     public string Hours { get; set; }
 
-    public string PeopleInHouse { get; set; }
+    public string? PeopleInHouse { get; set; }
 
     public bool CCTV { get; set; }
 

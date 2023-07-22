@@ -19,7 +19,7 @@ public class ReserveNurseDto
     [Required]
     public string Hours { get; set; }
 
-    [Required]
+
     public string PeopleInHouse { get; set; }
 
     [Required]
