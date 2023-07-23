@@ -20,10 +20,12 @@ public class Nurse : BaseEntity
     public string? ChildPhoneNumber { get; set; }
     public string? ParentPhoneNumber { get; set; }
 
+    public string? OtherProp { get; set; }
+
     public Guarantee Guarantee { get; set; }
     
     public NurseImages NurseImages { get; set; }
-    public List<NurseFamily> NurseFamily { get; set; }
+    public List<NurseFamily> NurseFamily { get; set; }=new List<NurseFamily>();
 
     public NurseCategory NurseCategory { get; set; }
 
