@@ -4,13 +4,21 @@ using Microsoft.EntityFrameworkCore;
 [PrimaryKey(nameof(Id))]
 public class Nurse : BaseEntity
 {
-    public string Name { get; set; }
-    public string? Locations { get; set; }
-    public string About { get; set; } = "";
+    public string Name { get; set; }="";
+    public string FatherName { get; set; }="";
+    public string Birthday { get; set; }="";
+    public string BornCity { get; set; }="";
+    public string NationalCode { get; set; }="";
+    public string NationalNumber { get; set; }="";
+    public string Education { get; set; }="";
+    public string Address { get; set; }="";
+    public string PhoneNumber { get; set; }="";
+    public string HomeNumber { get; set; }="";
+    public bool SpecialCare { get; set; }
 
-    public string? Days { get; set; }
-    public string? Image { get; set; }
-    public double Rating { get; set; } = 0;
+    public NurseImages NurseImages { get; set; }
+    public List<NurseFamily> NurseFamily { get; set; }
+
     public NurseCategory NurseCategory { get; set; }
 
     public List<ReserveNurse> ReserveNurses { get; set; } = new List<ReserveNurse>();
