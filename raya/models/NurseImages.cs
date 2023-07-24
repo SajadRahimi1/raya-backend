@@ -5,5 +5,5 @@ public class NurseImages : BaseEntity
     public string Picture { get; set; }
     public string FirstPageImage { get; set; }
     public string DescriptionImage { get; set; }
-    public string AgreementImage { get; set; }
+    public string? AgreementImage { get; set; }
 }

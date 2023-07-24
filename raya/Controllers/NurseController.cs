@@ -55,4 +55,10 @@ public class NurseController : ControllerBase
     {
         return await _nurseRepository.GetUsersReserved(nurseId);
     }
+
+    [HttpPut,Route("uploads")]
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> NurseUploads([FromForm] NurseUploadsDto nurseUploadsDto){
+        return await _nurseRepository.NurseUpdateUploads(nurseUploadsDto);
+    }
 }

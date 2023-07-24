@@ -1,3 +1,4 @@
+using Courseproject.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Distributed;
 
@@ -5,10 +6,12 @@ public class NurseRepository : INurseRepository
 {
     private readonly AppDbContext _appDbContext;
     private readonly IDistributedCache _cache;
-    public NurseRepository(AppDbContext appDbContext, IDistributedCache cache)
+    private readonly IFileRepository _fileRepository;
+    public NurseRepository(AppDbContext appDbContext, IDistributedCache cache, IFileRepository fileRepository)
     {
         _appDbContext = appDbContext;
         _cache = cache;
+        _fileRepository = fileRepository;
     }
 
     public async Task<CustomActionResult> CreateNurse(Nurse nurse)
@@ -44,6 +47,49 @@ public class NurseRepository : INurseRepository
     {
         // var reserved = await _appDbContext.ReserveNurses.Include(_ => _.UserReserved).Where(_ => _.NurseId.ToString() == nurseId).ToListAsync();
         return new CustomActionResult(new Result { Data = "reserved" });
+    }
+
+    public async Task<CustomActionResult> NurseUpdateUploads(NurseUploadsDto nurseUploadsDto)
+    {
+        var nurse = await _appDbContext.Nurses.SingleOrDefaultAsync(_ => _.Id == nurseUploadsDto.NurseId);
+
+        if (nurse == null)
+        {
+            return new CustomActionResult(new Result
+            {
+                ErrorMessage = new ErrorModel { ErrorMessage = "پرستاری یافت نشد" },
+                statusCodes = 404
+            });
+        }
+        var picture = await _fileRepository.SaveFileAsync(nurseUploadsDto.Picture);
+        var firstPageImage = await _fileRepository.SaveFileAsync(nurseUploadsDto.FirstPageImage);
+        var descriptionImage = await _fileRepository.SaveFileAsync(nurseUploadsDto.DescriptionImage);
+        string? agreementImage = null;
+
+        if (nurseUploadsDto.AgreementImage != null)
+        {
+            await _fileRepository.SaveFileAsync(nurseUploadsDto.AgreementImage);
+        }
+
+        var nurseImages = nurse.NurseImages;
+        
+        if (nurseImages == null)
+        {
+            nurseImages = new NurseImages();
+        }
+
+        nurseImages.AgreementImage = agreementImage;
+        nurseImages.DescriptionImage = descriptionImage;
+        nurseImages.FirstPageImage = firstPageImage;
+        nurseImages.Picture = picture;
+        nurseImages.NurseId = nurse.Id;
+
+        nurse.NurseImages=nurseImages;
+
+         _appDbContext.Nurses.Update(nurse);
+         await _appDbContext.SaveChangesAsync();
+
+        return new CustomActionResult(new Result{Data=nurse});
     }
 
     public async Task<CustomActionResult> ReserveNurse(ReserveNurse reserveNurse)
