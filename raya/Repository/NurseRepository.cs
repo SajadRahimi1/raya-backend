@@ -135,20 +135,15 @@ public class NurseRepository : INurseRepository
             });
         }
 
-        var nurseFamily = dto.nurseFamily.Select(n => new NurseFamily
+        nurse.NurseFamily = dto.nurseFamily.Select(n => new NurseFamily
         {
             Information = n.Information,
             Name = n.Name,
             PhoneNumber = n.PhoneNumber,
             KnowTime = n.KnowTime,
             NurseId = nurse.Id
-        })
-    .ToList();
+        }).ToList();
 
-        // if(nurseFamily==null){
-        //     nurseFamily = new List<NurseFamily>();
-        // }
-        nurse.NurseFamily = nurseFamily;
         _appDbContext.Nurses.Update(nurse);
         await _appDbContext.SaveChangesAsync();
 
