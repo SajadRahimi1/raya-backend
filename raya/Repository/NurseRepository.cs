@@ -51,7 +51,7 @@ public class NurseRepository : INurseRepository
 
     public async Task<CustomActionResult> NurseUpdateUploads(NurseUploadsDto nurseUploadsDto)
     {
-        var nurse = await _appDbContext.Nurses.SingleOrDefaultAsync(_ => _.Id == nurseUploadsDto.NurseId);
+        var nurse = await _appDbContext.Nurses.Include(_ => _.NurseImages).SingleOrDefaultAsync(_ => _.Id == nurseUploadsDto.NurseId);
 
         if (nurse == null)
         {
@@ -72,24 +72,35 @@ public class NurseRepository : INurseRepository
         }
 
         var nurseImages = nurse.NurseImages;
-        
+
         if (nurseImages == null)
         {
-            nurseImages = new NurseImages();
+            nurseImages = new NurseImages
+            {
+                AgreementImage = agreementImage,
+                DescriptionImage = descriptionImage,
+                FirstPageImage = firstPageImage,
+                Picture = picture,
+                NurseId = nurse.Id
+            };
+            nurse.NurseImages = nurseImages;
+        }
+        else
+        {
+
+            nurseImages.AgreementImage = agreementImage;
+            nurseImages.DescriptionImage = descriptionImage;
+            nurseImages.FirstPageImage = firstPageImage;
+            nurseImages.Picture = picture;
+            nurseImages.NurseId = nurse.Id;
+            _appDbContext.NurseImages.Update(nurseImages);
+            await _appDbContext.SaveChangesAsync();
         }
 
-        nurseImages.AgreementImage = agreementImage;
-        nurseImages.DescriptionImage = descriptionImage;
-        nurseImages.FirstPageImage = firstPageImage;
-        nurseImages.Picture = picture;
-        nurseImages.NurseId = nurse.Id;
+        _appDbContext.Nurses.Update(nurse);
+        await _appDbContext.SaveChangesAsync();
 
-        nurse.NurseImages=nurseImages;
-
-         _appDbContext.Nurses.Update(nurse);
-         await _appDbContext.SaveChangesAsync();
-
-        return new CustomActionResult(new Result{Data=nurse});
+        return new CustomActionResult(new Result { Data = nurse });
     }
 
     public async Task<CustomActionResult> ReserveNurse(ReserveNurse reserveNurse)

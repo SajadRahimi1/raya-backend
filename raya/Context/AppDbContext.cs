@@ -23,7 +23,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Message>().HasOne(_ => _.User).WithMany(_ => _.Messages).HasForeignKey(_ => _.UserId);
         modelBuilder.Entity<ReserveClass>().HasOne(_ => _.UserReserved).WithMany(_ => _.ReservedClasses).HasForeignKey(_ => _.UserId);
         modelBuilder.Entity<ReserveClass>().HasOne(_ => _.ClassCategory).WithMany(_ => _.ReserveClasses).HasForeignKey(_ => _.ClassCategoryId);
-
+        modelBuilder.Entity<NurseImages>().HasKey(_=>_.Id);        
     }
 
     public override int SaveChanges()
@@ -49,5 +49,6 @@ public class AppDbContext : DbContext
     public DbSet<ClassCategory> ClassCategories { get; set; }
     public DbSet<ReserveNurse> ReserveNurses { get; set; }
     public DbSet<Message> Messages { get; set; }
+    public DbSet<NurseImages> NurseImages { get; set; }
     public DbSet<ReserveClass> ReserveClasses { get; set; }
 }
