@@ -53,12 +53,19 @@ public class NurseController : ControllerBase
     [Route("users-reserved")]
     public async Task<IActionResult> GetNurseReserved(string nurseId)
     {
-        return await _nurseRepository.GetUsersReserved(nurseId);
+        return _nurseRepository.GetUsersReserved(nurseId);
     }
 
-    [HttpPut,Route("uploads")]
+    [HttpPut, Route("uploads")]
     [Consumes("multipart/form-data")]
-    public async Task<IActionResult> NurseUploads([FromForm] NurseUploadsDto nurseUploadsDto){
+    public async Task<IActionResult> NurseUploads([FromForm] NurseUploadsDto nurseUploadsDto)
+    {
         return await _nurseRepository.NurseUpdateUploads(nurseUploadsDto);
+    }
+
+    [HttpPut, Route("family")]
+    public async Task<IActionResult> NurseFamily(UpdateNurseFamilyDto dto)
+    {
+        return await _nurseRepository.UpdateNurseFamily(dto);
     }
 }

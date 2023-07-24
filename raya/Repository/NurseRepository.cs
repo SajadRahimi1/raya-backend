@@ -43,7 +43,7 @@ public class NurseRepository : INurseRepository
     }
 
 
-    public async Task<CustomActionResult> GetUsersReserved(string nurseId)
+    public CustomActionResult GetUsersReserved(string nurseId)
     {
         // var reserved = await _appDbContext.ReserveNurses.Include(_ => _.UserReserved).Where(_ => _.NurseId.ToString() == nurseId).ToListAsync();
         return new CustomActionResult(new Result { Data = "reserved" });
@@ -120,5 +120,38 @@ public class NurseRepository : INurseRepository
         {
             Data = "رزرو با موفقیت ثبت شد"
         });
+    }
+
+    public async Task<CustomActionResult> UpdateNurseFamily(UpdateNurseFamilyDto dto)
+    {
+        var nurse = await _appDbContext.Nurses.Include(_ => _.NurseFamily).SingleOrDefaultAsync(_ => _.Id == dto.NurseId);
+
+        if (nurse == null)
+        {
+            return new CustomActionResult(new Result
+            {
+                ErrorMessage = new ErrorModel { ErrorMessage = "پرستاری یافت نشد" },
+                statusCodes = 404
+            });
+        }
+
+        var nurseFamily = dto.nurseFamily.Select(n => new NurseFamily
+        {
+            Information = n.Information,
+            Name = n.Name,
+            PhoneNumber = n.PhoneNumber,
+            KnowTime = n.KnowTime,
+            NurseId = nurse.Id
+        })
+    .ToList();
+
+        // if(nurseFamily==null){
+        //     nurseFamily = new List<NurseFamily>();
+        // }
+        nurse.NurseFamily = nurseFamily;
+        _appDbContext.Nurses.Update(nurse);
+        await _appDbContext.SaveChangesAsync();
+
+        return new CustomActionResult(new Result { Data = nurse });
     }
 }
