@@ -14,7 +14,7 @@ public class AppDbContext : DbContext
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<User>().HasKey(user => user.Id);
         modelBuilder.Entity<Nurse>().HasKey(nurse => nurse.Id);
-        modelBuilder.Entity<Nurse>().Property(nurse => nurse.NurseCategory).HasConversion<string>();
+        // modelBuilder.Entity<Nurse>().Property(nurse => nurse.NurseCategory).HasConversion<List<string>>();
         modelBuilder.Entity<Nurse>().HasMany(nurse => nurse.NurseFamily).WithOne(_ => _.Nurse).HasForeignKey(_ => _.NurseId);
         modelBuilder.Entity<Nurse>().HasOne(nurse => nurse.NurseImages).WithOne(_ => _.Nurse);
         modelBuilder.Entity<ReserveNurse>().HasKey(reserveNurse => reserveNurse.Id);
@@ -23,8 +23,8 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Message>().HasOne(_ => _.User).WithMany(_ => _.Messages).HasForeignKey(_ => _.UserId);
         modelBuilder.Entity<ReserveClass>().HasOne(_ => _.UserReserved).WithMany(_ => _.ReservedClasses).HasForeignKey(_ => _.UserId);
         modelBuilder.Entity<ReserveClass>().HasOne(_ => _.ClassCategory).WithMany(_ => _.ReserveClasses).HasForeignKey(_ => _.ClassCategoryId);
-        modelBuilder.Entity<NurseImages>().HasKey(_=>_.Id);        
-        modelBuilder.Entity<NurseFamily>().HasKey(_=>_.Id);        
+        modelBuilder.Entity<NurseImages>().HasKey(_ => _.Id);
+        modelBuilder.Entity<NurseFamily>().HasKey(_ => _.Id);
     }
 
     public override int SaveChanges()

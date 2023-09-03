@@ -25,10 +25,10 @@ public class Nurse : BaseEntity
     public Guarantee? Guarantee { get; set; }
 
     public NurseImages? NurseImages { get; set; }
-    
+
     public List<NurseFamily> NurseFamily { get; set; } = new List<NurseFamily>();
 
-    public NurseCategory NurseCategory { get; set; }
+    public string NurseCategory { get; set; }
 
     public List<ReserveNurse> ReserveNurses { get; set; } = new List<ReserveNurse>();
 
