@@ -11,7 +11,7 @@ public class ReserveNurse : BaseEntity
 
     public NurseCategory NurseCategory { get; set; }
 
-    public string description { get; set; }
+    public string? description { get; set; }
 
     public Gender Gender { get; set; }
 
@@ -19,11 +19,13 @@ public class ReserveNurse : BaseEntity
 
     public Shift Shift { get; set; }
 
-    public string Hours { get; set; }
+    public string? Hours { get; set; }
 
     public string? PeopleInHouse { get; set; }
 
     public bool CCTV { get; set; }
+
+    public string? problem { get; set; }
 
     public string Address { get; set; }
 

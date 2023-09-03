@@ -129,7 +129,7 @@ app.UseStaticFiles(new StaticFileOptions()
 });
 
 //app.UseHttpsRedirection();
-var host = new WebHostBuilder().UseUrls("http://192.168.1.7:5063");
+var host = new WebHostBuilder().UseUrls("http://192.168.1.8:5063");
 
 app.UseAuthentication();
 app.UseAuthorization();

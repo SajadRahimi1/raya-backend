@@ -16,11 +16,10 @@ public class ReserveNurseDto
     [Required]
     public Shift Shift { get; set; }
 
-    [Required]
-    public string Hours { get; set; }
+    public string? Hours { get; set; }
 
 
-    public string PeopleInHouse { get; set; }
+    public string? PeopleInHouse { get; set; }
 
     [Required]
     public bool CCTV { get; set; }
@@ -28,7 +27,8 @@ public class ReserveNurseDto
     [Required]
     public string Address { get; set; }
 
-    [Required]
-    public string description { get; set; }
+    public string? problem { get; set; }
+
+    public string? description { get; set; }
 
 }
