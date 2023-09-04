@@ -17,6 +17,12 @@ public class UserController : ControllerBase
 
     }
 
+    [HttpGet("/pay")]
+    public IActionResult redirectToApp(String? Status,String? Authority)
+    {
+        return Redirect(string.Format("asia://salamat?Status={0}", Status));
+    }
+
     // [HttpGet, Route("/id")]
     // [Authorize]
     // public async Task<IActionResult> GetById()
