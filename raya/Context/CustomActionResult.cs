@@ -24,7 +24,7 @@ public class CustomActionResult : IActionResult
         _result = result;
     }
 
-    Result GetResult => _result;
+    Result  GetResult => _result;
 
     public async Task ExecuteResultAsync(ActionContext context)
     {

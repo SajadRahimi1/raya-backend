@@ -61,6 +61,7 @@ public class NurseRepository : INurseRepository
                 statusCodes = 404
             });
         }
+        nurse.formCode = _appDbContext.Nurses.Count() + 6000;
         var picture = await _fileRepository.SaveFileAsync(nurseUploadsDto.Picture);
         var firstPageImage = await _fileRepository.SaveFileAsync(nurseUploadsDto.FirstPageImage);
         var descriptionImage = await _fileRepository.SaveFileAsync(nurseUploadsDto.DescriptionImage);

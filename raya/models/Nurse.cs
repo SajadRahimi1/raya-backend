@@ -11,6 +11,7 @@ public class Nurse : BaseEntity
     public string NationalCode { get; set; } = "";
     public string NationalNumber { get; set; } = "";
     public string Education { get; set; } = "";
+    public int formCode { get; set; }=0;
     public string Address { get; set; } = "";
     public string PhoneNumber { get; set; } = "";
     public string HomeNumber { get; set; } = "";
