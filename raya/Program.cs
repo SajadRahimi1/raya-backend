@@ -134,7 +134,7 @@ app.UseStaticFiles(new StaticFileOptions()
 });
 
 //app.UseHttpsRedirection();
-var host = new WebHostBuilder().UseUrls("http://192.168.1.8:5063");
+var host = new WebHostBuilder().UseUrls("http://185.110.188.141:80");
 
 
 
