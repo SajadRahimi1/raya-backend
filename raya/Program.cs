@@ -113,10 +113,13 @@ builder.Services.AddControllers(options =>
 
 
 var app = builder.Build();
-
+app.UseAuthentication();
+app.UseAuthorization();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+
+    app.UseSwaggerAuthorized();
     app.UseSwagger();
     app.UseSwaggerUI();
 
@@ -133,8 +136,7 @@ app.UseStaticFiles(new StaticFileOptions()
 //app.UseHttpsRedirection();
 var host = new WebHostBuilder().UseUrls("http://192.168.1.8:5063");
 
-app.UseAuthentication();
-app.UseAuthorization();
+
 
 app.MapControllers();
 

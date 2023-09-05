@@ -75,15 +75,16 @@ public class UserController : ControllerBase
         {
             user.code = randomNumber.ToString();
             await _userRepository.UpdateUser(user);
-            using HttpResponseMessage response = await client.GetAsync(string.Format("https://api.kavenegar.com/v1/76526D486C52682F413330784E3575344E664B58714B5261593175776A5A56564C7A576D4A3168314C78633D/verify/lookup.json?receptor={0}&token={1}&template=verify", phoneNumber, randomNumber.ToString()));
-            if (response.IsSuccessStatusCode)
-            {
-                return Ok("کد با موفقیت ارسال شد");
-            }
-            else
-            {
-                return NotFound(await response.Content.ReadAsStringAsync());
-            }
+            // using HttpResponseMessage response = await client.GetAsync(string.Format("https://api.kavenegar.com/v1/76526D486C52682F413330784E3575344E664B58714B5261593175776A5A56564C7A576D4A3168314C78633D/verify/lookup.json?receptor={0}&token={1}&template=verify", phoneNumber, randomNumber.ToString()));
+            // if (response.IsSuccessStatusCode)
+            // {
+                // return Ok("کد با موفقیت ارسال شد");
+                return await _kavehnegarRespository.sendLoginSms(phoneNumber, randomNumber.ToString());
+            // }
+            // else
+            // {
+            //     return NotFound(await response.Content.ReadAsStringAsync());
+            // }
         }
     }
 
