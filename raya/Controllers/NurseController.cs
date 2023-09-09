@@ -11,11 +11,11 @@ public class NurseController : ControllerBase
     private readonly IKavehnegarRespository kavehnegarRespository;
     private readonly IMapper _mapper;
 
-    public NurseController(INurseRepository nurseRepository, IMapper mapper,IKavehnegarRespository kavehnegarRespository)
+    public NurseController(INurseRepository nurseRepository, IMapper mapper, IKavehnegarRespository kavehnegarRespository)
     {
         _nurseRepository = nurseRepository;
         _mapper = mapper;
-        this.kavehnegarRespository=kavehnegarRespository;
+        this.kavehnegarRespository = kavehnegarRespository;
     }
 
     [HttpGet]
@@ -30,9 +30,9 @@ public class NurseController : ControllerBase
     public async Task<IActionResult> ReserveNurse(ReserveNurseDto reserveNurseDto)
     {
         var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
-        
+
         var reserveNurse = _mapper.Map<ReserveNurse>(reserveNurseDto);
-        return await _nurseRepository.ReserveNurse(reserveNurse,user);
+        return await _nurseRepository.ReserveNurse(reserveNurse, user);
     }
 
     [HttpPost]
@@ -42,8 +42,8 @@ public class NurseController : ControllerBase
         return await _nurseRepository.CreateNurse(nurse);
     }
 
-    [HttpPost,Route("hiring-sms")]
-    public async Task<IActionResult> HiringSms(string phoneNumber)
+    [HttpPost, Route("hiring-sms")]
+    public async Task<IActionResult> HiringSms([FromBody] string phoneNumber)
     {
         return await kavehnegarRespository.sendHiringNurseSms(phoneNumber);
     }
