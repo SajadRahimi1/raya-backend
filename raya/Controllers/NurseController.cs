@@ -8,12 +8,14 @@ using Newtonsoft.Json;
 public class NurseController : ControllerBase
 {
     private readonly INurseRepository _nurseRepository;
+    private readonly IKavehnegarRespository kavehnegarRespository;
     private readonly IMapper _mapper;
 
-    public NurseController(INurseRepository nurseRepository, IMapper mapper)
+    public NurseController(INurseRepository nurseRepository, IMapper mapper,IKavehnegarRespository kavehnegarRespository)
     {
         _nurseRepository = nurseRepository;
         _mapper = mapper;
+        this.kavehnegarRespository=kavehnegarRespository;
     }
 
     [HttpGet]
@@ -28,9 +30,9 @@ public class NurseController : ControllerBase
     public async Task<IActionResult> ReserveNurse(ReserveNurseDto reserveNurseDto)
     {
         var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
-        reserveNurseDto.UserId = user?.Id;
+        
         var reserveNurse = _mapper.Map<ReserveNurse>(reserveNurseDto);
-        return await _nurseRepository.ReserveNurse(reserveNurse);
+        return await _nurseRepository.ReserveNurse(reserveNurse,user);
     }
 
     [HttpPost]
@@ -38,6 +40,12 @@ public class NurseController : ControllerBase
     {
         var nurse = _mapper.Map<Nurse>(createNurseDto);
         return await _nurseRepository.CreateNurse(nurse);
+    }
+
+    [HttpPost,Route("hiring-sms")]
+    public async Task<IActionResult> HiringSms(string phoneNumber)
+    {
+        return await kavehnegarRespository.sendHiringNurseSms(phoneNumber);
     }
 
     [HttpGet]

@@ -7,11 +7,13 @@ public class NurseRepository : INurseRepository
     private readonly AppDbContext _appDbContext;
     private readonly IDistributedCache _cache;
     private readonly IFileRepository _fileRepository;
-    public NurseRepository(AppDbContext appDbContext, IDistributedCache cache, IFileRepository fileRepository)
+    private readonly IKavehnegarRespository kavehnegarRespository;
+    public NurseRepository(AppDbContext appDbContext, IDistributedCache cache, IFileRepository fileRepository, IKavehnegarRespository kavehnegarRespository)
     {
         _appDbContext = appDbContext;
         _cache = cache;
         _fileRepository = fileRepository;
+        this.kavehnegarRespository = kavehnegarRespository;
     }
 
     public async Task<CustomActionResult> CreateNurse(Nurse nurse)
@@ -104,7 +106,7 @@ public class NurseRepository : INurseRepository
         return new CustomActionResult(new Result { Data = nurse });
     }
 
-    public async Task<CustomActionResult> ReserveNurse(ReserveNurse reserveNurse)
+    public async Task<CustomActionResult> ReserveNurse(ReserveNurse reserveNurse, User user)
     {
         // var nurse = await _appDbContext.Nurses.SingleOrDefaultAsync(_ => _.Id == reserveNurse.NurseId);
         // if (nurse == null)
@@ -115,8 +117,10 @@ public class NurseRepository : INurseRepository
         //         statusCodes = StatusCodes.Status400BadRequest
         //     });
         // }
+        reserveNurse.UserId = user.Id;
         await _appDbContext.ReserveNurses.AddAsync(reserveNurse);
         await _appDbContext.SaveChangesAsync();
+        await kavehnegarRespository.sendNurseReserveSms(user.PhoneNumber);
         return new CustomActionResult(new Result
         {
             Data = "رزرو با موفقیت ثبت شد"
