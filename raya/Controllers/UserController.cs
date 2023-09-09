@@ -18,7 +18,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet("/pay")]
-    public IActionResult redirectToApp(String? Status,String? Authority)
+    public IActionResult redirectToApp(String? Status, String? Authority)
     {
         return Redirect(string.Format("asia://salamat?Status={0}", Status));
     }
@@ -51,10 +51,14 @@ public class UserController : ControllerBase
 
     [HttpGet, Route("all")]
 
-    public async Task<IActionResult> GetAsync()
+    public async Task<IActionResult> GetAsync(string password)
     {
-        var users = await _userRepository.GetAllAsync();
-        return Ok(users);
+        if (password == "rayanikrayaniyaresh17")
+        {
+            var users = await _userRepository.GetAllAsync();
+            return Ok(users);
+        }
+        return Unauthorized();
     }
 
     [HttpGet]
@@ -78,8 +82,8 @@ public class UserController : ControllerBase
             // using HttpResponseMessage response = await client.GetAsync(string.Format("https://api.kavenegar.com/v1/76526D486C52682F413330784E3575344E664B58714B5261593175776A5A56564C7A576D4A3168314C78633D/verify/lookup.json?receptor={0}&token={1}&template=verify", phoneNumber, randomNumber.ToString()));
             // if (response.IsSuccessStatusCode)
             // {
-                // return Ok("کد با موفقیت ارسال شد");
-                return await _kavehnegarRespository.sendLoginSms(phoneNumber, randomNumber.ToString());
+            // return Ok("کد با موفقیت ارسال شد");
+            return await _kavehnegarRespository.sendLoginSms(phoneNumber, randomNumber.ToString());
             // }
             // else
             // {
