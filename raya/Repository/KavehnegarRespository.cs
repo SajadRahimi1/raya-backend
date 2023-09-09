@@ -30,7 +30,7 @@ public class KavehnegarRespository : IKavehnegarRespository
 
     public async Task<CustomActionResult> sendNurseReserveSms(string phoneNumber)
     {
-        string message = "کاربر گرامی درخواست شما ثبت گردید،کارشناسان ما کمتر از ۳۰ دقیقه دیگر جهت ارائه اطلاعات با شما تماس خواهند گرفت. هلدینگ آسیاسلامت \t ۰۲۶-۳۴۴۷۷۱۷۴";
+        string message = "کاربر گرامی درخواست شما ثبت گردید،کارشناسان ما کمتر از ۳۰ دقیقه دیگر جهت ارائه اطلاعات با شما تماس خواهند گرفت.\nهلدینگ آسیاسلامت \t ۰۲۶-۳۴۴۷۷۱۷۴";
         using HttpResponseMessage response = await _httpClient.PostAsync("https://api.kavenegar.com/v1/76526D486C52682F413330784E3575344E664B58714B5261593175776A5A56564C7A576D4A3168314C78633D/sms/send.json", new FormUrlEncodedContent(new[] { new KeyValuePair<string, string>("receptor", phoneNumber), new KeyValuePair<string, string>("message", message) }));
         // if (response.IsSuccessStatusCode)
         // {

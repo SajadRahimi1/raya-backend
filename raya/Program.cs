@@ -29,11 +29,11 @@ builder.Services.AddAuthorization();
 //     };
 // });
 
-builder.Services.AddStackExchangeRedisCache(options =>
-{
-    options.Configuration = builder.Configuration.GetConnectionString("Redis");
+// builder.Services.AddStackExchangeRedisCache(options =>
+// {
+//     options.Configuration = builder.Configuration.GetConnectionString("Redis");
 
-});
+// });
 
 
 
