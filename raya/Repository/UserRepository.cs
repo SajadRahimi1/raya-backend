@@ -7,7 +7,7 @@ public class UserRepository : IUserRepository
     private readonly AppDbContext _appDbContext;
     private readonly IFileRepository _fileRepository;
 
-    public UserRepository(AppDbContext appDbContext, IDistributedCache cache, IFileRepository fileRepository)
+    public UserRepository(AppDbContext appDbContext, IFileRepository fileRepository)
     {
         _appDbContext = appDbContext;
         // _cache = cache;
@@ -26,8 +26,8 @@ public class UserRepository : IUserRepository
         // users = await _cache.GetRecordAsync<List<User>?>("Users");
         // if (users == null)
         // {
-            users = await _appDbContext.Users.ToListAsync();
-            // await _cache.SetRecordAsync("Users", users);
+        users = await _appDbContext.Users.ToListAsync();
+        // await _cache.SetRecordAsync("Users", users);
         // }
         return users;
 
@@ -112,7 +112,7 @@ public class UserRepository : IUserRepository
         {
             _fileRepository.DeleteFile(user.ImageUrl);
         }
-        
+
         user.ImageUrl = imageUrl;
         await UpdateUser(user);
         return new CustomActionResult(new Result
