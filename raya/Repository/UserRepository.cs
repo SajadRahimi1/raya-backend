@@ -5,14 +5,12 @@ using Microsoft.Extensions.Caching.Distributed;
 public class UserRepository : IUserRepository
 {
     private readonly AppDbContext _appDbContext;
-
-    private readonly IDistributedCache _cache;
     private readonly IFileRepository _fileRepository;
 
     public UserRepository(AppDbContext appDbContext, IDistributedCache cache, IFileRepository fileRepository)
     {
         _appDbContext = appDbContext;
-        _cache = cache;
+        // _cache = cache;
         _fileRepository = fileRepository;
     }
 
@@ -25,12 +23,12 @@ public class UserRepository : IUserRepository
     public async Task<List<User>> GetAllAsync()
     {
         List<User>? users;
-        users = await _cache.GetRecordAsync<List<User>?>("Users");
-        if (users == null)
-        {
+        // users = await _cache.GetRecordAsync<List<User>?>("Users");
+        // if (users == null)
+        // {
             users = await _appDbContext.Users.ToListAsync();
-            await _cache.SetRecordAsync("Users", users);
-        }
+            // await _cache.SetRecordAsync("Users", users);
+        // }
         return users;
 
     }
