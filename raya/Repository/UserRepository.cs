@@ -110,6 +110,11 @@ public class UserRepository : IUserRepository
     public async Task<CustomActionResult> UpdateUserImage(User user, IFormFile image)
     {
         var imageUrl = await _fileRepository.SaveFileAsync(image);
+        if (user.ImageUrl != null)
+        {
+            _fileRepository.DeleteFile(user.ImageUrl);
+        }
+        
         user.ImageUrl = imageUrl;
         await UpdateUser(user);
         return new CustomActionResult(new Result
