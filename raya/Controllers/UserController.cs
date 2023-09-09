@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -51,7 +52,7 @@ public class UserController : ControllerBase
 
     [HttpGet, Route("all")]
 
-    public async Task<IActionResult> GetAsync(string password)
+    public async Task<IActionResult> GetAsync([DataType(DataType.Password)]string password)
     {
         if (password == "rayanikrayaniyaresh17")
         {
