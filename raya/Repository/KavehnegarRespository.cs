@@ -8,11 +8,9 @@ public class KavehnegarRespository : IKavehnegarRespository
         _httpClient = httpClient;
     }
 
-    public async Task<CustomActionResult> sendHiringNurseSms(string phoneNumber)
+    public async Task<CustomActionResult> sendHiringNurseSms(string phoneNumber, string name)
     {
-        string message = "کاربر گرامی ثبت نام شما انجام و در مرحله بررسی قرار گرفت،کارشناسان ما پس از تایید با شما تماس خواهند گرفت.";
-        using HttpResponseMessage response = await _httpClient.PostAsync("https://api.kavenegar.com/v1/76526D486C52682F413330784E3575344E664B58714B5261593175776A5A56564C7A576D4A3168314C78633D/sms/send.json", new FormUrlEncodedContent(new[] { new KeyValuePair<string, string>("receptor", phoneNumber), new KeyValuePair<string, string>("message", message) }));
-        // if (response.IsSuccessStatusCode)
+        using HttpResponseMessage response = await _httpClient.GetAsync(string.Format("https://api.kavenegar.com/v1/76526D486C52682F413330784E3575344E664B58714B5261593175776A5A56564C7A576D4A3168314C78633D/verify/lookup.json?receptor={0}&token={1}&template=hiringnurse", phoneNumber, name));        // if (response.IsSuccessStatusCode)
         // {
         return new CustomActionResult(new Result { statusCodes = 200 });
     }
@@ -28,11 +26,9 @@ public class KavehnegarRespository : IKavehnegarRespository
 
     }
 
-    public async Task<CustomActionResult> sendNurseReserveSms(string phoneNumber)
+    public async Task<CustomActionResult> sendNurseReserveSms(string phoneNumber, string name)
     {
-        string message = "کاربر گرامی درخواست شما ثبت گردید،کارشناسان ما کمتر از ۳۰ دقیقه دیگر جهت ارائه اطلاعات با شما تماس خواهند گرفت.\nهلدینگ آسیاسلامت \t ۰۲۶-۳۴۴۷۷۱۷۴";
-        using HttpResponseMessage response = await _httpClient.PostAsync("https://api.kavenegar.com/v1/76526D486C52682F413330784E3575344E664B58714B5261593175776A5A56564C7A576D4A3168314C78633D/sms/send.json", new FormUrlEncodedContent(new[] { new KeyValuePair<string, string>("receptor", phoneNumber), new KeyValuePair<string, string>("message", message) }));
-        // if (response.IsSuccessStatusCode)
+        using HttpResponseMessage response = await _httpClient.GetAsync(string.Format("https://api.kavenegar.com/v1/76526D486C52682F413330784E3575344E664B58714B5261593175776A5A56564C7A576D4A3168314C78633D/verify/lookup.json?receptor={0}&token={1}&template=nursereserve", phoneNumber, name));        // if (response.IsSuccessStatusCode)        // if (response.IsSuccessStatusCode)
         // {
         return new CustomActionResult(new Result { statusCodes = 200 });
     }

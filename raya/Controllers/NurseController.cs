@@ -42,10 +42,10 @@ public class NurseController : ControllerBase
         return await _nurseRepository.CreateNurse(nurse);
     }
 
-    [HttpPost, Route("hiring-sms")]
-    public async Task<IActionResult> HiringSms([FromBody] string phoneNumber)
+    [HttpGet, Route("hiring-sms")]
+    public async Task<IActionResult> HiringSms([FromQuery] string phoneNumber, [FromQuery] string name)
     {
-        return await kavehnegarRespository.sendHiringNurseSms(phoneNumber);
+        return await kavehnegarRespository.sendHiringNurseSms(phoneNumber, name);
     }
 
     [HttpGet]
