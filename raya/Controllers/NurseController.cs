@@ -46,7 +46,8 @@ public class NurseController : ControllerBase
     [HttpGet, Route("hiring-sms")]
     public async Task<IActionResult> HiringSms([FromQuery] string phoneNumber, [FromQuery] string name)
     {
-        return await kavehnegarRespository.sendHiringNurseSms(phoneNumber, name);
+        // return await kavehnegarRespository.sendHiringNurseSms(phoneNumber, name);
+        return Ok();
     }
 
     [HttpGet]
