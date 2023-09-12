@@ -67,7 +67,7 @@ public class ZarinpalRepository : IZarinpalRepository
         }
         var body = new ZarinpalRequestModel
         {
-            callback_url = string.Format("http://185.110.188.141/Nurse/verify/id={0}", nurseId)
+            callback_url = string.Format("http://185.110.188.141/Nurse/verify?id={0}", nurseId)
         };
         var client = new RestClient(baseUrl);
         var request = new RestRequest("", Method.Post);
