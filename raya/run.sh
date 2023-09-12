@@ -1,1 +1,1 @@
-nohup dotnet watch &>/dev/null &
+nohup dotnet watch &>./log.out &
