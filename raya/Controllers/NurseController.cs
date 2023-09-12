@@ -9,13 +9,15 @@ public class NurseController : ControllerBase
 {
     private readonly INurseRepository _nurseRepository;
     private readonly IKavehnegarRespository kavehnegarRespository;
+    private readonly IZarinpalRepository zarinpalRepository;
     private readonly IMapper _mapper;
 
-    public NurseController(INurseRepository nurseRepository, IMapper mapper, IKavehnegarRespository kavehnegarRespository)
+    public NurseController(INurseRepository nurseRepository, IMapper mapper, IKavehnegarRespository kavehnegarRespository,IZarinpalRepository zarinpalRepository)
     {
         _nurseRepository = nurseRepository;
         _mapper = mapper;
         this.kavehnegarRespository = kavehnegarRespository;
+        this.zarinpalRepository=zarinpalRepository;
     }
 
     [HttpGet]
@@ -84,5 +86,12 @@ public class NurseController : ControllerBase
     public async Task<IActionResult> NursePdf([FromForm] NursePdfDto nursePdfDto)
     {
         return await _nurseRepository.uploadNursePdf(nursePdfDto.nurseId, nursePdfDto.pdf);
+    }
+
+    [HttpGet, Route("payment")]
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> payment([FromQuery] string id)
+    {
+        return await zarinpalRepository.payHiringNurse(id);
     }
 }
