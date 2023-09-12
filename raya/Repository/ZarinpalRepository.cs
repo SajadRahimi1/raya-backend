@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using RestSharp;
@@ -14,7 +15,7 @@ public class ZarinpalRepository : IZarinpalRepository
         this.appDbContext = appDbContext;
     }
 
-    public async Task<CustomActionResult> checkPayement(string authority)
+    public async Task<IActionResult> checkPayement(string authority, string id)
     {
         var body = new VerifyPaymentModel
         {
@@ -36,12 +37,12 @@ public class ZarinpalRepository : IZarinpalRepository
 
                 if (response["data"]["code"].ToString() == "100" || response["data"]["code"].ToString() == "101")
                 {
-
-                    return new CustomActionResult(new Result { });
+                    var nurse = await appDbContext.Nurses.SingleOrDefaultAsync(_ => _.Id.ToString() == id);
+                    return new RedirectResult("http://185.110.188.141/uploads/" + nurse.pdfLink);
                 }
                 else
                 {
-                    return new CustomActionResult(new Result { statusCodes = StatusCodes.Status400BadRequest, ErrorMessage = new ErrorModel { ErrorMessage = response["data"]["message"].ToString() } });
+                    return new RedirectResult("http://185.110.188.141/uploads/error.html");
 
                 }
 
@@ -66,7 +67,7 @@ public class ZarinpalRepository : IZarinpalRepository
         }
         var body = new ZarinpalRequestModel
         {
-            callback_url = "http://185.110.188.141/uploads/" + nurseModel.pdfLink
+            callback_url = string.Format("http://185.110.188.141/Nurse/verify/id={0}", nurseId)
         };
         var client = new RestClient(baseUrl);
         var request = new RestRequest("", Method.Post);
