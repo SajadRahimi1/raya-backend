@@ -28,7 +28,7 @@ public class CustomActionResult : IActionResult
 
     public async Task ExecuteResultAsync(ActionContext context)
     {
-        var objectResult = new ObjectResult(_result ?? _result)
+        var objectResult = new ObjectResult(_result.ErrorMessage ?? _result.Data)
         {
             StatusCode = _result.statusCodes,
         };

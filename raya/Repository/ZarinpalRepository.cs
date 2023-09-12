@@ -49,7 +49,7 @@ public class ZarinpalRepository : IZarinpalRepository
 
             }
         }
-        return new RedirectResult("http://185.110.188.141/uploads/error.html");
+                            return new RedirectResult("http://185.110.188.141/uploads/error.html");
 
     }
 
@@ -87,7 +87,7 @@ public class ZarinpalRepository : IZarinpalRepository
 
                 var authority = response["data"]["authority"].ToString();
 
-                return new CustomActionResult(new Result { Token = "https://www.zarinpal.com/pg/StartPay/" + authority, Data = "https://www.zarinpal.com/pg/StartPay/" + authority });
+                return new CustomActionResult(new Result { Data = "https://www.zarinpal.com/pg/StartPay/" + authority });
 
             }
         }
