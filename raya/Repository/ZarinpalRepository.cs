@@ -49,7 +49,8 @@ public class ZarinpalRepository : IZarinpalRepository
 
             }
         }
-        return new CustomActionResult(new Result { statusCodes = StatusCodes.Status400BadRequest, ErrorMessage = new ErrorModel { ErrorMessage = requestresponse.Content } });
+        return new RedirectResult("http://185.110.188.141/uploads/error.html");
+
     }
 
     public async Task<CustomActionResult> payCourse(string classCatgoryId, string userId, bool IsInstallment)
