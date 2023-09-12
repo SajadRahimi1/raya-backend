@@ -89,14 +89,12 @@ public class NurseController : ControllerBase
     }
 
     [HttpGet, Route("payment")]
-    [Consumes("multipart/form-data")]
     public async Task<IActionResult> payment([FromQuery] string id)
     {
         return await zarinpalRepository.payHiringNurse(id);
     }
 
     [HttpGet, Route("verify")]
-    [Consumes("multipart/form-data")]
     public async Task<IActionResult> verifyPayment([FromQuery] string Authority, [FromQuery] string id)
     {
         return await zarinpalRepository.checkPayement(Authority, id);
