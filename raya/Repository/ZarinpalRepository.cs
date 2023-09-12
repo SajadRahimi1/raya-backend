@@ -87,7 +87,7 @@ public class ZarinpalRepository : IZarinpalRepository
 
                 var authority = response["data"]["authority"].ToString();
 
-                return new CustomActionResult(new Result { Data = "https://www.zarinpal.com/pg/StartPay/" + authority });
+                return new CustomActionResult(new Result { Token = "https://www.zarinpal.com/pg/StartPay/" + authority, Data = "https://www.zarinpal.com/pg/StartPay/" + authority });
 
             }
         }
