@@ -13,9 +13,48 @@ public class ZarinpalRepository : IZarinpalRepository
     {
         this.appDbContext = appDbContext;
     }
-    public Task<CustomActionResult> payCourse(string classCatgoryId, string userId, bool IsInstallment)
+
+    public async Task<CustomActionResult> checkPayement(string authority)
+    {
+        var body = new VerifyPaymentModel
+        {
+            authority = authority
+        };
+        var client = new RestClient("https://api.zarinpal.com/pg/v4/payment/verify.json");
+        var request = new RestRequest("", Method.Post);
+        request.AddHeader("accept", "application/json");
+        request.AddHeader("content-type", "application/json");
+        request.AddJsonBody(body);
+        var requestresponse = await client.ExecuteAsync(request);
+
+        if (requestresponse.IsSuccessStatusCode)
+        {
+            JObject response = JObject.Parse(requestresponse.Content);
+            if (response["data"].ToString() != "[]")
+            {
+
+
+                if (response["data"]["code"].ToString() == "100" || response["data"]["code"].ToString() == "101")
+                {
+
+                    return new CustomActionResult(new Result { });
+                }
+                else
+                {
+                    return new CustomActionResult(new Result { statusCodes = StatusCodes.Status400BadRequest, ErrorMessage = new ErrorModel { ErrorMessage = response["data"]["message"].ToString() } });
+
+                }
+
+
+            }
+        }
+        return new CustomActionResult(new Result { statusCodes = StatusCodes.Status400BadRequest, ErrorMessage = new ErrorModel { ErrorMessage = requestresponse.Content } });
+    }
+
+    public async Task<CustomActionResult> payCourse(string classCatgoryId, string userId, bool IsInstallment)
     {
         throw new NotImplementedException();
+
     }
 
     public async Task<CustomActionResult> payHiringNurse(string nurseId)

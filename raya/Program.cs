@@ -134,6 +134,7 @@ app.UseStaticFiles(new StaticFileOptions()
     RequestPath = new PathString("/uploads")
 });
 
+
 //app.UseHttpsRedirection();
 var host = new WebHostBuilder().UseUrls("http://185.110.188.141:80");
 
