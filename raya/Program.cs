@@ -95,6 +95,7 @@ builder.Services.AddScoped<IClassCategoryRepository, ClassCategoryRepository>();
 builder.Services.AddScoped<IFileRepository, FileRepository>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IKavehnegarRespository, KavehnegarRespository>();
+builder.Services.AddScoped<IZarinpalRepository, ZarinpalRepository>();
 builder.Services.AddScoped<ImageFileValidator>();
 builder.Services.AddHttpClient();
 
