@@ -1,6 +1,7 @@
 public interface INurseRepository{
     Task<List<Nurse>> GetAllNurse();
     Task<CustomActionResult> ReserveNurse(ReserveNurse reserveNurse,User user);
+    Task<CustomActionResult> uploadNursePdf(string nurseId,IFormFile pdfFile);
     Task<CustomActionResult>  CreateNurse(Nurse nurse);
     Task<CustomActionResult> GetNursesReserved(string userId);
     CustomActionResult GetUsersReserved(string nurseId);

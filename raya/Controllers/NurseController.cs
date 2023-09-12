@@ -31,7 +31,7 @@ public class NurseController : ControllerBase
     {
         var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
         user.Name = reserveNurseDto.name;
-        user.PhoneNumber=reserveNurseDto.phoneNumber;
+        user.PhoneNumber = reserveNurseDto.phoneNumber;
         var reserveNurse = _mapper.Map<ReserveNurse>(reserveNurseDto);
         return await _nurseRepository.ReserveNurse(reserveNurse, user);
     }
@@ -77,5 +77,12 @@ public class NurseController : ControllerBase
     public async Task<IActionResult> NurseFamily(UpdateNurseFamilyDto dto)
     {
         return await _nurseRepository.UpdateNurseFamily(dto);
+    }
+
+    [HttpPost, Route("pdf")]
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> NursePdf([FromForm] NursePdfDto nursePdfDto)
+    {
+        return await _nurseRepository.uploadNursePdf(nursePdfDto.nurseId, nursePdfDto.pdf);
     }
 }

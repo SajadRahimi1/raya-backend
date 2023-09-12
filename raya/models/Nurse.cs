@@ -20,6 +20,7 @@ public class Nurse : BaseEntity
     public string? HusbandPhoneNumber { get; set; }
     public string? ChildPhoneNumber { get; set; }
     public string? ParentPhoneNumber { get; set; }
+    public string? pdfLink { get; set; }
 
     public string? OtherProp { get; set; }
 

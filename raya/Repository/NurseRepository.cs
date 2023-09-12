@@ -154,4 +154,18 @@ public class NurseRepository : INurseRepository
 
         return new CustomActionResult(new Result { Data = nurse });
     }
+
+    public async Task<CustomActionResult> uploadNursePdf(string nurseId, IFormFile pdfFile)
+    {
+        var nurseModel = await _appDbContext.Nurses.SingleOrDefaultAsync(_ => _.Id.ToString() == nurseId);
+        if (nurseModel == null)
+        {
+            return new CustomActionResult(new Result { statusCodes = 404, ErrorMessage = new ErrorModel { ErrorMessage = "پرستاری با این ایدی یافت نشد" } });
+        }
+        var pdfLink = await _fileRepository.SaveFileAsync(pdfFile);
+        nurseModel.pdfLink = pdfLink;
+        _appDbContext.Nurses.Update(nurseModel);
+        await _appDbContext.SaveChangesAsync();
+        return new CustomActionResult(new Result { Data = "با موفقیت اضافه شد" });
+    }
 }
