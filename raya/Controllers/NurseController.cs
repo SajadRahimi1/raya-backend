@@ -97,8 +97,8 @@ public class NurseController : ControllerBase
 
     [HttpGet, Route("verify")]
     [Consumes("multipart/form-data")]
-    public async Task<IActionResult> verifyPayment([FromQuery] string athority, [FromQuery] string id)
+    public async Task<IActionResult> verifyPayment([FromQuery] string Authority, [FromQuery] string id)
     {
-        return await zarinpalRepository.checkPayement(athority,id);
+        return await zarinpalRepository.checkPayement(Authority, id);
     }
 }
