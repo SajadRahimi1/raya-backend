@@ -31,8 +31,7 @@ public class CreateNurseDto
 
     [Required]
     public string PhoneNumber { get; set; } = "";
-
-    [Required]
+    
     public string HomeNumber { get; set; } = "";
 
     [Required]
