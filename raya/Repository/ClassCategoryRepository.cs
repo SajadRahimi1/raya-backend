@@ -4,11 +4,11 @@ public class ClassCategoryRepository : IClassCategoryRepository
 {
     private readonly AppDbContext _appDbContext;
     private readonly IZarinpalRepository zarinpalRepository;
-    
-    public ClassCategoryRepository(AppDbContext appDbContext,IZarinpalRepository zarinpalRepository)
+
+    public ClassCategoryRepository(AppDbContext appDbContext, IZarinpalRepository zarinpalRepository)
     {
         _appDbContext = appDbContext;
-        this.zarinpalRepository=zarinpalRepository;
+        this.zarinpalRepository = zarinpalRepository;
     }
     public async Task CreateClassCategory(ClassCategory classCategory)
     {
@@ -54,12 +54,8 @@ public class ClassCategoryRepository : IClassCategoryRepository
                 statusCodes = StatusCodes.Status400BadRequest
             });
         }
-        
 
-        return new CustomActionResult(new Result
-        {
-            Data = reserveClass,
-        });
+        return await zarinpalRepository.payCourse(reserveClass);
     }
 
     public async Task UpdateClassCategory(ClassCategory classCategory)
