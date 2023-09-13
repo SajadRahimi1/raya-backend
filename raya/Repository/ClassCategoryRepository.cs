@@ -3,9 +3,12 @@ using Microsoft.EntityFrameworkCore;
 public class ClassCategoryRepository : IClassCategoryRepository
 {
     private readonly AppDbContext _appDbContext;
-    public ClassCategoryRepository(AppDbContext appDbContext)
+    private readonly IZarinpalRepository zarinpalRepository;
+    
+    public ClassCategoryRepository(AppDbContext appDbContext,IZarinpalRepository zarinpalRepository)
     {
         _appDbContext = appDbContext;
+        this.zarinpalRepository=zarinpalRepository;
     }
     public async Task CreateClassCategory(ClassCategory classCategory)
     {
@@ -51,8 +54,7 @@ public class ClassCategoryRepository : IClassCategoryRepository
                 statusCodes = StatusCodes.Status400BadRequest
             });
         }
-        await _appDbContext.ReserveClasses.AddAsync(reserveClass);
-        await _appDbContext.SaveChangesAsync();
+        
 
         return new CustomActionResult(new Result
         {

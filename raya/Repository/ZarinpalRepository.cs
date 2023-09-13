@@ -49,13 +49,46 @@ public class ZarinpalRepository : IZarinpalRepository
 
             }
         }
-                            return new RedirectResult("http://185.110.188.141/uploads/error.html");
+        return new RedirectResult("http://185.110.188.141/uploads/error.html");
 
     }
 
-    public async Task<CustomActionResult> payCourse(string classCatgoryId, string userId, bool IsInstallment)
+    public async Task<CustomActionResult> payCourse(ReserveClass reserveClass)
     {
-        throw new NotImplementedException();
+        var classCategory = await appDbContext.ClassCategories.SingleOrDefaultAsync(_ => _.Id == reserveClass.ClassCategoryId);
+        int amount = int.Parse(reserveClass.IsInstallment ? classCategory.InstallmentPrice.Replace(",", null) : classCategory.PrePaid.Replace(",", null));
+        var body = new ZarinpalRequestModel
+        {
+            callback_url = "asia://salamat",
+            amount = amount,
+
+        };
+        var client = new RestClient(baseUrl);
+        var request = new RestRequest("", Method.Post);
+        request.AddHeader("accept", "application/json");
+
+        request.AddHeader("content-type", "application/json");
+        request.AddJsonBody(body);
+        var requestresponse = await client.ExecuteAsync(request);
+
+        if (requestresponse.IsSuccessStatusCode)
+        {
+            JObject response = JObject.Parse(requestresponse.Content);
+            if (response["data"].ToString() != "[]")
+            {
+
+
+                var authority = response["data"]["authority"].ToString();
+                
+                reserveClass.authority = authority;
+                await appDbContext.ReserveClasses.AddAsync(reserveClass);
+                await appDbContext.SaveChangesAsync();
+
+                return new CustomActionResult(new Result { Data = "https://www.zarinpal.com/pg/StartPay/" + authority });
+
+            }
+        }
+        return new CustomActionResult(new Result { statusCodes = StatusCodes.Status400BadRequest, ErrorMessage = new ErrorModel { ErrorMessage = requestresponse.Content } });
 
     }
 

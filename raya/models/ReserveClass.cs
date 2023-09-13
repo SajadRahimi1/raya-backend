@@ -12,6 +12,8 @@ public class ReserveClass:BaseEntity
 
     public string Hours { get; set; }
 
-    public bool IsInstallment { get; set; }=false;
+    public string authority { get; set; }
+
+    public bool IsInstallment { get; set; } = false;
     
 }
