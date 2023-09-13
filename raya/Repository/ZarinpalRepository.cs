@@ -38,7 +38,7 @@ public class ZarinpalRepository : IZarinpalRepository
                 if (response["data"]["code"].ToString() == "100" || response["data"]["code"].ToString() == "101")
                 {
                     var nurse = await appDbContext.Nurses.SingleOrDefaultAsync(_ => _.Id.ToString() == id);
-                    return new RedirectResult("http://185.110.188.141/uploads/" + nurse.pdfLink);
+                    return new RedirectResult("http://185.110.188.141/uploads/success.html?link=" + nurse.pdfLink);
                 }
                 else
                 {
@@ -79,7 +79,7 @@ public class ZarinpalRepository : IZarinpalRepository
 
 
                 var authority = response["data"]["authority"].ToString();
-                
+
                 reserveClass.authority = authority;
                 await appDbContext.ReserveClasses.AddAsync(reserveClass);
                 await appDbContext.SaveChangesAsync();
