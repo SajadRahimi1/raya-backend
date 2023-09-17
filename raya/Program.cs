@@ -14,11 +14,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddAuthentication("BasicAuthentication").AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+builder.Services.AddAuthentication("BasicAuthentication").AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null).AddPolicyScheme("user", null, options => { });
 builder.Services.AddAuthentication("AdminAuthentication").AddScheme<AuthenticationSchemeOptions, AdminAuthenticationHandler>("AdminAuthentication", null).AddPolicyScheme("admin", null, options => { });
 builder.Services.AddAuthorization(options =>
 {
-    options.DefaultPolicy = new AuthorizationPolicyBuilder("BasicAuthentication").RequireAssertion(_=>true).Build();
+    options.DefaultPolicy = new AuthorizationPolicyBuilder("BasicAuthentication").RequireAssertion(_ => true).Build();
 });
 
 // builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
