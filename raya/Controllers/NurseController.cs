@@ -28,7 +28,7 @@ public class NurseController : ControllerBase
 
     [HttpPost]
     [Route("reserve")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "BasicAuthentication")]
     public async Task<IActionResult> ReserveNurse(ReserveNurseDto reserveNurseDto)
     {
         var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
@@ -54,7 +54,7 @@ public class NurseController : ControllerBase
 
     [HttpGet]
     [Route("nurses-reserved")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "BasicAuthentication")]
     public async Task<IActionResult> GetNurseReserved()
     {
         var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);

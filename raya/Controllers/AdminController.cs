@@ -16,7 +16,7 @@ public class AdminController
     }
 
     [HttpPost]
-    [Authorize()]
+    [Authorize(AuthenticationSchemes = "admin")]
     public async Task<IActionResult> AddAdmin(AdminDto adminDto)
     {
         var admin = _mapper.Map<Admin>(adminDto);

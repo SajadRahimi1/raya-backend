@@ -17,7 +17,7 @@ public class MessageController : ControllerBase
     }
 
     [HttpPost, Route("send")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "BasicAuthentication")]
     [Consumes("multipart/form-data")]
     public async Task<IActionResult> SendMessage([FromForm] SendMessageDto sendMessageDto)
     {
@@ -27,7 +27,8 @@ public class MessageController : ControllerBase
         return await _messageRepository.SendMessage(message, sendMessageDto.File);
     }
 
-    [HttpGet, Authorize]
+    [HttpGet,]
+    [Authorize(AuthenticationSchemes = "BasicAuthentication")]
     public async Task<IActionResult> GetMessages()
     {
         var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);

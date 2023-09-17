@@ -45,7 +45,7 @@ public class ClassCategoryController : ControllerBase
 
     [HttpPost]
     [Route("Reserve")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "BasicAuthentication")]
     public async Task<IActionResult> ReserveClassCategory(ReserveClassDto reserveClassDto)
     {
         var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);

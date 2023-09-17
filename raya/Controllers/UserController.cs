@@ -25,7 +25,7 @@ public class UserController : ControllerBase
     }
 
     // [HttpGet, Route("/id")]
-    // [Authorize]
+    // [Authorize(AuthenticationSchemes = "BasicAuthentication")]
     // public async Task<IActionResult> GetById()
     // {
     //     var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
@@ -52,7 +52,7 @@ public class UserController : ControllerBase
 
     [HttpGet, Route("all")]
 
-    public async Task<IActionResult> GetAsync([DataType(DataType.Password)]string password)
+    public async Task<IActionResult> GetAsync([DataType(DataType.Password)] string password)
     {
         if (password == "rayanikrayaniyaresh17")
         {
@@ -109,7 +109,8 @@ public class UserController : ControllerBase
         return await _userRepository.GetUserClasses(id);
     }
 
-    [HttpGet, Authorize]
+    [HttpGet]
+    [Authorize(AuthenticationSchemes = "BasicAuthentication")]
     [Route("get-reserved")]
     public async Task<IActionResult> GetUserReserved()
     {
@@ -120,7 +121,7 @@ public class UserController : ControllerBase
 
     [HttpGet]
     [Route("get-nurse")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "BasicAuthentication")]
     public async Task<IActionResult> GetUserNurse(string id)
     {
         var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
@@ -129,7 +130,7 @@ public class UserController : ControllerBase
 
     [HttpPut]
     [Route("update")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = "BasicAuthentication")]
     public async Task<IActionResult> UpdateUser(UpdateUserDto updateUserDto)
     {
         var userToken = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
