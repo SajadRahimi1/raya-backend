@@ -18,8 +18,6 @@ builder.Services.AddAuthentication("BasicAuthentication").AddScheme<Authenticati
 builder.Services.AddAuthentication("AdminAuthentication").AddScheme<AuthenticationSchemeOptions, AdminAuthenticationHandler>("AdminAuthentication", null).AddPolicyScheme("admin", null, options => { });
 builder.Services.AddAuthorization(options =>
 {
-    
-    options.DefaultPolicy = new AuthorizationPolicyBuilder("BasicAuthentication").RequireAuthenticatedUser().Build();
 });
 
 // builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
