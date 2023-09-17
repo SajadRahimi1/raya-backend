@@ -14,8 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddAuthentication("BasicAuthentication").AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null).AddPolicyScheme("user", null, options => { });
-builder.Services.AddAuthentication("AdminAuthentication").AddScheme<AuthenticationSchemeOptions, AdminAuthenticationHandler>("AdminAuthentication", null).AddPolicyScheme("admin", null, options => { });
+builder.Services.AddAuthentication("BasicAuthentication").AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
+builder.Services.AddAuthentication("AdminAuthentication").AddScheme<AuthenticationSchemeOptions, AdminAuthenticationHandler>("AdminAuthentication", null);
 builder.Services.AddAuthorization(options =>
 {
 });
