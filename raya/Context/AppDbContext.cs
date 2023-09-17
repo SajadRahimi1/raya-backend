@@ -25,6 +25,8 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<ReserveClass>().HasOne(_ => _.ClassCategory).WithMany(_ => _.ReserveClasses).HasForeignKey(_ => _.ClassCategoryId);
         modelBuilder.Entity<NurseImages>().HasKey(_ => _.Id);
         modelBuilder.Entity<NurseFamily>().HasKey(_ => _.Id);
+        modelBuilder.Entity<Admin>().HasKey(_ => _.Id);
+        
     }
 
     public override int SaveChanges()
@@ -53,4 +55,5 @@ public class AppDbContext : DbContext
     public DbSet<NurseImages> NurseImages { get; set; }
     public DbSet<NurseFamily> NurseFamilies { get; set; }
     public DbSet<ReserveClass> ReserveClasses { get; set; }
+    public DbSet<Admin> Admins { get; set; }
 }

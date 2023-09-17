@@ -7,6 +7,7 @@ using Courseproject.Common.Interfaces;
 using Courseproject.Infrastructure;
 using Microsoft.AspNetCore.Http.Features;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAuthentication("BasicAuthentication").AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
-builder.Services.AddAuthorization();
+builder.Services.AddAuthentication("AdminAuthentication").AddScheme<AuthenticationSchemeOptions, AdminAuthenticationHandler>("AdminAuthentication", null).AddPolicyScheme("admin", null, options => { });
+builder.Services.AddAuthorization(options =>
+{
+    options.DefaultPolicy = new AuthorizationPolicyBuilder("BasicAuthentication").Build();
+});
 
 // builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 // {
@@ -96,6 +101,7 @@ builder.Services.AddScoped<IFileRepository, FileRepository>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IKavehnegarRespository, KavehnegarRespository>();
 builder.Services.AddScoped<IZarinpalRepository, ZarinpalRepository>();
+builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<ImageFileValidator>();
 builder.Services.AddHttpClient();
 
@@ -136,7 +142,8 @@ app.UseStaticFiles(new StaticFileOptions()
 
 
 //app.UseHttpsRedirection();
-var host = new WebHostBuilder().UseUrls("http://185.110.188.141:80");
+// var host = new WebHostBuilder().UseUrls("http://185.110.188.141:80");
+var host = new WebHostBuilder().UseUrls("192.168.1.8:8050");
 
 
 
