@@ -10,5 +10,6 @@ public class AppMapperProfile : Profile
         CreateMap<UpdateUserDto,User>();
         CreateMap<SendMessageDto,Message>();
         CreateMap<ReserveClassDto,ReserveClass>();
+        CreateMap<AdminDto,Admin>();
     }
 }
