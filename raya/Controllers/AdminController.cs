@@ -30,4 +30,7 @@ public class AdminController
 
     [HttpPost, Route("check-code")]
     public async Task<IActionResult> checkCode(string phoneNumber, string code) => await _adminRepository.checkCode(phoneNumber, code);
+
+    [HttpPost, Route("send-code")]
+    public async Task<IActionResult> sendCode(string phoneNumber) => await _adminRepository.sendCode(phoneNumber);
 }
