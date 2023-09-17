@@ -15,11 +15,18 @@ public class AdminController
         _mapper = mapper;
     }
 
-    [HttpPost]
+    [HttpPost, Route("add")]
     [Authorize(AuthenticationSchemes = "admin")]
     public async Task<IActionResult> AddAdmin(AdminDto adminDto)
     {
         var admin = _mapper.Map<Admin>(adminDto);
         return await _adminRepository.addAdmin(admin);
+    }
+
+    [HttpGet, Route("all")]
+    [Authorize(AuthenticationSchemes = "admin")]
+    public async Task<IActionResult> getAllAdmin()
+    {
+        return await _adminRepository.getAllAdmin();
     }
 }
