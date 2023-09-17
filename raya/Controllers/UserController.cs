@@ -42,7 +42,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    [Authorize("user")]
+    [Authorize(AuthenticationSchemes = "BasicAuthentication")]
     public async Task<IActionResult> GetByToken()
     {
         var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
