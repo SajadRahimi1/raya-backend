@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore;
 public class AdminRepository : IAdminRepository
 {
     private readonly AppDbContext _appDbContext;
+    private readonly IKavehnegarRespository _kavehnegarRespository;
 
-    public AdminRepository(AppDbContext appDbContext)
+    public AdminRepository(AppDbContext appDbContext, IKavehnegarRespository kavehnegarRespository)
     {
         _appDbContext = appDbContext;
+        _kavehnegarRespository = kavehnegarRespository;
     }
 
     public async Task<CustomActionResult> addAdmin(Admin admin)
@@ -23,7 +25,7 @@ public class AdminRepository : IAdminRepository
         {
             return new CustomActionResult(new Result
             {
-                ErrorMessage = new ErrorModel { ErrorMessage = "کاربری با این شماره یافت نشد" },
+                ErrorMessage = new ErrorModel { ErrorMessage = "ادمین با این شماره یافت نشد" },
                 statusCodes = StatusCodes.Status400BadRequest
             });
         }
@@ -64,5 +66,22 @@ public class AdminRepository : IAdminRepository
     public async Task<CustomActionResult> getAllAdmin()
     {
         return new CustomActionResult(new Result { Data = await _appDbContext.Admins.ToListAsync() });
+    }
+
+    public async Task<CustomActionResult> sendCode(string phoneNumber)
+    {
+        var admin = await _appDbContext.Admins.SingleOrDefaultAsync(_ => _.phoneNumber == phoneNumber);
+        if (admin == null)
+        {
+            return new CustomActionResult(new Result
+            {
+                ErrorMessage = new ErrorModel { ErrorMessage = "ادمین با این شماره یافت نشد" },
+                statusCodes = StatusCodes.Status400BadRequest
+            });
+        }
+        int randomNumber = new Random().Next(1000, 10000);
+        admin.code = randomNumber.ToString();
+        await editAdmin(admin);
+        return await _kavehnegarRespository.sendLoginSms(phoneNumber, randomNumber.ToString());
     }
 }
