@@ -25,8 +25,9 @@ public class AdminController
 
     [HttpGet, Route("all")]
     [Authorize(AuthenticationSchemes = "admin")]
-    public async Task<IActionResult> getAllAdmin()
-    {
-        return await _adminRepository.getAllAdmin();
-    }
+    public async Task<IActionResult> getAllAdmin() => await _adminRepository.getAllAdmin();
+
+
+    [HttpPost, Route("check-code")]
+    public async Task<IActionResult> checkCode(string phoneNumber, string code) => await _adminRepository.checkCode(phoneNumber, code);
 }

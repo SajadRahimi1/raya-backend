@@ -4,4 +4,5 @@ public interface IAdminRepository
     Task<CustomActionResult> addAdmin(Admin admin);
     Task<CustomActionResult> editAdmin(Admin admin);
     Task<CustomActionResult> getAllAdmin();
+    Task<CustomActionResult> checkCode(string phoneNumber,string code);
 }

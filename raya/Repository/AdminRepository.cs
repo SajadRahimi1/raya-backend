@@ -15,6 +15,38 @@ public class AdminRepository : IAdminRepository
         return new CustomActionResult(new Result { Data = addedAdmin.Entity });
     }
 
+
+    public async Task<CustomActionResult> checkCode(string phoneNumber, string code)
+    {
+        var admin = await _appDbContext.Admins.SingleOrDefaultAsync(_ => _.phoneNumber == phoneNumber);
+        if (admin == null)
+        {
+            return new CustomActionResult(new Result
+            {
+                ErrorMessage = new ErrorModel { ErrorMessage = "کاربری با این شماره یافت نشد" },
+                statusCodes = StatusCodes.Status400BadRequest
+            });
+        }
+        if (admin.code != code)
+        {
+            return new CustomActionResult(new Result
+            {
+                ErrorMessage = new ErrorModel { ErrorMessage = "کد وارد شده اشتباه است" },
+                statusCodes = StatusCodes.Status400BadRequest
+            });
+        }
+
+        admin.token = Guid.NewGuid().ToString();
+        admin.code = null;
+        await editAdmin(admin);
+        return new CustomActionResult(new Result
+        {
+            Data = admin,
+        });
+    }
+
+
+
     public async Task<CustomActionResult> editAdmin(Admin admin)
     {
         var editedAdmin = _appDbContext.Admins.Update(admin);
