@@ -16,7 +16,7 @@ public class AdminController
     }
 
     [HttpPost, Route("add")]
-    [Authorize(AuthenticationSchemes = "admin")]
+    [Authorize(AuthenticationSchemes = "AdminAuthentication")]
     public async Task<IActionResult> AddAdmin(AdminDto adminDto)
     {
         var admin = _mapper.Map<Admin>(adminDto);
@@ -24,7 +24,7 @@ public class AdminController
     }
 
     [HttpGet, Route("all")]
-    [Authorize(AuthenticationSchemes = "admin")]
+    [Authorize(AuthenticationSchemes = "AdminAuthentication")]
     public async Task<IActionResult> getAllAdmin() => await _adminRepository.getAllAdmin();
 
 
