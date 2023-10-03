@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 public class ErrorModel
 {
-    public string? ErrorMessage { get; set; }
+    public object? ErrorMessage { get; set; }
 }
 
 public class Result
