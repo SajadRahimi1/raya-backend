@@ -101,8 +101,10 @@ public class ZarinpalRepository : IZarinpalRepository
         }
         var body = new ZarinpalRequestModel
         {
-            callback_url = string.Format("http://185.110.188.141/Nurse/verify?id={0}", nurseId)
+            callback_url = string.Format("http://185.110.188.141/Nurse/verify?id={0}", nurseId),
+            description = string.Format("هزینه استخدام پرستار ${0}", nurseModel.Name)
         };
+
         var client = new RestClient(baseUrl);
         var request = new RestRequest("", Method.Post);
         request.AddHeader("accept", "application/json");
@@ -133,6 +135,11 @@ public class ZarinpalRepository : IZarinpalRepository
 
     public async Task<CustomActionResult> checkPayementApi(string authority, string id)
     {
+        var nurseModel = await appDbContext.Nurses.SingleOrDefaultAsync(_ => _.Id.ToString() == id);
+        if (nurseModel == null)
+        {
+            return new CustomActionResult(new Result { statusCodes = 404, ErrorMessage = new ErrorModel { ErrorMessage = "پرستار یافت نشد" } });
+        }
         var body = new VerifyPaymentModel
         {
             authority = authority
@@ -154,6 +161,9 @@ public class ZarinpalRepository : IZarinpalRepository
                 if (response["data"]["code"].ToString() == "100" || response["data"]["code"].ToString() == "101")
                 {
                     var nurse = await appDbContext.Nurses.SingleOrDefaultAsync(_ => _.Id.ToString() == id);
+                    nurseModel.authority = authority;
+                    appDbContext.Nurses.Update(nurseModel);
+                    await appDbContext.SaveChangesAsync();
                     return new CustomActionResult(new Result { Data = response });
                 }
                 else
