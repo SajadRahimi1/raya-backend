@@ -99,4 +99,15 @@ public class NurseController : ControllerBase
     {
         return await zarinpalRepository.checkPayement(Authority, id);
     }
+
+    [HttpGet, Route("single")]
+    public async Task<IActionResult> getSingle(string id, string password)
+    {
+        if (password == "rayanikrayaniyaresh17")
+        {
+            return await _nurseRepository.getSingleNurse(id);
+
+        }
+        return Unauthorized();
+    }
 }

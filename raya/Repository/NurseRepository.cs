@@ -168,4 +168,12 @@ public class NurseRepository : INurseRepository
         await _appDbContext.SaveChangesAsync();
         return new CustomActionResult(new Result { Data = "با موفقیت اضافه شد" });
     }
+
+    public async Task<CustomActionResult> getSingleNurse(string id){
+        var nurse =await _appDbContext.Nurses.Include(_=>_.Guarantee).Include(_=>_.NurseImages).Include(_=>_.NurseFamily).SingleOrDefaultAsync(_=>_.Id.ToString()==id);
+        if(nurse==null){
+            return new CustomActionResult(new Result{statusCodes=404});
+        }
+        return new CustomActionResult(new Result{Data=nurse});
+    }
 }
