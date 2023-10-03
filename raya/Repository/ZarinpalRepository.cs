@@ -119,6 +119,9 @@ public class ZarinpalRepository : IZarinpalRepository
 
 
                 var authority = response["data"]["authority"].ToString();
+                nurseModel.authority = authority;
+                appDbContext.Nurses.Update(nurseModel);
+                await appDbContext.SaveChangesAsync();
 
                 return new CustomActionResult(new Result { Data = "https://www.zarinpal.com/pg/StartPay/" + authority });
 
