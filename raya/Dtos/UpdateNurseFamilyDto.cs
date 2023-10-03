@@ -4,9 +4,10 @@ public class UpdateNurseFamilyDto
 {
     [Required]
     public Guid NurseId { get; set; }
-    public string? HusbandPhoneNumber { get; set; }
-    public string? ChildPhoneNumber { get; set; }
-    public string? ParentPhoneNumber { get; set; }
+    public string? husbandPhoneNumber { get; set; }
+    public string? childPhoneNumber { get; set; }
+    public string? parentPhoneNumber { get; set; }
+    public string? guarantee { get; set; }
 
     [Required]
     public List<NurseFamilyDto> nurseFamily { get; set; }

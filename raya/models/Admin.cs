@@ -8,3 +8,7 @@ public class Admin : BaseEntity
     public bool isEnable { get; set; }
 
 }
+
+/*
+docker exec -it b1af875def10 /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "Sajadsajad1!"
+*/

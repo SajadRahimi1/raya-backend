@@ -148,6 +148,14 @@ public class NurseRepository : INurseRepository
             KnowTime = n.KnowTime,
             NurseId = nurse.Id
         }).ToList();
+        nurse.HusbandPhoneNumber = dto.husbandPhoneNumber;
+        nurse.ChildPhoneNumber = dto.childPhoneNumber;
+        nurse.ParentPhoneNumber = dto.parentPhoneNumber;
+        if (dto.guarantee == "promissory") nurse.Guarantee = Guarantee.Promissory;
+        if (dto.guarantee == "check") nurse.Guarantee = Guarantee.Check;
+        if (dto.guarantee == "businessLicense") nurse.Guarantee = Guarantee.BusinessLicense;
+        if (dto.guarantee == "representative") nurse.Guarantee = Guarantee.Representative;
+
 
         _appDbContext.Nurses.Update(nurse);
         await _appDbContext.SaveChangesAsync();
@@ -169,11 +177,13 @@ public class NurseRepository : INurseRepository
         return new CustomActionResult(new Result { Data = "با موفقیت اضافه شد" });
     }
 
-    public async Task<CustomActionResult> getSingleNurse(string id){
-        var nurse =await _appDbContext.Nurses.Include(_=>_.NurseImages).Include(_=>_.NurseFamily).SingleOrDefaultAsync(_=>_.Id.ToString()==id);
-        if(nurse==null){
-            return new CustomActionResult(new Result{statusCodes=404});
+    public async Task<CustomActionResult> getSingleNurse(string id)
+    {
+        var nurse = await _appDbContext.Nurses.Include(_ => _.NurseImages).Include(_ => _.NurseFamily).SingleOrDefaultAsync(_ => _.Id.ToString() == id);
+        if (nurse == null)
+        {
+            return new CustomActionResult(new Result { statusCodes = 404 });
         }
-        return new CustomActionResult(new Result{Data=nurse});
+        return new CustomActionResult(new Result { Data = nurse });
     }
 }
