@@ -30,7 +30,7 @@ public class AdminRepository : IAdminRepository
                 statusCodes = StatusCodes.Status400BadRequest
             });
         }
-        if (admin.code != code)
+        if (admin.smsCode != code)
         {
             return new CustomActionResult(new Result
             {
@@ -40,7 +40,7 @@ public class AdminRepository : IAdminRepository
         }
 
         admin.token = Guid.NewGuid().ToString();
-        admin.code = null;
+        admin.smsCode = null;
         await editAdmin(admin);
         return new CustomActionResult(new Result
         {
@@ -81,7 +81,7 @@ public class AdminRepository : IAdminRepository
             });
         }
         int randomNumber = new Random().Next(1000, 10000);
-        admin.code = randomNumber.ToString();
+        admin.smsCode = randomNumber.ToString();
         await editAdmin(admin);
         return await _kavehnegarRespository.sendLoginSms(phoneNumber, randomNumber.ToString());
     }
