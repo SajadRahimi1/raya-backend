@@ -161,9 +161,12 @@ public class ZarinpalRepository : IZarinpalRepository
                 if (response["data"]["code"].ToString() == "100" || response["data"]["code"].ToString() == "101")
                 {
                     var nurse = await appDbContext.Nurses.SingleOrDefaultAsync(_ => _.Id.ToString() == id);
-                    nurseModel.authority = authority;
-                    appDbContext.Nurses.Update(nurseModel);
-                    await appDbContext.SaveChangesAsync();
+                    if (nurseModel.authority == null)
+                    {
+                        nurseModel.authority = authority;
+                        appDbContext.Nurses.Update(nurseModel);
+                        await appDbContext.SaveChangesAsync();
+                    }
                     return new CustomActionResult(new Result { Data = response });
                 }
                 else

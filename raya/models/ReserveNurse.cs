@@ -42,6 +42,7 @@ public enum Gender
 public enum Shift
 {
     Boarding,
+    Day,
     Night,
     Hour
 }
