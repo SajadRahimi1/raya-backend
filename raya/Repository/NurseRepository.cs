@@ -5,13 +5,13 @@ using Microsoft.Extensions.Caching.Distributed;
 public class NurseRepository : INurseRepository
 {
     private readonly AppDbContext _appDbContext;
-    private readonly IDistributedCache _cache;
+    // private readonly IDistributedCache _cache;
     private readonly IFileRepository _fileRepository;
     // private readonly IKavehnegarRespository kavehnegarRespository;
-    public NurseRepository(AppDbContext appDbContext, IFileRepository fileRepository, IDistributedCache cache)
+    public NurseRepository(AppDbContext appDbContext, IFileRepository fileRepository)
     {
         _appDbContext = appDbContext;
-        _cache = cache;
+        // _cache = cache;
         _fileRepository = fileRepository;
         // this.kavehnegarRespository = kavehnegarRespository;
     }
@@ -29,12 +29,12 @@ public class NurseRepository : INurseRepository
     public async Task<List<Nurse>> GetAllNurse()
     {
         List<Nurse>? nurses;
-        nurses = await _cache.GetRecordAsync<List<Nurse>?>("Nurse");
-        if (nurses == null)
-        {
-            nurses = await _appDbContext.Nurses.ToListAsync();
-            await _cache.SetRecordAsync("Nurse", nurses);
-        }
+        // nurses = await _cache.GetRecordAsync<List<Nurse>?>("Nurse");
+        // if (nurses == null)
+        // {
+        nurses = await _appDbContext.Nurses.ToListAsync();
+        //     await _cache.SetRecordAsync("Nurse", nurses);
+        // }
         return nurses;
     }
 
@@ -63,7 +63,7 @@ public class NurseRepository : INurseRepository
                 statusCodes = 404
             });
         }
-
+        
         nurse.formCode = _appDbContext.Nurses.Count() + 6000;
         var picture = await _fileRepository.SaveFileAsync(nurseUploadsDto.Picture);
         var firstPageImage = await _fileRepository.SaveFileAsync(nurseUploadsDto.FirstPageImage);
