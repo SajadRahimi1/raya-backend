@@ -29,8 +29,8 @@ public class CreateNurseDto
     [Required]
     public string Address { get; set; } = "";
 
-    [Required]
-    public string Shift { get; set; } = "";
+   
+    public string? Shift { get; set; }
 
     [Required]
     public string PhoneNumber { get; set; } = "";
