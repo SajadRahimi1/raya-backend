@@ -15,6 +15,7 @@ public class Nurse : BaseEntity
     public string Address { get; set; } = "";
     public string PhoneNumber { get; set; } = "";
     public string HomeNumber { get; set; } = "";
+    public string Shift { get; set; } = "";
     public bool SpecialCare { get; set; }
 
     public string? HusbandPhoneNumber { get; set; }

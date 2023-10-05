@@ -30,6 +30,9 @@ public class CreateNurseDto
     public string Address { get; set; } = "";
 
     [Required]
+    public string Shift { get; set; } = "";
+
+    [Required]
     public string PhoneNumber { get; set; } = "";
     
     public string HomeNumber { get; set; } = "";
