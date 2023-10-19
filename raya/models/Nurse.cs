@@ -28,6 +28,8 @@ public class Nurse : BaseEntity
 
     public Guarantee? Guarantee { get; set; }
 
+    public Status? status { get; set; }
+
     public NurseImages? NurseImages { get; set; }
 
     public List<NurseFamily> NurseFamily { get; set; } = new List<NurseFamily>();
@@ -52,4 +54,10 @@ public enum Guarantee
     Check,
     BusinessLicense,
     Representative
+}
+
+public enum Status{
+    Confirmed,
+    Deny,
+    Deleted
 }
