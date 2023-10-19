@@ -26,13 +26,13 @@ public class NurseRepository : INurseRepository
         });
     }
 
-    public async Task<List<Nurse>> GetAllNurse()
+    public async Task<List<Nurse>> GetAllNurse(int page)
     {
         List<Nurse>? nurses;
         // nurses = await _cache.GetRecordAsync<List<Nurse>?>("Nurse");
         // if (nurses == null)
         // {
-        nurses = await _appDbContext.Nurses.ToListAsync();
+        nurses = await _appDbContext.Nurses.Skip((page-1)*15).Take(15).ToListAsync();
         //     await _cache.SetRecordAsync("Nurse", nurses);
         // }
         return nurses;

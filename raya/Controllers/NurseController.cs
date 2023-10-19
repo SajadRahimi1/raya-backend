@@ -21,9 +21,9 @@ public class NurseController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllNurse()
+    public async Task<IActionResult> GetAllNurse(int? page)
     {
-        return Ok(await _nurseRepository.GetAllNurse());
+        return Ok(await _nurseRepository.GetAllNurse(page:page??1));
     }
 
     [HttpPost]
