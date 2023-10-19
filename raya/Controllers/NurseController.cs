@@ -116,4 +116,9 @@ public class NurseController : ControllerBase
     {
         return await zarinpalRepository.checkPayementApi(authority, id);
     }
+
+    [HttpPost, Route("status")]
+    public async Task<IActionResult> editNurseStatus(string nurseId,Status status){
+        return await _nurseRepository.editNurseStatus(status,nurseId);
+    }
 }

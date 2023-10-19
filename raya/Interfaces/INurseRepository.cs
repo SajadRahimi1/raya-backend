@@ -8,5 +8,6 @@ public interface INurseRepository{
     Task<CustomActionResult> NurseUpdateUploads(NurseUploadsDto nurseUploadsDto);
     Task<CustomActionResult> UpdateNurseFamily(UpdateNurseFamilyDto dto);
     Task<CustomActionResult> getSingleNurse(string id);
+    Task<CustomActionResult> editNurseStatus(Status status,string nurseId);
     
 }

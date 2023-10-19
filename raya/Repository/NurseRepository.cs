@@ -33,7 +33,7 @@ public class NurseRepository : INurseRepository
         // if (nurses == null)
         // {
         page = page < 1 ? 1 : page;
-        nurses = await _appDbContext.Nurses.OrderByDescending(nurse => nurse.UpdatedAt).Where(nurse=>nurse.authority!=null).Skip((page - 1) * 15).Take(15).ToListAsync();
+        nurses = await _appDbContext.Nurses.OrderByDescending(nurse => nurse.UpdatedAt).Where(nurse => nurse.authority != null).Skip((page - 1) * 15).Take(15).ToListAsync();
         //     await _cache.SetRecordAsync("Nurse", nurses);
         // }
         return nurses;
@@ -186,6 +186,20 @@ public class NurseRepository : INurseRepository
         {
             return new CustomActionResult(new Result { statusCodes = 404 });
         }
+        return new CustomActionResult(new Result { Data = nurse });
+    }
+
+    public async Task<CustomActionResult> editNurseStatus(Status status, string nurseId)
+    {
+        var nurse = await _appDbContext.Nurses.SingleOrDefaultAsync(nurse => nurse.Id.ToString() == nurseId);
+        if (nurse == null)
+        {
+            return new CustomActionResult(new Result { ErrorMessage = new ErrorModel { ErrorMessage = "پرستار یافت نشد" }, statusCodes = 404 });
+        }
+        // nurse.status = (Status)Enum.Parse(typeof(Status), status);
+        nurse.status=status;
+        _appDbContext.Nurses.Update(nurse);
+        await _appDbContext.SaveChangesAsync();
         return new CustomActionResult(new Result { Data = nurse });
     }
 }
