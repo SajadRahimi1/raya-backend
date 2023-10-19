@@ -32,7 +32,8 @@ public class NurseRepository : INurseRepository
         // nurses = await _cache.GetRecordAsync<List<Nurse>?>("Nurse");
         // if (nurses == null)
         // {
-        nurses = await _appDbContext.Nurses.OrderByDescending(nurse=>nurse.UpdatedAt).Skip((page-1)*15).Take(15).ToListAsync();
+        page = page < 1 ? 1 : page;
+        nurses = await _appDbContext.Nurses.OrderByDescending(nurse => nurse.UpdatedAt).Skip((page - 1) * 15).Take(15).ToListAsync();
         //     await _cache.SetRecordAsync("Nurse", nurses);
         // }
         return nurses;
@@ -63,7 +64,7 @@ public class NurseRepository : INurseRepository
                 statusCodes = 404
             });
         }
-        
+
         nurse.formCode = _appDbContext.Nurses.Count() + 6000;
         var picture = await _fileRepository.SaveFileAsync(nurseUploadsDto.Picture);
         var firstPageImage = await _fileRepository.SaveFileAsync(nurseUploadsDto.FirstPageImage);
