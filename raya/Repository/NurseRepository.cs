@@ -32,7 +32,7 @@ public class NurseRepository : INurseRepository
         // nurses = await _cache.GetRecordAsync<List<Nurse>?>("Nurse");
         // if (nurses == null)
         // {
-        nurses = await _appDbContext.Nurses.Skip((page-1)*15).Take(15).ToListAsync();
+        nurses = await _appDbContext.Nurses.OrderByDescending(nurse=>nurse.UpdatedAt).Skip((page-1)*15).Take(15).ToListAsync();
         //     await _cache.SetRecordAsync("Nurse", nurses);
         // }
         return nurses;
