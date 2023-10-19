@@ -23,7 +23,7 @@ public class NurseController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllNurse(int? page)
     {
-        return Ok(await _nurseRepository.GetAllNurse(page:page??1));
+        return Ok(await _nurseRepository.GetAllNurse(page: page ?? 1));
     }
 
     [HttpPost]
@@ -118,7 +118,8 @@ public class NurseController : ControllerBase
     }
 
     [HttpPost, Route("status")]
-    public async Task<IActionResult> editNurseStatus([FromBody]  string nurseId,[FromBody] Status status){
-        return await _nurseRepository.editNurseStatus(status,nurseId);
+    public async Task<IActionResult> editNurseStatus([FromBody] NurseStatusDto nurseStatusDto)
+    {
+        return await _nurseRepository.editNurseStatus(nurseStatusDto.status, nurseStatusDto.nurseId);
     }
 }
