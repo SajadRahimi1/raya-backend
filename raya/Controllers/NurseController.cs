@@ -118,7 +118,7 @@ public class NurseController : ControllerBase
     }
 
     [HttpPost, Route("status")]
-    public async Task<IActionResult> editNurseStatus(string nurseId,Status status){
+    public async Task<IActionResult> editNurseStatus([FromBody]  string nurseId,[FromBody] Status status){
         return await _nurseRepository.editNurseStatus(status,nurseId);
     }
 }
