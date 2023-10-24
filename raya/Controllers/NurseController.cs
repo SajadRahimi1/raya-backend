@@ -122,4 +122,10 @@ public class NurseController : ControllerBase
     {
         return await _nurseRepository.editNurseStatus(nurseStatusDto.status, nurseStatusDto.nurseId);
     }
+
+    [HttpPost, Route("get-status")]
+    public async Task<IActionResult> getStatusNurse([FromBody] Status status, [FromQuery] int page)
+    {
+        return await _nurseRepository.GetStatusNurses(page, status);
+    }
 }
