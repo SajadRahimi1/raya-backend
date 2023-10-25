@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 public class NurseDto
 {
+    [Required] public Guid Id { get; set; }
     [Required] public string Name { get; set; } = "";
     [Required] public string FatherName { get; set; } = "";
     [Required] public string Birthday { get; set; } = "";
