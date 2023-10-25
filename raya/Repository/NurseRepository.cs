@@ -54,7 +54,7 @@ public class NurseRepository : INurseRepository
 
     public async Task<CustomActionResult> NurseUpdateUploads(NurseUploadsDto nurseUploadsDto)
     {
-        var nurse = await _appDbContext.Nurses.Include(_ => _.NurseImages).SingleOrDefaultAsync(_ => _.Id == nurseUploadsDto.NurseId);
+        var nurse = await _appDbContext.Nurses.Include(_ => _.NurseImages).AsNoTracking().SingleOrDefaultAsync(_ => _.Id == nurseUploadsDto.NurseId);
 
         if (nurse == null)
         {
@@ -111,7 +111,7 @@ public class NurseRepository : INurseRepository
 
     public async Task<CustomActionResult> ReserveNurse(ReserveNurse reserveNurse, User user)
     {
-        // var nurse = await _appDbContext.Nurses.SingleOrDefaultAsync(_ => _.Id == reserveNurse.NurseId);
+        // var nurse = await _appDbContext.Nurses.AsNoTracking().SingleOrDefaultAsync(_ => _.Id == reserveNurse.NurseId);
         // if (nurse == null)
         // {
         //     return new CustomActionResult(new Result
@@ -132,7 +132,7 @@ public class NurseRepository : INurseRepository
 
     public async Task<CustomActionResult> UpdateNurseFamily(UpdateNurseFamilyDto dto)
     {
-        var nurse = await _appDbContext.Nurses.Include(_ => _.NurseFamily).SingleOrDefaultAsync(_ => _.Id == dto.NurseId);
+        var nurse = await _appDbContext.Nurses.Include(_ => _.NurseFamily).AsNoTracking().SingleOrDefaultAsync(_ => _.Id == dto.NurseId);
 
         if (nurse == null)
         {
@@ -169,7 +169,7 @@ public class NurseRepository : INurseRepository
 
     public async Task<CustomActionResult> uploadNursePdf(string nurseId, IFormFile pdfFile)
     {
-        var nurseModel = await _appDbContext.Nurses.SingleOrDefaultAsync(_ => _.Id.ToString() == nurseId);
+        var nurseModel = await _appDbContext.Nurses.AsNoTracking().SingleOrDefaultAsync(_ => _.Id.ToString() == nurseId);
         if (nurseModel == null)
         {
             return new CustomActionResult(new Result { statusCodes = 404, ErrorMessage = new ErrorModel { ErrorMessage = "پرستاری با این ایدی یافت نشد" } });
@@ -184,7 +184,7 @@ public class NurseRepository : INurseRepository
 
     public async Task<CustomActionResult> getSingleNurse(string id)
     {
-        var nurse = await _appDbContext.Nurses.Include(_ => _.NurseImages).Include(_ => _.NurseFamily).SingleOrDefaultAsync(_ => _.Id.ToString() == id);
+        var nurse = await _appDbContext.Nurses.Include(_ => _.NurseImages).Include(_ => _.NurseFamily).AsNoTracking().SingleOrDefaultAsync(_ => _.Id.ToString() == id);
         if (nurse == null)
         {
             return new CustomActionResult(new Result { statusCodes = 404 });
@@ -194,7 +194,7 @@ public class NurseRepository : INurseRepository
 
     public async Task<CustomActionResult> editNurseStatus(Status status, string nurseId)
     {
-        var nurse = await _appDbContext.Nurses.SingleOrDefaultAsync(nurse => nurse.Id.ToString() == nurseId);
+        var nurse = await _appDbContext.Nurses.AsNoTracking().SingleOrDefaultAsync(nurse => nurse.Id.ToString() == nurseId);
         if (nurse == null)
         {
             return new CustomActionResult(new Result { ErrorMessage = new ErrorModel { ErrorMessage = "پرستار یافت نشد" }, statusCodes = 404 });
