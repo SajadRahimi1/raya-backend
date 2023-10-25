@@ -104,6 +104,7 @@ public class NurseRepository : INurseRepository
 
         _appDbContext.Nurses.Update(nurse);
         await _appDbContext.SaveChangesAsync();
+        _appDbContext.ChangeTracker.Clear();
 
         return new CustomActionResult(new Result { Data = nurse });
     }
@@ -161,6 +162,7 @@ public class NurseRepository : INurseRepository
 
         _appDbContext.Nurses.Update(nurse);
         await _appDbContext.SaveChangesAsync();
+        _appDbContext.ChangeTracker.Clear();
 
         return new CustomActionResult(new Result { Data = nurse });
     }
@@ -176,6 +178,7 @@ public class NurseRepository : INurseRepository
         nurseModel.pdfLink = pdfLink;
         _appDbContext.Nurses.Update(nurseModel);
         await _appDbContext.SaveChangesAsync();
+        _appDbContext.ChangeTracker.Clear();
         return new CustomActionResult(new Result { Data = "با موفقیت اضافه شد" });
     }
 
@@ -200,6 +203,7 @@ public class NurseRepository : INurseRepository
         nurse.status = status;
         _appDbContext.Nurses.Update(nurse);
         await _appDbContext.SaveChangesAsync();
+        _appDbContext.ChangeTracker.Clear();
         return new CustomActionResult(new Result { Data = nurse });
     }
 
@@ -226,6 +230,7 @@ public class NurseRepository : INurseRepository
         olaNurse = nurse;
         _appDbContext.Nurses.Update(olaNurse);
         await _appDbContext.SaveChangesAsync();
+        _appDbContext.ChangeTracker.Clear();
         return new CustomActionResult(new Result { Data = olaNurse });
     }
 }
