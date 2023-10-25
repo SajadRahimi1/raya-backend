@@ -130,8 +130,8 @@ public class NurseController : ControllerBase
     }
 
     [HttpPut, Route("update")]
-    public async Task<IActionResult> updateNurse([FromBody] Nurse nurse)
+    public async Task<IActionResult> updateNurse([FromBody] NurseDto nurseDto)
     {
-        return await _nurseRepository.UpdateNurse(nurse);
+        return await _nurseRepository.UpdateNurse(_mapper.Map<Nurse>(nurseDto));
     }
 }
