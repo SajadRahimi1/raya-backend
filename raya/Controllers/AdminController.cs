@@ -33,4 +33,7 @@ public class AdminController
 
     [HttpPost, Route("send-code")]
     public async Task<IActionResult> sendCode(string phoneNumber) => await _adminRepository.sendCode(phoneNumber);
+
+    [HttpGet, Route("requests-nurse")]
+    public async Task<IActionResult> getReqestedNurse([FromQuery] int page) => await _adminRepository.getRequestedNurse(page);
 }

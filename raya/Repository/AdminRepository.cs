@@ -69,6 +69,13 @@ public class AdminRepository : IAdminRepository
         return new CustomActionResult(new Result { Data = await _appDbContext.Admins.ToListAsync() });
     }
 
+    public async Task<CustomActionResult> getRequestedNurse(int page = 1)
+    {
+        List<ReserveNurse> reserveNurses = await _appDbContext.ReserveNurses.OrderByDescending(nurse => nurse.UpdatedAt).Skip((page - 1) * 15).Take(15).ToListAsync();
+        return new CustomActionResult(new Result{Data=reserveNurses});
+
+    }
+
     public async Task<CustomActionResult> sendCode(string phoneNumber)
     {
         var admin = await _appDbContext.Admins.SingleOrDefaultAsync(_ => _.phoneNumber == phoneNumber);
