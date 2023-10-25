@@ -29,6 +29,10 @@ public class ReserveNurse : BaseEntity
 
     public string Address { get; set; }
 
+    public string? name { get; set; }
+
+    public string? phoneNumber { get; set; }
+
 }
 
 
