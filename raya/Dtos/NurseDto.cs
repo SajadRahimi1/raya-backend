@@ -12,17 +12,17 @@ public class NurseDto
     [Required] public int formCode { get; set; } = 0;
     [Required] public string Address { get; set; } = "";
     [Required] public string PhoneNumber { get; set; } = "";
-    [Required] public string HomeNumber { get; set; } = "";
+    public string HomeNumber { get; set; } = "";
     [Required] public string Shift { get; set; } = "";
     [Required] public bool SpecialCare { get; set; }
 
-    [Required] public string? HusbandPhoneNumber { get; set; }
-    [Required] public string? ChildPhoneNumber { get; set; }
-    [Required] public string? ParentPhoneNumber { get; set; }
-    [Required] public string? pdfLink { get; set; }
-    [Required] public string? authority { get; set; }
+    public string? HusbandPhoneNumber { get; set; }
+    public string? ChildPhoneNumber { get; set; }
+  public string? ParentPhoneNumber { get; set; }
+     public string? pdfLink { get; set; }
+     public string? authority { get; set; }
 
-    [Required] public string? OtherProp { get; set; }
+    public string? OtherProp { get; set; }
 
     [Required] public Guarantee? Guarantee { get; set; }
 
