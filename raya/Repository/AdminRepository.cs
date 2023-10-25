@@ -71,8 +71,9 @@ public class AdminRepository : IAdminRepository
 
     public async Task<CustomActionResult> getRequestedNurse(int page = 1)
     {
-        List<ReserveNurse> reserveNurses = await _appDbContext.ReserveNurses.OrderByDescending(nurse => nurse.UpdatedAt).Skip((page - 1) * 15).Take(15).ToListAsync();
-        return new CustomActionResult(new Result{Data=reserveNurses});
+        page = page < 1 ? 1 : page;
+        List<ReserveNurse> reserveNurses = await _appDbContext.ReserveNurses.Include(_=>_appDbContext.Users).OrderByDescending(nurse => nurse.UpdatedAt).Skip((page - 1) * 15).Take(15).ToListAsync();
+        return new CustomActionResult(new Result { Data = reserveNurses });
 
     }
 
