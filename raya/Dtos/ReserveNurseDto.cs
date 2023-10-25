@@ -24,6 +24,9 @@ public class ReserveNurseDto
 
     public string? Hours { get; set; }
 
+    public string? howToKnow { get; set; }
+
+
 
     public string? PeopleInHouse { get; set; }
 
