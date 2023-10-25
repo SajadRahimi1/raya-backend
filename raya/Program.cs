@@ -74,7 +74,7 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("mssqlConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("mssqlConnection")), ServiceLifetime.Transient);
 
 builder.Services.Configure<FormOptions>(options =>
 {
