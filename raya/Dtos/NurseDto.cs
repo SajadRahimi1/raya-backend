@@ -18,15 +18,15 @@ public class NurseDto
 
     public string? HusbandPhoneNumber { get; set; }
     public string? ChildPhoneNumber { get; set; }
-  public string? ParentPhoneNumber { get; set; }
-     public string? pdfLink { get; set; }
-     public string? authority { get; set; }
+    public string? ParentPhoneNumber { get; set; }
+    public string? pdfLink { get; set; }
+    public string? authority { get; set; }
 
     public string? OtherProp { get; set; }
 
     [Required] public Guarantee? Guarantee { get; set; }
 
-    [Required] public Status? status { get; set; }
+    public Status? status { get; set; }
 
 
     [Required] public string NurseCategory { get; set; }
