@@ -205,7 +205,7 @@ public class NurseRepository : INurseRepository
 
     public async Task<CustomActionResult> GetStatusNurses(int page, Status status)
     {
-         List<Nurse>? nurses;
+        List<Nurse>? nurses;
         // nurses = await _cache.GetRecordAsync<List<Nurse>?>("Nurse");
         // if (nurses == null)
         // {
@@ -213,6 +213,19 @@ public class NurseRepository : INurseRepository
         nurses = await _appDbContext.Nurses.OrderByDescending(nurse => nurse.UpdatedAt).Where(nurse => nurse.status == status).Skip((page - 1) * 15).Take(15).ToListAsync();
         //     await _cache.SetRecordAsync("Nurse", nurses);
         // }
-        return new CustomActionResult(new Result{Data=nurses});
+        return new CustomActionResult(new Result { Data = nurses });
+    }
+
+    public async Task<CustomActionResult> UpdateNurse(Nurse nurse)
+    {
+        var olaNurse = await _appDbContext.Nurses.SingleOrDefaultAsync(_ => _.Id == nurse.Id);
+        if (olaNurse == null)
+        {
+            return new CustomActionResult(new Result { ErrorMessage = new ErrorModel { ErrorMessage = "پرستار یافت نشد" }, statusCodes = 404 });
+        }
+        olaNurse = nurse;
+        _appDbContext.Nurses.Update(olaNurse);
+        await _appDbContext.SaveChangesAsync();
+        return new CustomActionResult(new Result { Data = olaNurse });
     }
 }

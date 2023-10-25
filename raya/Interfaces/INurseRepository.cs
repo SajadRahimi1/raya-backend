@@ -6,6 +6,7 @@ public interface INurseRepository{
     Task<CustomActionResult>  CreateNurse(Nurse nurse);
     Task<CustomActionResult> GetNursesReserved(string userId);
     CustomActionResult GetUsersReserved(string nurseId);
+    Task<CustomActionResult> UpdateNurse(Nurse nurse);
     Task<CustomActionResult> NurseUpdateUploads(NurseUploadsDto nurseUploadsDto);
     Task<CustomActionResult> UpdateNurseFamily(UpdateNurseFamilyDto dto);
     Task<CustomActionResult> getSingleNurse(string id);

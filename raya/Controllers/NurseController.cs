@@ -128,4 +128,10 @@ public class NurseController : ControllerBase
     {
         return await _nurseRepository.GetStatusNurses(page, status);
     }
+
+    [HttpPut, Route("update")]
+    public async Task<IActionResult> updateNurse([FromBody] Nurse nurse)
+    {
+        return await _nurseRepository.UpdateNurse(nurse);
+    }
 }
