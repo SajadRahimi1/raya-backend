@@ -36,4 +36,7 @@ public class AdminController
 
     [HttpGet, Route("requests-nurse")]
     public async Task<IActionResult> getReqestedNurse([FromQuery] int page) => await _adminRepository.getRequestedNurse(page);
+
+    [HttpGet, Route("request-detail")]
+    public async Task<IActionResult> getReqestedDetail([FromQuery] string id) => await _adminRepository.getRequestDetail(id);
 }

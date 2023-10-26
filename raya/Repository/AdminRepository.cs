@@ -69,6 +69,15 @@ public class AdminRepository : IAdminRepository
         return new CustomActionResult(new Result { Data = await _appDbContext.Admins.ToListAsync() });
     }
 
+    public async Task<CustomActionResult> getRequestDetail(string id)
+    {
+        var request = await _appDbContext.ReserveNurses.Include(_=>_.UserReserved).SingleOrDefaultAsync(_=>_.Id.ToString()==id);
+        if (request==null){
+            return new CustomActionResult(new Result{ErrorMessage=new ErrorModel{ErrorMessage="یافت نشد"},statusCodes=404});
+        }
+        return new CustomActionResult(new Result{Data=request});
+    }
+
     public async Task<CustomActionResult> getRequestedNurse(int page = 1)
     {
         page = page < 1 ? 1 : page;
