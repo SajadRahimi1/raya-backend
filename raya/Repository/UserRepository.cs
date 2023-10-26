@@ -40,7 +40,14 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> getSingleUserById(string id)
     {
-        return await _appDbContext.Users.SingleOrDefaultAsync(_ => _.Id.ToString() == id);
+        var user = await _appDbContext.Users.SingleOrDefaultAsync(_ => _.Id.ToString() == id);
+        if (user == null)
+        {
+            return null;
+        }
+        var messages = await _appDbContext.Messages.Where(_ => _.UserId == null).ToListAsync();
+        user.Messages = messages;
+        return user;
     }
 
     public async Task UpdateUser(User updatedUser)
