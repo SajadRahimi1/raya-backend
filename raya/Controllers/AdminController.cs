@@ -43,8 +43,7 @@ public class AdminController
     [HttpDelete, Route("delete-request")]
     public async Task<IActionResult> deleteReqest([FromQuery] string id) => await _adminRepository.deleteRequest(id);
 
-    [HttpPost, Route("message/")]
-    [Authorize(AuthenticationSchemes = "BasicAuthentication")]
+    [HttpPost, Route("message/user")]
     [Consumes("multipart/form-data")]
     public async Task<IActionResult> SendMessage([FromForm] AdminMessageDto MessageDto)
     {
