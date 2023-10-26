@@ -8,4 +8,5 @@ public interface IAdminRepository
     Task<CustomActionResult> sendCode(string phoneNumber);
     Task<CustomActionResult> getRequestedNurse(int page=1);
     Task<CustomActionResult> getRequestDetail(string id);
+    Task<CustomActionResult> deleteRequest(string id);
 }

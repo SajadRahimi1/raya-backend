@@ -39,4 +39,7 @@ public class AdminController
 
     [HttpGet, Route("request-detail")]
     public async Task<IActionResult> getReqestedDetail([FromQuery] string id) => await _adminRepository.getRequestDetail(id);
+
+    [HttpDelete, Route("delete-request")]
+    public async Task<IActionResult> deleteReqest([FromQuery] string id) => await _adminRepository.deleteRequest(id);
 }

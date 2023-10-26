@@ -48,7 +48,18 @@ public class AdminRepository : IAdminRepository
         });
     }
 
-
+    public async Task<CustomActionResult> deleteRequest(string id)
+    {
+        var request = await _appDbContext.ReserveNurses.Include(_ => _.UserReserved).SingleOrDefaultAsync(_ => _.Id.ToString() == id);
+        if (request == null)
+        {
+            return new CustomActionResult(new Result { ErrorMessage = new ErrorModel { ErrorMessage = "یافت نشد" }, statusCodes = 404 });
+        }
+        request.isDeleted = true;
+        _appDbContext.ReserveNurses.Update(request);
+        await _appDbContext.SaveChangesAsync();
+        return new CustomActionResult(new Result { Data = "با موفقیت حذف شد" });
+    }
 
     public async Task<CustomActionResult> editAdmin(Admin admin)
     {
@@ -71,17 +82,18 @@ public class AdminRepository : IAdminRepository
 
     public async Task<CustomActionResult> getRequestDetail(string id)
     {
-        var request = await _appDbContext.ReserveNurses.Include(_=>_.UserReserved).SingleOrDefaultAsync(_=>_.Id.ToString()==id);
-        if (request==null){
-            return new CustomActionResult(new Result{ErrorMessage=new ErrorModel{ErrorMessage="یافت نشد"},statusCodes=404});
+        var request = await _appDbContext.ReserveNurses.Include(_ => _.UserReserved).SingleOrDefaultAsync(_ => _.Id.ToString() == id);
+        if (request == null)
+        {
+            return new CustomActionResult(new Result { ErrorMessage = new ErrorModel { ErrorMessage = "یافت نشد" }, statusCodes = 404 });
         }
-        return new CustomActionResult(new Result{Data=request});
+        return new CustomActionResult(new Result { Data = request });
     }
 
     public async Task<CustomActionResult> getRequestedNurse(int page = 1)
     {
         page = page < 1 ? 1 : page;
-        List<ReserveNurse> reserveNurses = await _appDbContext.ReserveNurses.OrderByDescending(nurse => nurse.UpdatedAt).Skip((page - 1) * 15).Take(15).ToListAsync();
+        List<ReserveNurse> reserveNurses = await _appDbContext.ReserveNurses.OrderByDescending(nurse => nurse.UpdatedAt).Where(_ => _.isDeleted == false).Skip((page - 1) * 15).Take(15).ToListAsync();
         return new CustomActionResult(new Result { Data = reserveNurses });
 
     }

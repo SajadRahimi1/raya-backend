@@ -9,6 +9,8 @@ public class ReserveNurse : BaseEntity
 
     public Guid UserId { get; set; }
 
+    public bool isDeleted { get; set; } = false;
+
     public NurseCategory NurseCategory { get; set; }
 
     public string? description { get; set; }
