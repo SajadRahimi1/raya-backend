@@ -1,14 +1,17 @@
+using Courseproject.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 public class AdminRepository : IAdminRepository
 {
     private readonly AppDbContext _appDbContext;
     private readonly IKavehnegarRespository _kavehnegarRespository;
+    private readonly IFileRepository _fileRepository;
 
-    public AdminRepository(AppDbContext appDbContext, IKavehnegarRespository kavehnegarRespository)
+    public AdminRepository(AppDbContext appDbContext, IKavehnegarRespository kavehnegarRespository, IFileRepository fileRepository)
     {
         _appDbContext = appDbContext;
         _kavehnegarRespository = kavehnegarRespository;
+        _fileRepository = fileRepository;
     }
 
     public async Task<CustomActionResult> addAdmin(Admin admin)
@@ -113,5 +116,18 @@ public class AdminRepository : IAdminRepository
         admin.smsCode = randomNumber.ToString();
         await editAdmin(admin);
         return await _kavehnegarRespository.sendLoginSms(phoneNumber, randomNumber.ToString());
+    }
+
+    public async Task<CustomActionResult> sendMessage(Message message,IFormFile? file)
+    {
+         if (file != null)
+        {
+            var fileName = await _fileRepository.SaveFileAsync(file);
+            message.Content = fileName;
+        }
+
+        await _appDbContext.AddAsync(message);
+        await _appDbContext.SaveChangesAsync();
+        return new CustomActionResult(new Result { Data = message });
     }
 }

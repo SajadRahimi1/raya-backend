@@ -1,11 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 
-public class SendMessageDto
+public class AdminMessageDto
 {
-    public String? Content { get; set; }
+    [Required] public String? Content { get; set; }
 
     public string MessageType { get; set; } = "text";
-    
+
     public IFormFile? File { get; set; }
+
+    public Guid? userId { get; set; }
 
 }

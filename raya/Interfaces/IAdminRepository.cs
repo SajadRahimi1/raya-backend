@@ -9,4 +9,5 @@ public interface IAdminRepository
     Task<CustomActionResult> getRequestedNurse(int page=1);
     Task<CustomActionResult> getRequestDetail(string id);
     Task<CustomActionResult> deleteRequest(string id);
+    Task<CustomActionResult> sendMessage(Message message,IFormFile? file);
 }

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace Courseproject.Common.Interfaces;
+﻿namespace Courseproject.Common.Interfaces;
 
 public interface IFileRepository
 {

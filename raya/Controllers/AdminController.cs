@@ -42,4 +42,14 @@ public class AdminController
 
     [HttpDelete, Route("delete-request")]
     public async Task<IActionResult> deleteReqest([FromQuery] string id) => await _adminRepository.deleteRequest(id);
+
+    [HttpPost, Route("message/")]
+    [Authorize(AuthenticationSchemes = "BasicAuthentication")]
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> SendMessage([FromForm] AdminMessageDto MessageDto)
+    {
+        var message = _mapper.Map<Message>(MessageDto);
+        message.IsUserSend = false;
+        return await _adminRepository.sendMessage(message, MessageDto.File);
+    }
 }

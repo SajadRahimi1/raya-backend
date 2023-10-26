@@ -20,10 +20,11 @@ public class MessageController : ControllerBase
     [Authorize(AuthenticationSchemes = "BasicAuthentication")]
     [Consumes("multipart/form-data")]
     public async Task<IActionResult> SendMessage([FromForm] SendMessageDto sendMessageDto)
-    {
+    {        
         var message = _mapper.Map<Message>(sendMessageDto);
         var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
         message.UserId = user.Id;
+        message.IsUserSend=true;
         return await _messageRepository.SendMessage(message, sendMessageDto.File);
     }
 
