@@ -45,7 +45,7 @@ public class UserRepository : IUserRepository
         {
             return null;
         }
-        var messages = await _appDbContext.Messages.Where(_ => _.UserId == null).ToListAsync();
+        var messages =user.Messages.Concat(await _appDbContext.Messages.Where(_ => _.UserId == null).ToListAsync()).ToList();
         user.Messages = messages;
         return user;
     }
