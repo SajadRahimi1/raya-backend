@@ -49,7 +49,7 @@ public class UserRepository : IUserRepository
         user.Messages = messages;
         return user;
     }
-
+ 
     public async Task UpdateUser(User updatedUser)
     {
         _appDbContext.ChangeTracker.Clear();
