@@ -8,6 +8,6 @@ public class AdminMessageDto
 
     public IFormFile? File { get; set; }
 
-    public Guid? userId { get; set; }
+    public string? userId { get; set; }
 
 }
