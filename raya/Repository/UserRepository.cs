@@ -138,7 +138,7 @@ public class UserRepository : IUserRepository
 
     public async Task<CustomActionResult> getNurses(string phoneNumber)
     {
-        var data = await _appDbContext.Nurses.Where(_ => _.PhoneNumber == phoneNumber).ToListAsync();
+        var data = await _appDbContext.Nurses.Where(_ => _.PhoneNumber == phoneNumber && _.authority!=null).ToListAsync();
         return new CustomActionResult(new Result { Data = data }); 
     }
 }
