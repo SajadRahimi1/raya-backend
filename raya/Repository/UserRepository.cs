@@ -45,11 +45,11 @@ public class UserRepository : IUserRepository
         {
             return null;
         }
-        var messages =await _appDbContext.Messages.Where(_ => _.UserId == null || _.UserId==user.Id).ToListAsync();
+        var messages = await _appDbContext.Messages.Where(_ => _.UserId == null || _.UserId == user.Id).ToListAsync();
         user.Messages = messages;
         return user;
     }
- 
+
     public async Task UpdateUser(User updatedUser)
     {
         _appDbContext.ChangeTracker.Clear();
@@ -134,5 +134,11 @@ public class UserRepository : IUserRepository
         await _appDbContext.ReserveNurses.Where(_ => _.UserId.ToString() == id).ToListAsync();
         await _appDbContext.ReserveClasses.Include(_ => _.ClassCategory).Where(_ => _.UserId.ToString() == id).ToListAsync();
         return new CustomActionResult(new Result { Data = classes });
+    }
+
+    public async Task<CustomActionResult> getNurses(string phoneNumber)
+    {
+        var data = await _appDbContext.Nurses.Where(_ => _.PhoneNumber == phoneNumber).ToListAsync();
+        return new CustomActionResult(new Result { Data = data }); 
     }
 }

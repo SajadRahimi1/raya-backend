@@ -155,4 +155,10 @@ public class UserController : ControllerBase
         return await _userRepository.CheckAndUpdateUser(user);
     }
 
+
+    [HttpGet,Route("nurse"), Authorize(AuthenticationSchemes = "BasicAuthentication")]
+    public  async Task<IActionResult> getNurses(){
+        var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
+        return await _userRepository.getNurses(user.PhoneNumber);
+    }
 }
