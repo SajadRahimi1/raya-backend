@@ -162,8 +162,8 @@ public class UserController : ControllerBase
         return await _userRepository.getNurses(user.PhoneNumber);
     }
 
-    [HttpPost,Route("single-nurse"), Authorize(AuthenticationSchemes = "BasicAuthentication")]
-    public  async Task<IActionResult> getNurses([FromBody] String nurseId){
+    [HttpGet,Route("single-nurse"), Authorize(AuthenticationSchemes = "BasicAuthentication")]
+    public  async Task<IActionResult> getNurses([FromQuery] String nurseId){
         return await _userRepository.getSingleNurse(nurseId);
     }
 }
