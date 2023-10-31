@@ -161,4 +161,9 @@ public class UserController : ControllerBase
         var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
         return await _userRepository.getNurses(user.PhoneNumber);
     }
+
+    [HttpPost,Route("single-nurse"), Authorize(AuthenticationSchemes = "BasicAuthentication")]
+    public  async Task<IActionResult> getNurses([FromBody] String nurseId){
+        return await _userRepository.getSingleNurse(nurseId);
+    }
 }

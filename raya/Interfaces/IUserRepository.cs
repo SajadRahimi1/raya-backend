@@ -15,4 +15,6 @@ public interface IUserRepository{
 
     Task<CustomActionResult> UpdateUserImage(User user,IFormFile image);
 
+    Task<CustomActionResult> getSingleNurse(string id);
+
 }

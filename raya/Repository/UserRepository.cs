@@ -141,4 +141,14 @@ public class UserRepository : IUserRepository
         var data = await _appDbContext.Nurses.Where(_ => _.PhoneNumber == phoneNumber && _.authority!=null).ToListAsync();
         return new CustomActionResult(new Result { Data = data }); 
     }
+
+    public async Task<CustomActionResult> getSingleNurse(string id)
+    {
+        var nurse = await _appDbContext.Nurses.Include(_ => _.NurseImages).Include(_ => _.NurseFamily).AsNoTracking().SingleOrDefaultAsync(_ => _.Id.ToString() == id);
+        if (nurse == null)
+        {
+            return new CustomActionResult(new Result { statusCodes = 404 });
+        }
+        return new CustomActionResult(new Result { Data = nurse });
+    }
 }
