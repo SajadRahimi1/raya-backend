@@ -15,6 +15,16 @@ public class MessageRepository : IMessageRepository
     public async Task<CustomActionResult> GetAllMessages(Guid userId)
     {
         var user = await _appContext.Users.Include(_ => _.Messages).SingleOrDefaultAsync(_ => _.Id == userId);
+        user.Messages = user.Messages.Select(message =>
+        {
+            if (!message.IsUserSend)
+            {
+                message.Seen = true;
+            }
+            return message;
+        }).ToList();
+        _appContext.Users.Update(user);
+        await _appContext.SaveChangesAsync();
         return new CustomActionResult(new Result { Data = user?.Messages });
     }
 
