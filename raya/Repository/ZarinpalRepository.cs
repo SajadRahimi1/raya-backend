@@ -182,14 +182,14 @@ public class ZarinpalRepository : IZarinpalRepository
 
     }
 
-        public async Task<CustomActionResult> checkNursePayement(string id)
+    public async Task<CustomActionResult> checkNursePayement(string id)
     {
         Nurse? nurseModel = await appDbContext.Nurses.SingleOrDefaultAsync(_ => _.Id.ToString() == id);
         if (nurseModel == null)
         {
             return new CustomActionResult(new Result { statusCodes = 404, ErrorMessage = new ErrorModel { ErrorMessage = "پرستار یافت نشد" } });
         }
-        
+
         var body = new VerifyPaymentModel
         {
             authority = nurseModel.authority
@@ -210,7 +210,7 @@ public class ZarinpalRepository : IZarinpalRepository
 
                 if (response["data"]["code"].ToString() == "100" || response["data"]["code"].ToString() == "101")
                 {
-                    
+
                     return new CustomActionResult(new Result { Data = response });
                 }
                 else
