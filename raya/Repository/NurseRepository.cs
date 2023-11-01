@@ -143,6 +143,7 @@ public class NurseRepository : INurseRepository
             });
         }
 
+        nurse.NurseFamily.Clear();
         nurse.NurseFamily = dto.nurseFamily.Select(n => new NurseFamily
         {
             Information = n.Information,
