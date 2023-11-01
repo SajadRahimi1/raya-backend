@@ -85,8 +85,8 @@ public class AdminRepository : IAdminRepository
 
     public async Task<CustomActionResult> getAllMessages()
     {
-        var userSendMessage = await _appDbContext.Users.Select(user => new { Messages = user.Messages, Name = user.Name, Id = user.Id })
-        .Include(user => user.Messages)
+        var userSendMessage = await _appDbContext.Users.Include(user => user.Messages)
+        .Select(user => new { Messages = user.Messages, Name = user.Name, Id = user.Id })
         .OrderByDescending(user => user.Messages.Where(message => message.Seen == false)
         .Max(message => message.CreatedAt)).ToListAsync();
         return new CustomActionResult(new Result { Data = userSendMessage });
