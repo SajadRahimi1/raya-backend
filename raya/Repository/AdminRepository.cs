@@ -89,7 +89,7 @@ public class AdminRepository : IAdminRepository
         var users = await getUserOrderByMessage(page);
         var selectedUser = users.Select(user => new
         {
-            LastMessage = user.Messages.OrderByDescending(message => message.IsUserSend && message.Seen == false)
+            LastMessage = user.Messages.OrderByDescending(message => message.CreatedAt)
         }).ToList();
         return new CustomActionResult(new Result { Data = selectedUser });
     }
