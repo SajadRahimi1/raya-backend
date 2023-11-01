@@ -99,7 +99,7 @@ public class AdminRepository : IAdminRepository
     private async Task<List<User>> getUserOrderByMessage(int page)
     {
         // users with message
-        var users = await _appDbContext.Users.Where(user => user.Messages.Any()).ToListAsync();
+        var users = await _appDbContext.Users.Include(user => user.Messages).Where(user => user.Messages.Any()).ToListAsync();
 
         // order user with last message
         var orderedUser = users.OrderByDescending(user => user.Messages.Max(message => message.CreatedAt)).ToList();
