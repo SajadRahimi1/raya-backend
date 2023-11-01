@@ -89,8 +89,6 @@ public class AdminRepository : IAdminRepository
         var users = await getUserOrderByMessage(page);
         var selectedUser = users.Select(user => new
         {
-            Id = user.Id,
-            Name = user.Name,
             LastMessage = user.Messages.OrderByDescending(message => message.CreatedAt).FirstOrDefault()
         }).ToList();
         return new CustomActionResult(new Result { Data = selectedUser });
@@ -104,7 +102,7 @@ public class AdminRepository : IAdminRepository
         // order user with last message
         var orderedUser = users.OrderByDescending(user => user.Messages.Max(message => message.CreatedAt)).ToList();
 
-        var paginationUser = orderedUser.Skip((page-1) * 25).Take(25).ToList();
+        var paginationUser = orderedUser.Skip((page - 1) * 25).Take(25).ToList();
 
         // var selectedUser = paginationUser.Select(user => new
         // {
