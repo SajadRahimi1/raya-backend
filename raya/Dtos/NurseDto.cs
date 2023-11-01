@@ -23,7 +23,7 @@ public class NurseDto
     public string? pdfLink { get; set; }
     public string? authority { get; set; }
 
-    public List<NurseFamily>? NurseFamily { get; set; }
+    public List<NurseFamilyDto>? NurseFamily { get; set; }
 
     public string? OtherProp { get; set; }
 
