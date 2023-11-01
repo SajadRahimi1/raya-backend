@@ -142,7 +142,10 @@ public class NurseRepository : INurseRepository
                 statusCodes = 404
             });
         }
-
+        nurse.NurseFamily.ForEach(n=>{
+            _appDbContext.NurseFamilies.Remove(n);
+        });
+        await _appDbContext.SaveChangesAsync();
         nurse.NurseFamily.Clear();
         nurse.NurseFamily = dto.nurseFamily.Select(n => new NurseFamily
         {
