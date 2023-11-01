@@ -174,8 +174,7 @@ public class UserController : ControllerBase
     [HttpPost, Route("edit-nurse"), Authorize(AuthenticationSchemes = "BasicAuthentication")]
     public async Task<IActionResult> updateNurse([FromBody] NurseDto nurseDto)
     {
-        var nurse = _mapper.Map<Nurse>(nurseDto);
-        nurse.NurseFamily = _mapper.Map<List<NurseFamily>>(nurseDto.NurseFamily);
-        return await _userRepository.UpdateNurse(nurse);
+    
+        return await _userRepository.UpdateNurse( _mapper.Map<Nurse>(nurseDto));
     }
 }
