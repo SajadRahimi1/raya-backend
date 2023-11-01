@@ -182,7 +182,7 @@ public class ZarinpalRepository : IZarinpalRepository
 
     }
 
-        public async Task<CustomActionResult> checkPayement(string id)
+        public async Task<CustomActionResult> checkNursePayement(string id)
     {
         Nurse? nurseModel = await appDbContext.Nurses.SingleOrDefaultAsync(_ => _.Id.ToString() == id);
         if (nurseModel == null)
