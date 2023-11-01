@@ -51,6 +51,9 @@ public class AdminController
         message.IsUserSend = false;
         return await _adminRepository.sendMessage(message, MessageDto.File);
     }
-    [HttpGet, Route("message/get")]
+    [HttpGet, Route("message/all")]
     public async Task<IActionResult> getAllMessage(int page) => await _adminRepository.getAllMessages(page);
+
+    [HttpGet, Route("message/get")]
+    public async Task<IActionResult> getMessages(string userId, int page) => await _adminRepository.getMessages(userId, page);
 }

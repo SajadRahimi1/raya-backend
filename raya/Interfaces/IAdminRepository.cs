@@ -11,5 +11,6 @@ public interface IAdminRepository
     Task<CustomActionResult> deleteRequest(string id);
     Task<CustomActionResult> sendMessage(Message message,IFormFile? file);
     Task<CustomActionResult> getAllMessages(int page=1);
+    Task<CustomActionResult> getMessages(string userId,int page=1);
     
 }

@@ -102,7 +102,7 @@ public class AdminRepository : IAdminRepository
         // order user with last message
         var orderedUser = users.OrderByDescending(user => user.Messages.Max(message => message.CreatedAt)).ToList();
 
-        var paginationUser = orderedUser.Skip((page-1) * 25).Take(25).ToList();
+        var paginationUser = orderedUser.Skip((page - 1) * 25).Take(25).ToList();
 
         // var selectedUser = paginationUser.Select(user => new
         // {
@@ -161,5 +161,12 @@ public class AdminRepository : IAdminRepository
         await _appDbContext.AddAsync(message);
         await _appDbContext.SaveChangesAsync();
         return new CustomActionResult(new Result { Data = message });
+    }
+
+    public async Task<CustomActionResult> getMessages(string userId, int page = 1)
+    {
+        page = page < 1 ? 1 : page;
+        var messages = await _appDbContext.Messages.Where(message => message.UserId.ToString() == userId).Skip((page - 1) * 15).Take(15).ToListAsync();
+        return new CustomActionResult(new Result { Data = messages });
     }
 }
