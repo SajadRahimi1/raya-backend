@@ -87,13 +87,7 @@ public class AdminRepository : IAdminRepository
     {
         page = page < 1 ? 1 : page;
         var users = await getUserOrderByMessage(page);
-        var selectedUser = users.Select(user => new
-        {
-            Id = user.Id,
-            Name = user.Name,
-            LastMessage = user.Messages.OrderByDescending(message => message.CreatedAt).FirstOrDefault()
-        }).ToList();
-        return new CustomActionResult(new Result { Data = selectedUser });
+        return new CustomActionResult(new Result { Data = users });
     }
 
     private async Task<List<User>> getUserOrderByMessage(int page)
