@@ -17,4 +17,6 @@ public interface IUserRepository{
 
     Task<CustomActionResult> getSingleNurse(string id);
 
+    Task<CustomActionResult> UpdateNurse(Nurse nurse);
+
 }

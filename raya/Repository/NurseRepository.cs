@@ -222,15 +222,15 @@ public class NurseRepository : INurseRepository
 
     public async Task<CustomActionResult> UpdateNurse(Nurse nurse)
     {
-        var olaNurse = await _appDbContext.Nurses.AsNoTracking().SingleOrDefaultAsync(_ => _.Id == nurse.Id);
-        if (olaNurse == null)
+        var oldNurse = await _appDbContext.Nurses.AsNoTracking().SingleOrDefaultAsync(_ => _.Id == nurse.Id);
+        if (oldNurse == null)
         {
             return new CustomActionResult(new Result { ErrorMessage = new ErrorModel { ErrorMessage = "پرستار یافت نشد" }, statusCodes = 404 });
         }
-        olaNurse = nurse;
-        _appDbContext.Nurses.Update(olaNurse);
+        oldNurse = nurse;
+        _appDbContext.Nurses.Update(oldNurse);
         await _appDbContext.SaveChangesAsync();
         _appDbContext.ChangeTracker.Clear();
-        return new CustomActionResult(new Result { Data = olaNurse });
+        return new CustomActionResult(new Result { Data = oldNurse });
     }
 }

@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -9,13 +10,14 @@ public class UserController : ControllerBase
 {
     private readonly IUserRepository _userRepository;
     private readonly IKavehnegarRespository _kavehnegarRespository;
+    private readonly IMapper _mapper;
 
-    public UserController(IUserRepository userRepository, IKavehnegarRespository kavehnegarRespository)
+    public UserController(IUserRepository userRepository, IKavehnegarRespository kavehnegarRespository, IMapper mapper)
     {
 
         _userRepository = userRepository;
         _kavehnegarRespository = kavehnegarRespository;
-
+        _mapper = mapper;
     }
 
     [HttpGet("/pay")]
@@ -156,14 +158,22 @@ public class UserController : ControllerBase
     }
 
 
-    [HttpGet,Route("nurse"), Authorize(AuthenticationSchemes = "BasicAuthentication")]
-    public  async Task<IActionResult> getNurses(){
+    [HttpGet, Route("nurse"), Authorize(AuthenticationSchemes = "BasicAuthentication")]
+    public async Task<IActionResult> getNurses()
+    {
         var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
         return await _userRepository.getNurses(user.PhoneNumber);
     }
 
-    [HttpGet,Route("single-nurse"), Authorize(AuthenticationSchemes = "BasicAuthentication")]
-    public  async Task<IActionResult> getNurses([FromQuery] String nurseId){
+    [HttpGet, Route("single-nurse"), Authorize(AuthenticationSchemes = "BasicAuthentication")]
+    public async Task<IActionResult> getNurses([FromQuery] String nurseId)
+    {
         return await _userRepository.getSingleNurse(nurseId);
+    }
+
+    [HttpPost, Route("edit-nurse"), Authorize(AuthenticationSchemes = "BasicAuthentication")]
+    public async Task<IActionResult> updateNurse([FromBody] NurseDto nurseDto)
+    {
+        return await _userRepository.UpdateNurse(_mapper.Map<Nurse>(nurseDto));
     }
 }

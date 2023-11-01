@@ -138,8 +138,8 @@ public class UserRepository : IUserRepository
 
     public async Task<CustomActionResult> getNurses(string phoneNumber)
     {
-        var data = await _appDbContext.Nurses.Where(_ => _.PhoneNumber == phoneNumber && _.authority!=null).ToListAsync();
-        return new CustomActionResult(new Result { Data = data }); 
+        var data = await _appDbContext.Nurses.Where(_ => _.PhoneNumber == phoneNumber && _.authority != null).ToListAsync();
+        return new CustomActionResult(new Result { Data = data });
     }
 
     public async Task<CustomActionResult> getSingleNurse(string id)
@@ -150,5 +150,19 @@ public class UserRepository : IUserRepository
             return new CustomActionResult(new Result { statusCodes = 404 });
         }
         return new CustomActionResult(new Result { Data = nurse });
+    }
+
+    public async Task<CustomActionResult> UpdateNurse(Nurse nurse)
+    {
+        var oldNurse = await _appDbContext.Nurses.AsNoTracking().SingleOrDefaultAsync(_ => _.Id == nurse.Id);
+        if (oldNurse == null)
+        {
+            return new CustomActionResult(new Result { ErrorMessage = new ErrorModel { ErrorMessage = "پرستار یافت نشد" }, statusCodes = 404 });
+        }
+        oldNurse = nurse;
+        _appDbContext.Nurses.Update(oldNurse);
+        await _appDbContext.SaveChangesAsync();
+        _appDbContext.ChangeTracker.Clear();
+        return new CustomActionResult(new Result { Data = oldNurse });
     }
 }
