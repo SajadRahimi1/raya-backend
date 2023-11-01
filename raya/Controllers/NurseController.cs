@@ -110,7 +110,7 @@ public class NurseController : ControllerBase
     }
 
     [HttpPost, Route("check")]
-    public async Task<IActionResult> checkPayment(string id, string authority)
+    public async Task<IActionResult> checkPayment([FromBody] string id, [FromBody] string authority)
     {
         return await zarinpalRepository.checkPayementApi(authority, id);
     }
