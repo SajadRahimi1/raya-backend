@@ -52,5 +52,5 @@ public class AdminController
         return await _adminRepository.sendMessage(message, MessageDto.File);
     }
     [HttpGet, Route("message/get")]
-    public async Task<IActionResult> getAllMessage(string phoneNumber) => await _adminRepository.getAllMessages();
+    public async Task<IActionResult> getAllMessage(int page) => await _adminRepository.getAllMessages(page);
 }

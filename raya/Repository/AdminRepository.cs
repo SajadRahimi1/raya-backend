@@ -83,13 +83,38 @@ public class AdminRepository : IAdminRepository
         return new CustomActionResult(new Result { Data = await _appDbContext.Admins.ToListAsync() });
     }
 
-    public async Task<CustomActionResult> getAllMessages()
+    public async Task<CustomActionResult> getAllMessages(int page = 1)
     {
-        var userSendMessage = await _appDbContext.Users.Include(user => user.Messages)
-        .Select(user => new { Messages = user.Messages, Name = user.Name, Id = user.Id })
-        .OrderByDescending(user => user.Messages.Where(message => message.Seen == false)
-        .Max(message => message.CreatedAt)).ToListAsync();
-        return new CustomActionResult(new Result { Data = userSendMessage });
+        page = page < 1 ? 1 : page;
+        var users = await getUserOrderByMessage(page);
+        var selectedUser = users.Select(user => new
+        {
+            Id = user.Id,
+            Name = user.Name,
+            LastMessage = user.Messages.OrderByDescending(message => message.CreatedAt).FirstOrDefault()
+        }).ToList();
+        return new CustomActionResult(new Result { Data = selectedUser });
+    }
+
+    private async Task<List<User>> getUserOrderByMessage(int page)
+    {
+        // users with message
+        var users = await _appDbContext.Users.Where(user => user.Messages.Any()).ToListAsync();
+
+        // order user with last message
+        var orderedUser = users.OrderByDescending(user => user.Messages.Max(message => message.CreatedAt)).ToList();
+
+        var paginationUser = orderedUser.Skip(page * 25).Take(25).ToList();
+
+        // var selectedUser = paginationUser.Select(user => new
+        // {
+        //     Id = user.Id,
+        //     Name = user.Name,
+        //     LastMessage = user.Messages.OrderByDescending(message => message.CreatedAt).FirstOrDefault()
+        // }).ToList();
+
+        return paginationUser;
+
     }
 
     public async Task<CustomActionResult> getRequestDetail(string id)
