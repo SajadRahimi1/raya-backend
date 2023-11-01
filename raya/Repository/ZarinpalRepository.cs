@@ -181,4 +181,49 @@ public class ZarinpalRepository : IZarinpalRepository
         return new CustomActionResult(new Result { ErrorMessage = new ErrorModel { ErrorMessage = requestresponse.Content }, statusCodes = StatusCodes.Status400BadRequest });
 
     }
+
+        public async Task<CustomActionResult> checkPayement(string id)
+    {
+        Nurse? nurseModel = await appDbContext.Nurses.SingleOrDefaultAsync(_ => _.Id.ToString() == id);
+        if (nurseModel == null)
+        {
+            return new CustomActionResult(new Result { statusCodes = 404, ErrorMessage = new ErrorModel { ErrorMessage = "پرستار یافت نشد" } });
+        }
+        
+        var body = new VerifyPaymentModel
+        {
+            authority = nurseModel.authority
+        };
+        var client = new RestClient("https://api.zarinpal.com/pg/v4/payment/verify.json");
+        var request = new RestRequest("", Method.Post);
+        request.AddHeader("accept", "application/json");
+        request.AddHeader("content-type", "application/json");
+        request.AddJsonBody(body);
+        var requestresponse = await client.ExecuteAsync(request);
+
+        if (requestresponse.IsSuccessStatusCode)
+        {
+            JObject response = JObject.Parse(requestresponse.Content);
+            if (response["data"].ToString() != "[]")
+            {
+
+
+                if (response["data"]["code"].ToString() == "100" || response["data"]["code"].ToString() == "101")
+                {
+                    
+                    return new CustomActionResult(new Result { Data = response });
+                }
+                else
+                {
+                    return new CustomActionResult(new Result { ErrorMessage = new ErrorModel { ErrorMessage = response }, statusCodes = StatusCodes.Status400BadRequest });
+
+                }
+
+
+            }
+        }
+        return new CustomActionResult(new Result { ErrorMessage = new ErrorModel { ErrorMessage = requestresponse.Content }, statusCodes = StatusCodes.Status400BadRequest });
+
+    }
+
 }
