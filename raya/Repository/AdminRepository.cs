@@ -83,6 +83,15 @@ public class AdminRepository : IAdminRepository
         return new CustomActionResult(new Result { Data = await _appDbContext.Admins.ToListAsync() });
     }
 
+    public async Task<CustomActionResult> getAllMessages()
+    {
+        var userSendMessage = await _appDbContext.Users.Select(user => new { Messages = user.Messages, Name = user.Name, Id = user.Id })
+        .Include(user => user.Messages)
+        .OrderByDescending(user => user.Messages.Where(message => message.Seen == false)
+        .Max(message => message.CreatedAt)).ToListAsync();
+        return new CustomActionResult(new Result { Data = userSendMessage });
+    }
+
     public async Task<CustomActionResult> getRequestDetail(string id)
     {
         var request = await _appDbContext.ReserveNurses.Include(_ => _.UserReserved).SingleOrDefaultAsync(_ => _.Id.ToString() == id);
@@ -118,9 +127,9 @@ public class AdminRepository : IAdminRepository
         return await _kavehnegarRespository.sendLoginSms(phoneNumber, randomNumber.ToString());
     }
 
-    public async Task<CustomActionResult> sendMessage(Message message,IFormFile? file)
+    public async Task<CustomActionResult> sendMessage(Message message, IFormFile? file)
     {
-         if (file != null)
+        if (file != null)
         {
             var fileName = await _fileRepository.SaveFileAsync(file);
             message.Content = fileName;
