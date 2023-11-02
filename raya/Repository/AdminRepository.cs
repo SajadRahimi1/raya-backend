@@ -185,7 +185,7 @@ public class AdminRepository : IAdminRepository
     {
         page = page < 1 ? 1 : page;
         var reservedClasses = await _appDbContext.ReserveClasses.Include(_=>_.UserReserved)
-        .Where(_=>_.ClassCategoryId.ToString()==classId)
+        .Where(_=>_.ClassCategoryId.ToString()==classId && _.authority!=null)
         .Skip((page - 1) * 25).Take(25).ToListAsync();
 
         return new CustomActionResult(new Result{Data=reservedClasses});
