@@ -7,12 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 public class AdminController
 {
     private readonly IAdminRepository _adminRepository;
+    private readonly IZarinpalRepository zarinpalRepository;
     private readonly IMapper _mapper;
 
-    public AdminController(IAdminRepository adminRepository, IMapper mapper)
+    public AdminController(IAdminRepository adminRepository, IMapper mapper,IZarinpalRepository zarinpalRepository)
     {
         _adminRepository = adminRepository;
         _mapper = mapper;
+        this.zarinpalRepository=zarinpalRepository;
     }
 
     [HttpPost, Route("add")]
@@ -59,4 +61,7 @@ public class AdminController
 
     [HttpGet, Route("class/reserved")]
     public async Task<IActionResult> getReservedClass(string classCategoryId, int page) => await _adminRepository.getReservedClass(classCategoryId, page);
+
+    [HttpPost,Route("class/check-payment")]
+    public async Task<IActionResult> checkClassPayment(string classCategoryId)=>await zarinpalRepository.checkClassPayementApi(classCategoryId);
 }

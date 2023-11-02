@@ -226,4 +226,46 @@ public class ZarinpalRepository : IZarinpalRepository
 
     }
 
+    public async Task<CustomActionResult> checkClassPayementApi(string id)
+    {
+        var classCategory = await appDbContext.ReserveClasses.Include(_ => _.ClassCategory).SingleOrDefaultAsync(_ => _.Id.ToString() == id);
+        if (classCategory == null)
+        {
+            return new CustomActionResult(new Result { statusCodes = 404, ErrorMessage = new ErrorModel { ErrorMessage = "کلاسی یافت نشد" } });
+        }
+        var body = new VerifyPaymentModel
+        {
+            authority = classCategory.authority,
+            amount = int.Parse(classCategory.IsInstallment ? classCategory.ClassCategory.InstallmentPrice.Replace(",", null) : classCategory.ClassCategory.PrePaid.Replace(",", null))
+        };
+        var client = new RestClient("https://api.zarinpal.com/pg/v4/payment/verify.json");
+        var request = new RestRequest("", Method.Post);
+        request.AddHeader("accept", "application/json");
+        request.AddHeader("content-type", "application/json");
+        request.AddJsonBody(body);
+        var requestresponse = await client.ExecuteAsync(request);
+
+        if (requestresponse.IsSuccessStatusCode)
+        {
+            JObject response = JObject.Parse(requestresponse.Content);
+            if (response["data"].ToString() != "[]")
+            {
+
+
+                if (response["data"]["code"].ToString() == "100" || response["data"]["code"].ToString() == "101")
+                {
+                    return new CustomActionResult(new Result { Data = response });
+                }
+                else
+                {
+                    return new CustomActionResult(new Result { ErrorMessage = new ErrorModel { ErrorMessage = response }, statusCodes = StatusCodes.Status400BadRequest });
+
+                }
+
+
+            }
+        }
+        return new CustomActionResult(new Result { ErrorMessage = new ErrorModel { ErrorMessage = requestresponse.Content }, statusCodes = StatusCodes.Status400BadRequest });
+
+    }
 }
