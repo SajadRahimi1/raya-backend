@@ -56,4 +56,7 @@ public class AdminController
 
     [HttpGet, Route("message/get")]
     public async Task<IActionResult> getMessages(string userId, int page) => await _adminRepository.getMessages(userId, page);
+
+    [HttpGet, Route("class/reserved")]
+    public async Task<IActionResult> getReservedClass(string classCategoryId, int page) => await _adminRepository.getReservedClass(classCategoryId, page);
 }

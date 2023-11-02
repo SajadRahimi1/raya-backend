@@ -180,4 +180,14 @@ public class AdminRepository : IAdminRepository
         // .Skip((page - 1) * 15).Take(15).ToListAsync();
         return new CustomActionResult(new Result { Data = messages });
     }
+
+    public async Task<CustomActionResult> getReservedClass(string classId, int page = 1)
+    {
+        page = page < 1 ? 1 : page;
+        var reservedClasses = await _appDbContext.ReserveClasses.Include(_=>_.UserReserved)
+        .Where(_=>_.ClassCategoryId.ToString()==classId)
+        .Skip((page - 1) * 25).Take(25).ToListAsync();
+
+        return new CustomActionResult(new Result{Data=reservedClasses});
+    }
 }
