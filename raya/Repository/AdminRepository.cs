@@ -203,9 +203,9 @@ public class AdminRepository : IAdminRepository
                 statusCodes = 404
             });
         }
-        var picture = await _fileRepository.SaveFileAsync(nurseUploadsDto.Picture);
-        var firstPageImage = await _fileRepository.SaveFileAsync(nurseUploadsDto.FirstPageImage);
-        var descriptionImage = await _fileRepository.SaveFileAsync(nurseUploadsDto.DescriptionImage);
+        string picture = nurseUploadsDto.Picture == null ? nurse.NurseImages.Picture : await _fileRepository.SaveFileAsync(nurseUploadsDto.Picture);
+        string firstPageImage = nurseUploadsDto.FirstPageImage == null ? nurse.NurseImages.FirstPageImage : await _fileRepository.SaveFileAsync(nurseUploadsDto.FirstPageImage);
+        string descriptionImage = nurseUploadsDto.DescriptionImage == null ? nurse.NurseImages.DescriptionImage : await _fileRepository.SaveFileAsync(nurseUploadsDto.DescriptionImage);
         string? agreementImage = null;
 
         if (nurseUploadsDto.AgreementImage != null)
@@ -229,9 +229,9 @@ public class AdminRepository : IAdminRepository
         }
         else
         {
-            _fileRepository.DeleteFile(nurseImages.DescriptionImage);
-            _fileRepository.DeleteFile(nurseImages.FirstPageImage);
-            _fileRepository.DeleteFile(nurseImages.Picture);
+            if (nurseUploadsDto.DescriptionImage != null) _fileRepository.DeleteFile(nurseImages.DescriptionImage);
+            if (nurseUploadsDto.FirstPageImage != null) _fileRepository.DeleteFile(nurseImages.FirstPageImage);
+            if (nurseUploadsDto.Picture != null) _fileRepository.DeleteFile(nurseImages.Picture);
 
             nurseImages.AgreementImage = agreementImage;
             nurseImages.DescriptionImage = descriptionImage;
