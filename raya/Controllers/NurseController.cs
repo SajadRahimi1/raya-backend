@@ -37,9 +37,12 @@ public class NurseController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(AuthenticationSchemes = "BasicAuthentication")]
     public async Task<IActionResult> CreateNurse(CreateNurseDto createNurseDto)
     {
         var nurse = _mapper.Map<Nurse>(createNurseDto);
+        var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
+        nurse.userId=user.Id;
         return await _nurseRepository.CreateNurse(nurse);
     }
 

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 [PrimaryKey(nameof(Id))]
 public class Nurse : BaseEntity
 {
+    public Guid? userId { get; set; }
     public string Name { get; set; } = "";
     public string FatherName { get; set; } = "";
     public string Birthday { get; set; } = "";
