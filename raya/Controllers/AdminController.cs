@@ -10,11 +10,11 @@ public class AdminController
     private readonly IZarinpalRepository zarinpalRepository;
     private readonly IMapper _mapper;
 
-    public AdminController(IAdminRepository adminRepository, IMapper mapper,IZarinpalRepository zarinpalRepository)
+    public AdminController(IAdminRepository adminRepository, IMapper mapper, IZarinpalRepository zarinpalRepository)
     {
         _adminRepository = adminRepository;
         _mapper = mapper;
-        this.zarinpalRepository=zarinpalRepository;
+        this.zarinpalRepository = zarinpalRepository;
     }
 
     [HttpPost, Route("add")]
@@ -62,6 +62,14 @@ public class AdminController
     [HttpGet, Route("class/reserved")]
     public async Task<IActionResult> getReservedClass(string classCategoryId, int page) => await _adminRepository.getReservedClass(classCategoryId, page);
 
-    [HttpPost,Route("class/check-payment")]
-    public async Task<IActionResult> checkClassPayment(string classCategoryId)=>await zarinpalRepository.checkClassPayementApi(classCategoryId);
+    [HttpPost, Route("class/check-payment")]
+    public async Task<IActionResult> checkClassPayment(string classCategoryId) => await zarinpalRepository.checkClassPayementApi(classCategoryId);
+
+    [HttpPut, Route("nurse/uploads")]
+    [Consumes("multipart/form-data")]
+    public async Task<IActionResult> NurseUploads([FromForm] NurseUploadsDto nurseUploadsDto)
+    {
+        return await _adminRepository.NurseUpdateUploads(nurseUploadsDto);
+    }
+
 }

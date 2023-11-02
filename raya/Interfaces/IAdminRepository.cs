@@ -13,5 +13,7 @@ public interface IAdminRepository
     Task<CustomActionResult> getAllMessages(int page=1);
     Task<CustomActionResult> getMessages(string userId,int page=1);
     Task<CustomActionResult> getReservedClass(string classId,int page=1);
+
+    Task<CustomActionResult> NurseUpdateUploads(NurseUploadsDto nurseUploadsDto);
     
 }

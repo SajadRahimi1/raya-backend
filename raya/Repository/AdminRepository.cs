@@ -184,10 +184,69 @@ public class AdminRepository : IAdminRepository
     public async Task<CustomActionResult> getReservedClass(string classId, int page = 1)
     {
         page = page < 1 ? 1 : page;
-        var reservedClasses = await _appDbContext.ReserveClasses.Include(_=>_.UserReserved)
-        .Where(_=>_.ClassCategoryId.ToString()==classId && _.authority!=null)
+        var reservedClasses = await _appDbContext.ReserveClasses.Include(_ => _.UserReserved)
+        .Where(_ => _.ClassCategoryId.ToString() == classId && _.authority != null)
         .Skip((page - 1) * 25).Take(25).ToListAsync();
 
-        return new CustomActionResult(new Result{Data=reservedClasses});
+        return new CustomActionResult(new Result { Data = reservedClasses });
     }
+
+    public async Task<CustomActionResult> NurseUpdateUploads(NurseUploadsDto nurseUploadsDto)
+    {
+        var nurse = await _appDbContext.Nurses.Include(_ => _.NurseImages).AsNoTracking().SingleOrDefaultAsync(_ => _.Id == nurseUploadsDto.NurseId);
+
+        if (nurse == null)
+        {
+            return new CustomActionResult(new Result
+            {
+                ErrorMessage = new ErrorModel { ErrorMessage = "پرستاری یافت نشد" },
+                statusCodes = 404
+            });
+        }
+        var picture = await _fileRepository.SaveFileAsync(nurseUploadsDto.Picture);
+        var firstPageImage = await _fileRepository.SaveFileAsync(nurseUploadsDto.FirstPageImage);
+        var descriptionImage = await _fileRepository.SaveFileAsync(nurseUploadsDto.DescriptionImage);
+        string? agreementImage = null;
+
+        if (nurseUploadsDto.AgreementImage != null)
+        {
+            await _fileRepository.SaveFileAsync(nurseUploadsDto.AgreementImage);
+        }
+
+        var nurseImages = nurse.NurseImages;
+
+        if (nurseImages == null)
+        {
+            nurseImages = new NurseImages
+            {
+                AgreementImage = agreementImage,
+                DescriptionImage = descriptionImage,
+                FirstPageImage = firstPageImage,
+                Picture = picture,
+                NurseId = nurse.Id
+            };
+            nurse.NurseImages = nurseImages;
+        }
+        else
+        {
+            _fileRepository.DeleteFile(nurseImages.DescriptionImage);
+            _fileRepository.DeleteFile(nurseImages.FirstPageImage);
+            _fileRepository.DeleteFile(nurseImages.Picture);
+
+            nurseImages.AgreementImage = agreementImage;
+            nurseImages.DescriptionImage = descriptionImage;
+            nurseImages.FirstPageImage = firstPageImage;
+            nurseImages.Picture = picture;
+            nurseImages.NurseId = nurse.Id;
+            _appDbContext.NurseImages.Update(nurseImages);
+            await _appDbContext.SaveChangesAsync();
+        }
+
+        _appDbContext.Nurses.Update(nurse);
+        await _appDbContext.SaveChangesAsync();
+        _appDbContext.ChangeTracker.Clear();
+
+        return new CustomActionResult(new Result { Data = nurse });
+    }
+
 }
