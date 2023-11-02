@@ -67,7 +67,7 @@ public class AdminController
 
     [HttpPut, Route("nurse/uploads")]
     [Consumes("multipart/form-data")]
-    public async Task<IActionResult> NurseUploads([FromForm] NurseUploadsDto nurseUploadsDto)
+    public async Task<IActionResult> NurseUploads([FromForm] AdminNurseDto nurseUploadsDto)
     {
         return await _adminRepository.NurseUpdateUploads(nurseUploadsDto);
     }

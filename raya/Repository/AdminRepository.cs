@@ -191,7 +191,7 @@ public class AdminRepository : IAdminRepository
         return new CustomActionResult(new Result { Data = reservedClasses });
     }
 
-    public async Task<CustomActionResult> NurseUpdateUploads(NurseUploadsDto nurseUploadsDto)
+    public async Task<CustomActionResult> NurseUpdateUploads(AdminNurseDto nurseUploadsDto)
     {
         var nurse = await _appDbContext.Nurses.Include(_ => _.NurseImages).AsNoTracking().SingleOrDefaultAsync(_ => _.Id == nurseUploadsDto.NurseId);
 
