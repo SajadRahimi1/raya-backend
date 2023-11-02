@@ -238,6 +238,7 @@ public class AdminRepository : IAdminRepository
             nurseImages.FirstPageImage = firstPageImage;
             nurseImages.Picture = picture;
             nurseImages.NurseId = nurse.Id;
+            nurse.NurseImages=nurseImages;
             _appDbContext.NurseImages.Update(nurseImages);
             await _appDbContext.SaveChangesAsync();
         }
