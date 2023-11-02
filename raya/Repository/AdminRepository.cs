@@ -166,7 +166,18 @@ public class AdminRepository : IAdminRepository
     public async Task<CustomActionResult> getMessages(string userId, int page = 1)
     {
         page = page < 1 ? 1 : page;
-        var messages = await _appDbContext.Messages.Where(message => message.UserId.ToString() == userId).Skip((page - 1) * 15).Take(15).ToListAsync();
+        var messages = await _appDbContext.Messages.Where(message => message.UserId.ToString() == userId).ToListAsync();
+        messages = messages.Select(message =>
+        {
+            if (message.IsUserSend)
+            {
+                message.Seen = true;
+            }
+            return message;
+        }).ToList();
+        messages.ForEach(m => _appDbContext.Messages.Update(m));
+        await _appDbContext.SaveChangesAsync();
+        // .Skip((page - 1) * 15).Take(15).ToListAsync();
         return new CustomActionResult(new Result { Data = messages });
     }
 }
