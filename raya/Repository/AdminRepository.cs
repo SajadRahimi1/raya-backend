@@ -43,7 +43,7 @@ public class AdminRepository : IAdminRepository
             });
         }
 
-        admin.token = Guid.NewGuid().ToString();
+        admin.token = Guid.NewGuid();
         admin.smsCode = null;
         await editAdmin(admin);
         return new CustomActionResult(new Result
@@ -75,7 +75,7 @@ public class AdminRepository : IAdminRepository
 
     public async Task<Admin?> getAdminByToken(string token)
     {
-        return await _appDbContext.Admins.SingleOrDefaultAsync(_ => _.token == token);
+        return await _appDbContext.Admins.SingleOrDefaultAsync(_ => _.token.ToString() == token);
 
     }
 
@@ -261,7 +261,7 @@ public class AdminRepository : IAdminRepository
         bool isPasswordTrue = BCrypt.Net.BCrypt.Verify(password, admin.password);
         if (isPasswordTrue)
         {
-            admin.token =  Guid.NewGuid().ToString();
+            admin.token =  Guid.NewGuid();
             _appDbContext.Admins.Update(admin);
             await _appDbContext.SaveChangesAsync();
             return new CustomActionResult(new Result { Data = admin });
