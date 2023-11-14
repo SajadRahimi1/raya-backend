@@ -40,7 +40,7 @@ public class AdminController : ControllerBase
     public async Task<IActionResult> getAdminByToken()
     {
 
-        var admin = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
+        var admin = JsonConvert.DeserializeObject<User>(Request.Headers["admin"]);
         return Ok(await _adminRepository.getAdminByToken(admin.Token.ToString()));
 
     }
