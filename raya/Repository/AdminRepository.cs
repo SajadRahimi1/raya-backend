@@ -267,6 +267,7 @@ public class AdminRepository : IAdminRepository
             await _appDbContext.SaveChangesAsync();
             return new CustomActionResult(new Result { Data = admin });
         }
+        admin.password=null;
         return new CustomActionResult(new Result { ErrorMessage = new ErrorModel { ErrorMessage = "یوزرنیم یا پسورد اشتباه است" }, statusCodes = StatusCodes.Status400BadRequest });
     }
 }
