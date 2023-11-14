@@ -2,9 +2,11 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using Newtonsoft.Json;
+
 [ApiController]
 [Route("[controller]")]
-public class AdminController
+public class AdminController : ControllerBase
 {
     private readonly IAdminRepository _adminRepository;
     private readonly IZarinpalRepository zarinpalRepository;
@@ -18,7 +20,7 @@ public class AdminController
     }
 
     [HttpPost, Route("add")]
-    // [Authorize(AuthenticationSchemes = "AdminAuthentication")]
+    [Authorize(AuthenticationSchemes = "AdminAuthentication")]
     public async Task<IActionResult> AddAdmin(AdminDto adminDto)
     {
         var admin = _mapper.Map<Admin>(adminDto);
@@ -26,11 +28,22 @@ public class AdminController
     }
 
     [HttpGet, Route("all")]
-    // [Authorize(AuthenticationSchemes = "AdminAuthentication")]
+    [Authorize(AuthenticationSchemes = "AdminAuthentication")]
     public async Task<IActionResult> getAllAdmin() => await _adminRepository.getAllAdmin();
 
     [HttpPost]
     public async Task<IActionResult> loginAdmin([FromBody] LoginAdminDto dto) => await _adminRepository.login(dto.username, dto.password);
+
+    [HttpGet]
+    [Authorize(AuthenticationSchemes = "AdminAuthentication")]
+
+    public async Task<IActionResult> getAdminByToken()
+    {
+
+        var admin = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
+        return Ok(await _adminRepository.getAdminByToken(admin.Token.ToString()));
+
+    }
 
 
     [HttpPost, Route("check-code")]
