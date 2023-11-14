@@ -261,7 +261,7 @@ public class AdminRepository : IAdminRepository
         bool isPasswordTrue = BCrypt.Net.BCrypt.Verify(password, admin.password);
         if (isPasswordTrue)
         {
-            admin.token = new Guid().ToString();
+            admin.token =  Guid.NewGuid().ToString();
             _appDbContext.Admins.Update(admin);
             await _appDbContext.SaveChangesAsync();
             return new CustomActionResult(new Result { Data = admin });
