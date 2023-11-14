@@ -16,6 +16,7 @@ public class AdminRepository : IAdminRepository
 
     public async Task<CustomActionResult> addAdmin(Admin admin)
     {
+        admin.password = BCrypt.Net.BCrypt.HashPassword(admin.password);
         var addedAdmin = await _appDbContext.Admins.AddAsync(admin);
         await _appDbContext.SaveChangesAsync();
         return new CustomActionResult(new Result { Data = addedAdmin.Entity });
@@ -238,7 +239,7 @@ public class AdminRepository : IAdminRepository
             nurseImages.FirstPageImage = firstPageImage;
             nurseImages.Picture = picture;
             nurseImages.NurseId = nurse.Id;
-            nurse.NurseImages=nurseImages;
+            nurse.NurseImages = nurseImages;
             _appDbContext.NurseImages.Update(nurseImages);
             await _appDbContext.SaveChangesAsync();
         }
@@ -250,4 +251,21 @@ public class AdminRepository : IAdminRepository
         return new CustomActionResult(new Result { Data = nurse });
     }
 
+    public async Task<CustomActionResult> login(string username, string password)
+    {
+        var admin = await _appDbContext.Admins.SingleOrDefaultAsync(admin => admin.username == username);
+        if (admin == null)
+        {
+            return new CustomActionResult(new Result { ErrorMessage = new ErrorModel { ErrorMessage = "یوزرنیم یا پسورد اشتباه است" }, statusCodes = StatusCodes.Status400BadRequest });
+        }
+        bool isPasswordTrue = BCrypt.Net.BCrypt.Verify(password, admin.password);
+        if (isPasswordTrue)
+        {
+            admin.token = new Guid().ToString();
+            _appDbContext.Admins.Update(admin);
+            await _appDbContext.SaveChangesAsync();
+            return new CustomActionResult(new Result { Data = admin });
+        }
+        return new CustomActionResult(new Result { ErrorMessage = new ErrorModel { ErrorMessage = "یوزرنیم یا پسورد اشتباه است" }, statusCodes = StatusCodes.Status400BadRequest });
+    }
 }

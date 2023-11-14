@@ -1,6 +1,7 @@
 public interface IAdminRepository
 {
     Task<Admin?> getAdminByToken(string token);
+    Task<CustomActionResult> login(string username,string password);
     Task<CustomActionResult> addAdmin(Admin admin);
     Task<CustomActionResult> editAdmin(Admin admin);
     Task<CustomActionResult> getAllAdmin();

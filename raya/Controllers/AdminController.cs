@@ -26,8 +26,11 @@ public class AdminController
     }
 
     [HttpGet, Route("all")]
-    [Authorize(AuthenticationSchemes = "AdminAuthentication")]
+    // [Authorize(AuthenticationSchemes = "AdminAuthentication")]
     public async Task<IActionResult> getAllAdmin() => await _adminRepository.getAllAdmin();
+
+    [HttpPost]
+    public async Task<IActionResult> loginAdmin([FromBody] LoginAdminDto dto) => await _adminRepository.login(dto.username, dto.password);
 
 
     [HttpPost, Route("check-code")]
