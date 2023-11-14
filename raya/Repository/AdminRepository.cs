@@ -17,6 +17,7 @@ public class AdminRepository : IAdminRepository
     public async Task<CustomActionResult> addAdmin(Admin admin)
     {
         admin.password = BCrypt.Net.BCrypt.HashPassword(admin.password);
+        admin.token=Guid.NewGuid();
         var addedAdmin = await _appDbContext.Admins.AddAsync(admin);
         await _appDbContext.SaveChangesAsync();
         return new CustomActionResult(new Result { Data = addedAdmin.Entity });
