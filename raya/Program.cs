@@ -118,6 +118,12 @@ builder.Services.AddControllers(options =>
 );
 
 
+builder.Services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
+    {
+        builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
+    }));
+
+
 var app = builder.Build();
 app.UseAuthentication();
 app.UseAuthorization();

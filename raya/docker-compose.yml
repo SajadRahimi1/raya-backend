@@ -10,7 +10,7 @@ services:
         - ./data/log:/var/opt/mssql/log
 
       environment:
-          SA_PASSWORD: "Sajadsajad1!"
+          MSSQL_SA_PASSWORD: "Sajadsajad0101"
           ACCEPT_EULA: "Y"
 
   # redis:
