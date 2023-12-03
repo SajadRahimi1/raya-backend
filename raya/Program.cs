@@ -117,13 +117,6 @@ builder.Services.AddControllers(options =>
 }
 );
 
-
-builder.Services.AddCors(options => options.AddPolicy("ApiCorsPolicy", builder =>
-    {
-        builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin();
-    }));
-
-
 var app = builder.Build();
 app.UseAuthentication();
 app.UseAuthorization();
@@ -142,7 +135,12 @@ app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions()
 {
     FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"uploads")),
-    RequestPath = new PathString("/uploads")
+    RequestPath = new PathString("/uploads"),
+     OnPrepareResponse = context =>
+        {
+            context.Context.Response.Headers.Append("Access-Control-Allow-Origin", "*");
+        }
+    
 });
 
 
