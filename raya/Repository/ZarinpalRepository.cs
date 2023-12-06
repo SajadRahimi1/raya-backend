@@ -38,18 +38,18 @@ public class ZarinpalRepository : IZarinpalRepository
                 if (response["data"]["code"].ToString() == "100" || response["data"]["code"].ToString() == "101")
                 {
                     var nurse = await appDbContext.Nurses.SingleOrDefaultAsync(_ => _.Id.ToString() == id);
-                    return new RedirectResult("http://185.110.188.141/uploads/success.html?link=" + nurse.pdfLink);
+                    return new RedirectResult("http://www.asiasalamat.ir/uploads/success.html?link=" + nurse.pdfLink);
                 }
                 else
                 {
-                    return new RedirectResult("http://185.110.188.141/uploads/error.html");
+                    return new RedirectResult("http://www.asiasalamat.ir/uploads/error.html");
 
                 }
 
 
             }
         }
-        return new RedirectResult("http://185.110.188.141/uploads/error.html");
+        return new RedirectResult("http://www.asiasalamat.ir/uploads/error.html");
 
     }
 
@@ -101,7 +101,7 @@ public class ZarinpalRepository : IZarinpalRepository
         }
         var body = new ZarinpalRequestModel
         {
-            callback_url = string.Format("http://185.110.188.141/Nurse/verify?id={0}", nurseId),
+            callback_url = string.Format("http://www.asiasalamat.ir/Nurse/verify?id={0}", nurseId),
             description = string.Format("هزینه استخدام پرستار ${0}", nurseModel.Name)
         };
 
