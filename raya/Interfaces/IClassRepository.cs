@@ -5,5 +5,6 @@ public interface IClassRepository
     Task<Class> CreateClass(CreateClassDto createClassDto);
     Task<Class?> GetSingleClass(string id);
     Task<CustomActionResult> GetSingleClassByTitle(string title);
+    
 
 }

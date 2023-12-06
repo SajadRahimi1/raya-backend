@@ -25,6 +25,7 @@ public class ClassCategory : BaseEntity
     public int InstallmentNumber { get; set; }
 
     public string? InstallmentPrice { get; set; }
+    public string? route { get; set; }
 
     public List<ReserveClass> ReserveClasses { get; set; }= new List<ReserveClass>();
 }

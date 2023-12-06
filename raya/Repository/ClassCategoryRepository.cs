@@ -17,6 +17,7 @@ public class ClassCategoryRepository : IClassCategoryRepository
 
     }
 
+
     public async Task<CustomActionResult> GetClassCategory(string classId)
     {
         var classObject = await _appDbContext.Classes.Include(_ => _.ClassCategories).SingleOrDefaultAsync(_ => _.Id.ToString() == classId);
@@ -43,6 +44,7 @@ public class ClassCategoryRepository : IClassCategoryRepository
         });
     }
 
+
     public async Task<CustomActionResult> ReserveClass(ReserveClass reserveClass)
     {
         var classCategory = await _appDbContext.ClassCategories.SingleOrDefaultAsync(_ => _.Id.ToString() == reserveClass.ClassCategoryId.ToString());
@@ -58,10 +60,25 @@ public class ClassCategoryRepository : IClassCategoryRepository
         return await zarinpalRepository.payCourse(reserveClass);
     }
 
+
     public async Task UpdateClassCategory(ClassCategory classCategory)
     {
         _appDbContext.ClassCategories.Update(classCategory);
         await _appDbContext.SaveChangesAsync();
 
+    }
+
+    public async Task<CustomActionResult> UpdateRoute(string id, string route)
+    {
+        var classCategory = await _appDbContext.ClassCategories.SingleOrDefaultAsync(_ => _.Id.ToString() == id);
+        if (classCategory == null)
+        {
+            return new CustomActionResult(new Result { ErrorMessage = new ErrorModel { ErrorMessage = "زیر دسته کلاس یافت نشد" } });
+        }
+        classCategory.route = route;
+        _appDbContext.ClassCategories.Update(classCategory);
+        await _appDbContext.SaveChangesAsync();
+        _appDbContext.ChangeTracker.Clear();
+        return new CustomActionResult(new Result { Data = classCategory });
     }
 }
