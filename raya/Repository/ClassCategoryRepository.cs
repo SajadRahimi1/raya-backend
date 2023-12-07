@@ -61,10 +61,11 @@ public class ClassCategoryRepository : IClassCategoryRepository
     }
 
 
-    public async Task UpdateClassCategory(ClassCategory classCategory)
+    public async Task<CustomActionResult> UpdateClassCategory(ClassCategory classCategory)
     {
-        _appDbContext.ClassCategories.Update(classCategory);
+        var updatedData = _appDbContext.ClassCategories.Update(classCategory);
         await _appDbContext.SaveChangesAsync();
+        return new CustomActionResult(new Result{Data=updatedData.Entity});
 
     }
 

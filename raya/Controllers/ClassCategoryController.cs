@@ -68,4 +68,11 @@ public class ClassCategoryController : ControllerBase
         return await _classCategoryRepository.UpdateRoute(id, route);
     }
 
+    [HttpPatch]
+    [Route("update")]
+    public async Task<CustomActionResult> UpdateRoute(ClassCategory classCategory)
+    {
+        return await _classCategoryRepository.UpdateClassCategory(classCategory);
+    }
+
 }
