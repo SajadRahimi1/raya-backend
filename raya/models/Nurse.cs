@@ -81,6 +81,7 @@ public enum OtherProp
     Alcoholic,
     Disability,
     Criminal,
+    SpecialDisease,
     Family,
     SpecializedDegree
 }
