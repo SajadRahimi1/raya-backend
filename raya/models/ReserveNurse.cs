@@ -19,9 +19,13 @@ public class ReserveNurse : BaseEntity
 
     public string Age { get; set; }
 
+    public List<Problem> Problems { get; set; }=new List<Problem>();
+
     public Shift Shift { get; set; }
 
     public string? Hours { get; set; }
+    public string? From { get; set; }
+    public string? To { get; set; }
 
     public string? PeopleInHouse { get; set; }
 
@@ -54,3 +58,12 @@ public enum Shift
     Hour
 }
 
+public enum Problem{
+    Bedpan,
+    Diaper,
+    Parkinson,
+    Son,
+    Alzheimer,
+    MS,
+    None
+}

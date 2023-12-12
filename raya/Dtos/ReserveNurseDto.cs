@@ -27,8 +27,12 @@ public class ReserveNurseDto
     public string? howToKnow { get; set; }
 
 
+    public string? From { get; set; }
+    public string? To { get; set; }
 
     public string? PeopleInHouse { get; set; }
+
+    public List<Problem> Problems { get; set; } = new List<Problem>();
 
     [Required]
     public bool CCTV { get; set; }
