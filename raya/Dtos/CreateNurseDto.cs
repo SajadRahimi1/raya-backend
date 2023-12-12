@@ -1,10 +1,7 @@
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 public class CreateNurseDto
 {
-
-
     [Required]
     public string Name { get; set; } = "";
 
@@ -44,5 +41,15 @@ public class CreateNurseDto
 
     [Required]
     public string NurseCategory { get; set; }
+
+    public string? Province { get; set; }
+    public string? City { get; set; }
+    public string? Neighborhood { get; set; }
+    public string? Street { get; set; }
+    public string? Alley { get; set; }
+    public string? PostalCode{ get; set; }
+    public List<OtherProp> OtherProps { get; set; }=new List<OtherProp>();
+    public List<NurseCategory> NurseCategories { get; set; } = new List<NurseCategory>();
+    public string? Unit { get; set; }
 
 }
