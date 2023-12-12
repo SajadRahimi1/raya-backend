@@ -16,6 +16,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Nurse>().HasKey(nurse => nurse.Id);
         modelBuilder.Entity<Nurse>().OwnsOne(_=>_.NurseCategories);
         modelBuilder.Entity<Nurse>().OwnsOne(_=>_.OtherProps);
+        modelBuilder.Entity<Nurse>().OwnsOne(_=>_.Shifts);
         // modelBuilder.Entity<Nurse>().Property(nurse => nurse.NurseCategory).HasConversion<List<string>>();
         modelBuilder.Entity<Nurse>().HasMany(nurse => nurse.NurseFamily).WithOne(_ => _.Nurse).HasForeignKey(_ => _.NurseId);
         modelBuilder.Entity<Nurse>().HasOne(nurse => nurse.NurseImages).WithOne(_ => _.Nurse);
