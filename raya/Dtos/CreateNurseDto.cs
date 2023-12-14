@@ -52,7 +52,7 @@ public class CreateNurseDto
 
     public List<Shift> Shifts { get; set; } = new List<Shift>();
 
-    public List<NurseCategory> NurseCategories { get; set; } = new List<NurseCategory>();
+    public IEnumerable<NurseCategory> NurseCategories { get; set; } = new List<NurseCategory>();
     public string? Unit { get; set; }
 
 }
