@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-
+using Newtonsoft.Json;
 public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions options) : base(options)
@@ -15,6 +15,10 @@ public class AppDbContext : DbContext
         // modelBuilder.Entity<Nurse>().OwnsOne(_=>_.NurseCategories);
         modelBuilder.Entity<Nurse>().OwnsOne(_ => _.OtherProps);
         modelBuilder.Entity<Nurse>().OwnsOne(_ => _.Shifts);
+        modelBuilder.Entity<Nurse>().Property(_ => _.NurseCategories).HasConversion(
+                   v => JsonConvert.SerializeObject(v),
+                     v => JsonConvert.DeserializeObject<List<NurseCategory>>(v));
+
 
         modelBuilder.Entity<ReserveNurse>().OwnsOne(_ => _.Problems);
         // modelBuilder.Entity<Nurse>().Property(nurse => nurse.NurseCategory).HasConversion<List<string>>();
