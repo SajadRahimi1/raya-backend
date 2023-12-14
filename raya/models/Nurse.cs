@@ -15,7 +15,7 @@ public class Nurse : BaseEntity
     public string Address { get; set; } = "";
     public string PhoneNumber { get; set; } = "";
     public string HomeNumber { get; set; } = "";
-    public string Shift { get; set; } = "";
+    public string? Shift { get; set; } = "";
     public string? Province { get; set; }
     public string? City { get; set; }
     public string? Neighborhood { get; set; }
