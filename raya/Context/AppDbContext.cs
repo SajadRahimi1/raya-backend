@@ -16,11 +16,10 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Nurse>().OwnsOne(_ => _.OtherProps);
         modelBuilder.Entity<Nurse>().OwnsOne(_ => _.Shifts);
         modelBuilder.Entity<Nurse>().Property(_ => _.NurseCategories).HasConversion(
-          v => string.Join(",", v.Select(e => e.ToString("D")).ToArray()),
-          v => v.Split(new[] { ',' })
-            .Select(e => Enum.Parse<NurseCategory>( e))
-            .Cast<NurseCategory>()
-            .ToList()
+                    v => string.Join(",", v),
+            v => v.Split(",", StringSplitOptions.None)
+                 .Select(e => (NurseCategory)Enum.Parse(typeof(NurseCategory), e))
+
       );
         modelBuilder.Entity<ReserveNurse>().OwnsOne(_ => _.Problems);
         // modelBuilder.Entity<Nurse>().Property(nurse => nurse.NurseCategory).HasConversion<List<string>>();
