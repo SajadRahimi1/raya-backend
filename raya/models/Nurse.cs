@@ -47,7 +47,7 @@ public class Nurse : BaseEntity
 
     public List<ReserveNurse> ReserveNurses { get; set; } = new List<ReserveNurse>();
 
-    public List<NurseCategory> NurseCategories { get; set; }
+    public ICollection<NurseCategory> NurseCategories { get; set; }
 
 }
 
