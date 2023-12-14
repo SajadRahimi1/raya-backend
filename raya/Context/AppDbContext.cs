@@ -18,7 +18,7 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Nurse>().Property(_ => _.NurseCategories).HasConversion(
           v => string.Join(",", v.Select(e => e.ToString("D")).ToArray()),
           v => v.Split(new[] { ',' })
-            .Select(e => Enum.Parse(typeof(NurseCategory), v))
+            .Select(e => Enum.Parse<NurseCategory>( e))
             .Cast<NurseCategory>()
             .ToList()
       );
