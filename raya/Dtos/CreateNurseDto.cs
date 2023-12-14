@@ -49,6 +49,9 @@ public class CreateNurseDto
     public string? Alley { get; set; }
     public string? PostalCode{ get; set; }
     public List<OtherProp> OtherProps { get; set; }=new List<OtherProp>();
+
+    public List<Shift> Shifts { get; set; } = new List<Shift>();
+    
     public List<NurseCategory> NurseCategories { get; set; } = new List<NurseCategory>();
     public string? Unit { get; set; }
 
