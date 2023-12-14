@@ -43,7 +43,7 @@ public class Nurse : BaseEntity
     public List<NurseFamily> NurseFamily { get; set; } = new List<NurseFamily>();
     public List<Shift> Shifts { get; set; } = new List<Shift>();
 
-    public string NurseCategory { get; set; }
+    public string? NurseCategory { get; set; }
 
     public List<ReserveNurse> ReserveNurses { get; set; } = new List<ReserveNurse>();
 

@@ -39,8 +39,8 @@ public class CreateNurseDto
 
     public string? OtherProp { get; set; }
 
-    [Required]
-    public string NurseCategory { get; set; }
+    
+    public string? NurseCategory { get; set; }
 
     public string? Province { get; set; }
     public string? City { get; set; }
@@ -51,7 +51,7 @@ public class CreateNurseDto
     public List<OtherProp> OtherProps { get; set; }=new List<OtherProp>();
 
     public List<Shift> Shifts { get; set; } = new List<Shift>();
-    
+
     public List<NurseCategory> NurseCategories { get; set; } = new List<NurseCategory>();
     public string? Unit { get; set; }
 
