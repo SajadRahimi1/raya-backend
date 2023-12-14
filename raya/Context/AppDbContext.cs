@@ -12,7 +12,7 @@ public class AppDbContext : DbContext
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<User>().HasKey(user => user.Id);
         modelBuilder.Entity<Nurse>().HasKey(nurse => nurse.Id);
-        modelBuilder.Entity<Nurse>().OwnsOne(_=>_.NurseCategories);
+        // modelBuilder.Entity<Nurse>().OwnsOne(_=>_.NurseCategories);
         modelBuilder.Entity<Nurse>().OwnsOne(_=>_.OtherProps);
         modelBuilder.Entity<Nurse>().OwnsOne(_=>_.Shifts);
         modelBuilder.Entity<ReserveNurse>().OwnsOne(_=>_.Problems);
