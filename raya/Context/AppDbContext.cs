@@ -15,12 +15,7 @@ public class AppDbContext : DbContext
         // modelBuilder.Entity<Nurse>().OwnsOne(_=>_.NurseCategories);
         modelBuilder.Entity<Nurse>().OwnsOne(_ => _.OtherProps);
         modelBuilder.Entity<Nurse>().OwnsOne(_ => _.Shifts);
-        modelBuilder.Entity<Nurse>().Property(_ => _.NurseCategories).HasConversion(
-                    v => string.Join(",", v),
-            v => v.Split(",", StringSplitOptions.None)
-                 .Select(e => (NurseCategory)Enum.Parse(typeof(NurseCategory), e))
 
-      );
         modelBuilder.Entity<ReserveNurse>().OwnsOne(_ => _.Problems);
         // modelBuilder.Entity<Nurse>().Property(nurse => nurse.NurseCategory).HasConversion<List<string>>();
         modelBuilder.Entity<Nurse>().HasMany(nurse => nurse.NurseFamily).WithOne(_ => _.Nurse).HasForeignKey(_ => _.NurseId);
