@@ -13,9 +13,16 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<User>().HasKey(user => user.Id);
         modelBuilder.Entity<Nurse>().HasKey(nurse => nurse.Id);
         // modelBuilder.Entity<Nurse>().OwnsOne(_=>_.NurseCategories);
-        modelBuilder.Entity<Nurse>().OwnsOne(_=>_.OtherProps);
-        modelBuilder.Entity<Nurse>().OwnsOne(_=>_.Shifts);
-        modelBuilder.Entity<ReserveNurse>().OwnsOne(_=>_.Problems);
+        modelBuilder.Entity<Nurse>().OwnsOne(_ => _.OtherProps);
+        modelBuilder.Entity<Nurse>().OwnsOne(_ => _.Shifts);
+        modelBuilder.Entity<Nurse>().Property(_ => _.NurseCategories).HasConversion(
+          v => string.Join(",", v.Select(e => e.ToString("D")).ToArray()),
+          v => v.Split(new[] { ',' })
+            .Select(e => Enum.Parse(typeof(NurseCategory), e))
+            .Cast<NurseCategory>()
+            .ToList()
+      );
+        modelBuilder.Entity<ReserveNurse>().OwnsOne(_ => _.Problems);
         // modelBuilder.Entity<Nurse>().Property(nurse => nurse.NurseCategory).HasConversion<List<string>>();
         modelBuilder.Entity<Nurse>().HasMany(nurse => nurse.NurseFamily).WithOne(_ => _.Nurse).HasForeignKey(_ => _.NurseId);
         modelBuilder.Entity<Nurse>().HasOne(nurse => nurse.NurseImages).WithOne(_ => _.Nurse);
