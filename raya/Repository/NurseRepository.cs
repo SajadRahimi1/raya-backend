@@ -188,7 +188,7 @@ public class NurseRepository : INurseRepository
 
     public async Task<CustomActionResult> getSingleNurse(string id)
     {
-        var nurse = await _appDbContext.Nurses.Include(_ => _.NurseImages).Include(_ => _.NurseFamily).Include(_ => _.NurseCategories).Include(_ => _.Shift).AsNoTracking().SingleOrDefaultAsync(_ => _.Id.ToString() == id);
+        var nurse = await _appDbContext.Nurses.Include(_ => _.NurseImages).Include(_ => _.NurseFamily).AsNoTracking().SingleOrDefaultAsync(_ => _.Id.ToString() == id);
         if (nurse == null)
         {
             return new CustomActionResult(new Result { statusCodes = 404 });
