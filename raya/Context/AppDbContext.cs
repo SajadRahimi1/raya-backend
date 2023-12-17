@@ -16,8 +16,8 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Nurse>().OwnsOne(_ => _.OtherProps);
         modelBuilder.Entity<Nurse>().OwnsOne(_ => _.Shifts);
         modelBuilder.Entity<Nurse>().Property(_ => _.NurseCategories).HasConversion(
-        v => string.Join(";", v.Select(x=>x.ToString())),
-        v => v.Split(";", StringSplitOptions.RemoveEmptyEntries)
+        v => v.Count() == 0 ? "" : string.Join(";", v.Select(x => x.ToString())),
+        v => v == "" ? new List<NurseCategory>() : v.Split(";", StringSplitOptions.RemoveEmptyEntries)
             .Select(x => (NurseCategory)Enum.Parse(typeof(NurseCategory), x)).ToList()
     );
 
