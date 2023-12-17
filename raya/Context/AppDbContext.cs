@@ -16,8 +16,10 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Nurse>().OwnsOne(_ => _.OtherProps);
         modelBuilder.Entity<Nurse>().OwnsOne(_ => _.Shifts);
         modelBuilder.Entity<Nurse>().Property(_ => _.NurseCategories).HasConversion(
-                   v => JsonConvert.SerializeObject(v),
-                     v => JsonConvert.DeserializeObject<List<NurseCategory>>(v));
+        v => string.Join(";", v.Select(x=>x.ToString())),
+        v => v.Split(";", StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => (NurseCategory)Enum.Parse(typeof(NurseCategory), x)).ToList()
+    );
 
 
         modelBuilder.Entity<ReserveNurse>().OwnsOne(_ => _.Problems);
