@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+
 
 [PrimaryKey(nameof(Id))]
 public class Nurse : BaseEntity
