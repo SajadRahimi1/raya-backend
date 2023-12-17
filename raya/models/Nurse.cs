@@ -49,7 +49,7 @@ public class Nurse : BaseEntity
 
     public List<ReserveNurse> ReserveNurses { get; set; } = new List<ReserveNurse>();
 
-    public IEnumerable<NurseCategory> NurseCategories { get; set; }
+    public List<NurseCategory> NurseCategories { get; set; }=new List<NurseCategory>();
 
 }
 
