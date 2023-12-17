@@ -15,11 +15,13 @@ public class AppDbContext : DbContext
         // modelBuilder.Entity<Nurse>().OwnsOne(_=>_.NurseCategories);
         modelBuilder.Entity<Nurse>().OwnsOne(_ => _.OtherProps);
         modelBuilder.Entity<Nurse>().OwnsOne(_ => _.Shifts);
-        modelBuilder.Entity<Nurse>().Property(_ => _.NurseCategories).HasConversion(
-        v => v.Count() < 1 ? "" : string.Join(";", v.Select(x => x.ToString())),
-        v => v.Split(";", StringSplitOptions.None).Count() < 1 ? new List<NurseCategory>() : v.Split(";", StringSplitOptions.None)
-            .Select(x => (NurseCategory)Enum.Parse(typeof(NurseCategory), x)).ToList()
-    );
+
+        var converter = new EnumCollectionJsonValueConverter<NurseCategory>();
+        var comparer = new CollectionValueComparer<NurseCategory>();
+
+        modelBuilder.Entity<Nurse>().Property(_ => _.NurseCategories).HasConversion(converter)
+          .Metadata.SetValueComparer(comparer);
+
 
 
         modelBuilder.Entity<ReserveNurse>().OwnsOne(_ => _.Problems);
