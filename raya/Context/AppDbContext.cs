@@ -16,12 +16,18 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Nurse>().OwnsOne(_ => _.OtherProps);
         modelBuilder.Entity<Nurse>().OwnsOne(_ => _.Shifts);
 
-        var converter = new EnumCollectionJsonValueConverter<NurseCategory>();
-        var comparer = new CollectionValueComparer<NurseCategory>();
 
-        modelBuilder.Entity<Nurse>().Property(_ => _.NurseCategories).HasConversion(converter)
-          .Metadata.SetValueComparer(comparer);
+        modelBuilder.Entity<Nurse>().Property(_ => _.NurseCategories).HasConversion(new EnumCollectionJsonValueConverter<NurseCategory>())
+        .Metadata.SetValueComparer(new CollectionValueComparer<NurseCategory>());
 
+        modelBuilder.Entity<Nurse>().Property(_ => _.OtherProps).HasConversion(new EnumCollectionJsonValueConverter<OtherProp>())
+        .Metadata.SetValueComparer(new CollectionValueComparer<OtherProp>());
+
+        modelBuilder.Entity<Nurse>().Property(_ => _.Shifts).HasConversion(new EnumCollectionJsonValueConverter<Shift>())
+        .Metadata.SetValueComparer(new CollectionValueComparer<Shift>());
+
+        modelBuilder.Entity<Nurse>().Property(_ => _.OtherProps).HasConversion(new EnumCollectionJsonValueConverter<OtherProp>())
+        .Metadata.SetValueComparer(new CollectionValueComparer<OtherProp>());
 
 
         modelBuilder.Entity<ReserveNurse>().OwnsOne(_ => _.Problems);

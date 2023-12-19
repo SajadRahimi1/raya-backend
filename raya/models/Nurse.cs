@@ -34,7 +34,7 @@ public class Nurse : BaseEntity
 
     public string? OtherProp { get; set; }
 
-    public List<OtherProp> OtherProps { get; set; } = new List<OtherProp>();
+    public ICollection<OtherProp> OtherProps { get; set; } = new List<OtherProp>();
 
     public Guarantee? Guarantee { get; set; }
 
@@ -43,7 +43,7 @@ public class Nurse : BaseEntity
     public NurseImages? NurseImages { get; set; }
 
     public List<NurseFamily> NurseFamily { get; set; } = new List<NurseFamily>();
-    public List<Shift> Shifts { get; set; } = new List<Shift>();
+    public ICollection<Shift> Shifts { get; set; } = new List<Shift>();
 
     public string? NurseCategory { get; set; }
 
