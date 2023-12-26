@@ -23,15 +23,23 @@ public class User : BaseEntity
 
     public string? Address { get; set; }
 
+    public string? Province { get; set; }
+    public string? City { get; set; }
+    public string? Neighborhood { get; set; }
+    public string? Street { get; set; }
+    public string? Alley { get; set; }
+    public string? PostalCode { get; set; }
+    public string? Unit { get; set; }
+
     public string? EmergancyNumber { get; set; }
 
     public string? code { get; set; } = null;
 
-    public string? ImageUrl { get; set; }=null;
+    public string? ImageUrl { get; set; } = null;
 
     public List<ReserveClass> ReservedClasses { get; set; } = new List<ReserveClass>();
 
     public List<ReserveNurse> ReserveNurses { get; set; } = new List<ReserveNurse>();
-    
-    public List<Message> Messages { get; set; }=new List<Message>();
+
+    public List<Message> Messages { get; set; } = new List<Message>();
 }
