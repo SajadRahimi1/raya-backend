@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+
 public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions options) : base(options)
@@ -27,7 +28,11 @@ public class AppDbContext : DbContext
         .Metadata.SetValueComparer(new CollectionValueComparer<OtherProp>());
 
 
+
         modelBuilder.Entity<ReserveNurse>().OwnsOne(_ => _.Problems);
+        modelBuilder.Entity<ReserveNurse>().Property(_ => _.Ages).HasConversion(new ValueConverter<int[], string>(
+            i => string.Join(",", i),
+            s => string.IsNullOrWhiteSpace(s) ? new int[0] : s.Split(new[] { ',' }).Select(v => int.Parse(v)).ToArray()));
         // modelBuilder.Entity<Nurse>().Property(nurse => nurse.NurseCategory).HasConversion<List<string>>();
         modelBuilder.Entity<Nurse>().HasMany(nurse => nurse.NurseFamily).WithOne(_ => _.Nurse).HasForeignKey(_ => _.NurseId);
         modelBuilder.Entity<Nurse>().HasOne(nurse => nurse.NurseImages).WithOne(_ => _.Nurse);

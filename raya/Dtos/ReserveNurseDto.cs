@@ -34,6 +34,8 @@ public class ReserveNurseDto
 
     public List<Problem> Problems { get; set; } = new List<Problem>();
 
+    public List<int> Ages { get; set; }=new List<int>();
+
     [Required]
     public bool CCTV { get; set; }
 

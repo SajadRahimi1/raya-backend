@@ -21,6 +21,8 @@ public class ReserveNurse : BaseEntity
 
     public List<Problem> Problems { get; set; }=new List<Problem>();
 
+    public List<int> Ages { get; set; }=new List<int>();
+
     public Shift Shift { get; set; }
 
     public string? Hours { get; set; }
