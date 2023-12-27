@@ -13,6 +13,15 @@ public class EnumCollectionJsonValueConverter<T> : ValueConverter<ICollection<T>
     }
 }
 
+public class IntListConversion : ValueConverter<List<int>, string>
+{
+    public IntListConversion() : base(
+      i => string.Join(",", i),
+            s => string.IsNullOrWhiteSpace(s) ? new List<int>() : s.Split(new[] { ',' }).Select(v => int.Parse(v)).ToList())
+    {
+    }
+}
+
 public class CollectionValueComparer<T> : ValueComparer<ICollection<T>>
 {
     public CollectionValueComparer() : base((c1, c2) => c1.SequenceEqual(c2),
