@@ -10,8 +10,7 @@ public class ReserveNurseDto
     [Required]
     public NurseCategory NurseCategory { get; set; }
 
-    [Required]
-    public string Age { get; set; }
+    public string? Age { get; set; }
 
     [Required]
     public Shift Shift { get; set; }

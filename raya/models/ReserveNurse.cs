@@ -17,7 +17,7 @@ public class ReserveNurse : BaseEntity
 
     public Gender Gender { get; set; }
 
-    public string Age { get; set; }
+    public string? Age { get; set; }
 
     public List<Problem> Problems { get; set; }=new List<Problem>();
 
