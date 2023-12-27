@@ -30,9 +30,9 @@ public class AppDbContext : DbContext
 
 
         modelBuilder.Entity<ReserveNurse>().OwnsOne(_ => _.Problems);
-        modelBuilder.Entity<ReserveNurse>().Property(_ => _.Ages).HasConversion(new ValueConverter<int[], string>(
+        modelBuilder.Entity<ReserveNurse>().Property(_ => _.Ages).HasConversion(new ValueConverter<List<int>, string>(
             i => string.Join(",", i),
-            s => string.IsNullOrWhiteSpace(s) ? new int[0] : s.Split(new[] { ',' }).Select(v => int.Parse(v)).ToArray()));
+            s => string.IsNullOrWhiteSpace(s) ? new List<int>() : s.Split(new[] { ',' }).Select(v => int.Parse(v)).ToList()));
         // modelBuilder.Entity<Nurse>().Property(nurse => nurse.NurseCategory).HasConversion<List<string>>();
         modelBuilder.Entity<Nurse>().HasMany(nurse => nurse.NurseFamily).WithOne(_ => _.Nurse).HasForeignKey(_ => _.NurseId);
         modelBuilder.Entity<Nurse>().HasOne(nurse => nurse.NurseImages).WithOne(_ => _.Nurse);
