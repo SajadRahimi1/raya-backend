@@ -38,7 +38,6 @@ public class ReserveNurseDto
     [Required]
     public bool CCTV { get; set; }
 
-    [Required]
     public string? Address { get; set; }
 
     public string? problem { get; set; }
