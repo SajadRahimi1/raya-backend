@@ -16,10 +16,10 @@ public class ReserveNurseDto
     public Shift Shift { get; set; }
 
     [Required]
-    public string name { get; set; }
+    public string Name { get; set; }
 
     [Required]
-    public string phoneNumber { get; set; }
+    public string PhoneNumber { get; set; }
 
     public string? Hours { get; set; }
 
@@ -43,6 +43,6 @@ public class ReserveNurseDto
 
     public string? problem { get; set; }
 
-    public string? description { get; set; }
+    public string? Description { get; set; }
 
 }
