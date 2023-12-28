@@ -29,7 +29,8 @@ public class AppDbContext : DbContext
 
 
 
-        modelBuilder.Entity<ReserveNurse>().OwnsOne(_ => _.Problems);
+       modelBuilder.Entity<ReserveNurse>().Property(_ => _.Problems).HasConversion(new EnumCollectionJsonValueConverter<Problem>())
+        .Metadata.SetValueComparer(new CollectionValueComparer<Problem>());
         modelBuilder.Entity<ReserveNurse>().Property(_ => _.Ages).HasConversion(new IntListConversion());
         // modelBuilder.Entity<Nurse>().Property(nurse => nurse.NurseCategory).HasConversion<List<string>>();
         modelBuilder.Entity<Nurse>().HasMany(nurse => nurse.NurseFamily).WithOne(_ => _.Nurse).HasForeignKey(_ => _.NurseId);

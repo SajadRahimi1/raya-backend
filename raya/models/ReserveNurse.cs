@@ -70,9 +70,8 @@ public enum Problem
 {
     Bedpan,
     Diaper,
-    Parkinson,
-    Son,
     Alzheimer,
+    Parkinson,
     MS,
     None
 }
