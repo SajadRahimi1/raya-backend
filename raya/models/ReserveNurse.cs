@@ -19,7 +19,7 @@ public class ReserveNurse : BaseEntity
 
     public string? Age { get; set; }
 
-    public List<Problem> Problems { get; set; } = new List<Problem>();
+    public ICollection<Problem> Problems { get; set; } = new List<Problem>();
 
     public List<int> Ages { get; set; } = new List<int>();
 
