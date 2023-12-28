@@ -31,7 +31,7 @@ public class ReserveNurseDto
 
     public string? PeopleInHouse { get; set; }
 
-    public List<Problem> Problems { get; set; } = new List<Problem>();
+    public List<Problem>? Problems { get; set; } = new List<Problem>();
 
     public List<int?> Ages { get; set; } = new List<int?>();
 
