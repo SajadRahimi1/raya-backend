@@ -33,16 +33,20 @@ public class ReserveNurseDto
 
     public List<Problem> Problems { get; set; } = new List<Problem>();
 
-    public List<int?> Ages { get; set; }=new List<int?>();
+    public List<int?> Ages { get; set; } = new List<int?>();
 
     [Required]
     public bool CCTV { get; set; }
 
     [Required]
-    public string Address { get; set; }
+    public string? Address { get; set; }
 
     public string? problem { get; set; }
 
     public string? Description { get; set; }
+
+    public string? Province { get; set; }
+    public string? City { get; set; }
+    public string? Neighborhood { get; set; }
 
 }

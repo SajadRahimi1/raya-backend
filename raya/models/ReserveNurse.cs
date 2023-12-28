@@ -19,9 +19,9 @@ public class ReserveNurse : BaseEntity
 
     public string? Age { get; set; }
 
-    public List<Problem> Problems { get; set; }=new List<Problem>();
+    public List<Problem> Problems { get; set; } = new List<Problem>();
 
-    public List<int> Ages { get; set; }=new List<int>();
+    public List<int> Ages { get; set; } = new List<int>();
 
     public Shift Shift { get; set; }
 
@@ -42,6 +42,12 @@ public class ReserveNurse : BaseEntity
     public string? phoneNumber { get; set; }
     public string? howToKnow { get; set; }
 
+    public string? Province { get; set; }
+
+    public string? City { get; set; }
+
+    public string? Neighborhood { get; set; }
+
 }
 
 
@@ -60,7 +66,8 @@ public enum Shift
     Hour
 }
 
-public enum Problem{
+public enum Problem
+{
     Bedpan,
     Diaper,
     Parkinson,
