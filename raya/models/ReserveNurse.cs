@@ -35,7 +35,7 @@ public class ReserveNurse : BaseEntity
 
     public string? problem { get; set; }
 
-    public string Address { get; set; }
+    public string? Address { get; set; }
 
     public string? name { get; set; }
 
