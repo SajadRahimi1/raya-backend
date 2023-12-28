@@ -121,12 +121,12 @@ public class NurseRepository : INurseRepository
         //     });
         // }
         reserveNurse.UserId = user.Id;
-        await _appDbContext.ReserveNurses.AddAsync(reserveNurse);
+      var saved=  await _appDbContext.ReserveNurses.AddAsync(reserveNurse);
         await _appDbContext.SaveChangesAsync();
         // await kavehnegarRespository.sendNurseReserveSms(user.PhoneNumber,user.Name);
         return new CustomActionResult(new Result
         {
-            Data = "رزرو با موفقیت ثبت شد"
+            Data = saved.Entity
         });
     }
 
