@@ -32,6 +32,7 @@ public class NurseController : ControllerBase
     public async Task<IActionResult> ReserveNurse(ReserveNurseDto reserveNurseDto)
     {
         var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
+        reserveNurseDto.Ages.RemoveAll(age => age is null);
         var reserveNurse = _mapper.Map<ReserveNurse>(reserveNurseDto);
         return await _nurseRepository.ReserveNurse(reserveNurse, user);
     }
@@ -42,7 +43,7 @@ public class NurseController : ControllerBase
     {
         var nurse = _mapper.Map<Nurse>(createNurseDto);
         var user = JsonConvert.DeserializeObject<User>(Request.Headers["user"]);
-        nurse.userId=user.Id;
+        nurse.userId = user.Id;
         return await _nurseRepository.CreateNurse(nurse);
     }
 
